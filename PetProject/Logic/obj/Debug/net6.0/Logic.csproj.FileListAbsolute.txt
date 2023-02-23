@@ -1,0 +1,17 @@
+C:\Users\User\source\repos\PetProject\Logic\bin\Debug\net6.0\Logic.deps.json
+C:\Users\User\source\repos\PetProject\Logic\bin\Debug\net6.0\Logic.dll
+C:\Users\User\source\repos\PetProject\Logic\bin\Debug\net6.0\Logic.pdb
+C:\Users\User\source\repos\PetProject\Logic\bin\Debug\net6.0\Abstractions.dll
+C:\Users\User\source\repos\PetProject\Logic\bin\Debug\net6.0\Project.Domain.dll
+C:\Users\User\source\repos\PetProject\Logic\bin\Debug\net6.0\Abstractions.pdb
+C:\Users\User\source\repos\PetProject\Logic\bin\Debug\net6.0\Project.Domain.pdb
+C:\Users\User\source\repos\PetProject\Logic\obj\Debug\net6.0\Logic.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\PetProject\Logic\obj\Debug\net6.0\Logic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\PetProject\Logic\obj\Debug\net6.0\Logic.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\PetProject\Logic\obj\Debug\net6.0\Logic.AssemblyInfo.cs
+C:\Users\User\source\repos\PetProject\Logic\obj\Debug\net6.0\Logic.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\PetProject\Logic\obj\Debug\net6.0\Logic.csproj.CopyComplete
+C:\Users\User\source\repos\PetProject\Logic\obj\Debug\net6.0\Logic.dll
+C:\Users\User\source\repos\PetProject\Logic\obj\Debug\net6.0\refint\Logic.dll
+C:\Users\User\source\repos\PetProject\Logic\obj\Debug\net6.0\Logic.pdb
+C:\Users\User\source\repos\PetProject\Logic\obj\Debug\net6.0\ref\Logic.dll
