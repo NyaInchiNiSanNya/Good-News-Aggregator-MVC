@@ -1,0 +1,79 @@
+﻿.LeftSide {
+    width: 500px;
+    height: 100%;
+    overflow: auto;
+    float: left;
+}
+
+.container2 {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.menu {
+    position: fixed;
+    background: #1e1c1c; /* Цвет фона */
+    padding: 2em 0em 3em; /* Поля вокруг текста */
+    border-radius: 10px; /* Уголки */
+    /*сверху справа снизу слева*/
+    margin: 20px 20px 50px 40px;
+}
+
+
+.buttom {
+    display: block;
+    width: 220px;
+    height: 40px;
+    background: #1e1c1c;
+    text-align: left;
+    color: white;
+    font-weight: bold;
+    line-height: 33px;
+    transition: 0.1s linear;
+}
+
+.buttom:hover {
+    color: #ffe81a; /* Цвет текста */
+    background: #3b3939; /* Цвет фона */
+}
+
+.HelperBlockbuttom:hover {
+    color: #ffe81a; /* Цвет текста */
+    background: #3b3939; /* Цвет фона */
+}
+
+.HelperBlockbuttom {
+    display: block;
+    width: 60px;
+    height: 50px;
+    background: #1e1c1c;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    line-height: 45px;
+    margin: 0px 0px 0px 94%;
+}
+.NameFieldClass {
+    display: block;
+    width: 60px;
+    height: 50px;
+    background: #1e1c1c;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    line-height: 45px;
+    margin: 0px 0px 0px 94%;
+}
+.ScrollSortHelperBlock {
+    background: #1e1c1c;
+    border-radius: 10px; /* Уголки */
+    /*сверху справа снизу слева*/
+    margin: 20px 200px 0px 285px;
+    width: 78%;
+    height: 50px;
+}
+
+.ScrollList {
+    margin: 0px 200px 200px 285px;
+    width: 77%;
+}

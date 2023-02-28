@@ -1,20 +1,37 @@
 ﻿using System.Threading.Tasks;
-using CustomIdentityApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Repositores;
+using Services.Account;
+using UserConfigRepositores;
 
 namespace CustomIdentityApp.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
 
-        public AccountController(UserManager<User> userManager
-            , SignInManager<User> signInManager)
+        private readonly IdentityRepository _IdentityRepository;
+        private readonly GetSetUserConfigRepositore _userConfigRepositore;
+
+        public AccountController
+            (IdentityRepository IdentityRepository,
+                GetSetUserConfigRepositore userConfigRepositore)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+            if (IdentityRepository is null)
+            {
+                throw new NullReferenceException();
+
+            }
+            _IdentityRepository = IdentityRepository;
+           
+            
+            if (userConfigRepositore is null)
+            {
+                throw new NullReferenceException();
+
+            }
+
+            _userConfigRepositore = userConfigRepositore;
         }
 
 
@@ -31,24 +48,24 @@ namespace CustomIdentityApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Registration(UserRegistrationViewModel model)
+        public async Task<IActionResult> Registration
+            (UserRegistrationViewModel model)
         {
             if (ModelState.IsValid)
             {
-                User user = new User { UserName = model.Email, 
-                    Email = model.Email, DisplayName = model.Name};
-
-                var result = await _userManager.CreateAsync(user, model.Password);
-                
-                if (result.Succeeded)
+                if (await _IdentityRepository.Registration
+                         (model.Email, model.Password))
                 {
-                    // установка куки
+
+                    await SetDefoultUserConfig(model);
+
                     return RedirectToAction("Login", "Account");
                 }
                 else
                 {
                     
-                    ModelState.AddModelError("", "Email уже существует");
+                    ModelState.AddModelError(""
+                        , "Email уже существует");
                 }
                 
             }
@@ -60,18 +77,46 @@ namespace CustomIdentityApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result =
-                    await _signInManager.PasswordSignInAsync(model.Email, model.Password,false,false);
-                if (result.Succeeded)
+
+                
+                if (await _IdentityRepository.Login
+                        (model.Email, model.Password))
                 {
-                    return RedirectToAction("Index", "Home");
+
+                    await TakeUserConfigPutInCookie(model);
+                    return RedirectToAction("Start", "Home");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                    ModelState.AddModelError(""
+                        , "Неправильный логин и (или) пароль");
                 }
+
             }
             return View(model);
         }
+
+        [NonAction]
+        private async Task SetDefoultUserConfig(UserRegistrationViewModel model)
+        {
+            await _userConfigRepositore.SetUserConfig(new Dictionary<string, string>()
+            {
+                { "Name", model.Name },
+                { "Email", model.Email },
+                { "Config", "Defoult" }
+            });
+        }
+
+        [NonAction]
+        private async Task TakeUserConfigPutInCookie(UserLoginViewModel model)
+        {
+            Dictionary<String, String> Configuration = await _userConfigRepositore.GetUserConfig(model.Email);
+
+            foreach (var Key in Configuration.Keys)
+            {
+                HttpContext.Response.Cookies.Append(Key, Configuration[Key]);
+            }
+        }
+
     }
 }

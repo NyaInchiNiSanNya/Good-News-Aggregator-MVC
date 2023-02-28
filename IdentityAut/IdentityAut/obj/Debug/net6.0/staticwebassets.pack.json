@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\IdentityAut.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\Layout.css",
+      "PackagePath": "staticwebassets\\css\\Layout.css"
+    },
+    {
+      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\pngwing.com.png",
+      "PackagePath": "staticwebassets\\css\\pngwing.com.png"
+    },
+    {
       "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

@@ -1,4 +1,11 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function readCookie(name) {
+        var matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{ }\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
 
-// Write your JavaScript code.
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+function GetCookieName() {
+    let el = document.getElementById("NameField");
+    el.textContent = readCookie("Name");
+}

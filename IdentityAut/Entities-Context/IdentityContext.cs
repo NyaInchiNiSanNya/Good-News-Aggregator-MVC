@@ -1,4 +1,4 @@
-﻿using CustomIdentityApp.Models;
+﻿using Entities_Context.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

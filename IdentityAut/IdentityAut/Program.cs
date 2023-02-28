@@ -1,7 +1,12 @@
-using CustomIdentityApp.Models;
+using CustomIdentityApp.Controllers;
+using Entities_Context.Entities.Identity;
+using Entities_Context.Entities.UserNews;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Project.Domain.DBContext;
+using Repositores;
+using Services.Account;
 
 namespace IdentityAut
 {
@@ -13,7 +18,17 @@ namespace IdentityAut
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            
+            
             builder.Services.AddDbContext<IdentityContext.IdentityContext>(opt =>
+            {
+                var connString = builder.Configuration
+                    .GetConnectionString("IdentityConnection");
+                opt.UseSqlServer(connString);
+
+            });
+
+            builder.Services.AddDbContext<UserNewsContext>(opt =>
             {
                 var connString = builder.Configuration
                     .GetConnectionString("DefaultConnection");
@@ -21,15 +36,21 @@ namespace IdentityAut
 
             });
 
+            
+
+            builder.Services.AddScoped<IdentityRepository, IdentityService>();
+            builder.Services.AddScoped<UserConfigRepositores.GetSetUserConfigRepositore, UserConfigService>();
+
+
 
             builder.Services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext.IdentityContext>();
-            
-
             builder.Services.Configure<IdentityOptions>(opts => {
                 opts.User.RequireUniqueEmail = true;
             });
 
+            
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -48,7 +69,7 @@ namespace IdentityAut
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Start}/{id?}");
 
             app.Run();
         }

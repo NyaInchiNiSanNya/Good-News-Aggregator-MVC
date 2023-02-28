@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace CustomIdentityApp.Models
+namespace Entities_Context.Entities.Identity
 {
     public sealed class User : IdentityUser
     {
-        public String DisplayName { get; set; }
     }
 }

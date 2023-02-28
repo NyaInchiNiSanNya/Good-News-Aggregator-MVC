@@ -2,13 +2,21 @@
 
 #nullable disable
 
-namespace Entities_Context.Migrations
+namespace Entities_Context.Data.Migration.Identity
 {
     /// <inheritdoc />
-    public partial class Test3 : Migration
+    public partial class Test4 : Microsoft.EntityFrameworkCore.Migrations.Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "DisplayName",
+                table: "AspNetUsers");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
                 name: "DisplayName",
@@ -16,14 +24,6 @@ namespace Entities_Context.Migrations
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
-        }
-
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "DisplayName",
-                table: "AspNetUsers");
         }
     }
 }

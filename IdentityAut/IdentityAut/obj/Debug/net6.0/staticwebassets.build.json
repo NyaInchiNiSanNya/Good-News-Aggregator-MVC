@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "u9bBMj5Sj/49Hup2/JQtjyQgOlZNoYoowSv0ge145io=",
+  "Hash": "/AAwa6sE1620gUoiJupSq5VvVNnf/qdtX3MbQVjAVgA=",
   "Source": "IdentityAut",
   "BasePath": "_content/IdentityAut",
   "Mode": "Default",
@@ -49,6 +49,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\IdentityAut.bundle.scp.css"
+    },
+    {
+      "Identity": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\Layout.css",
+      "SourceId": "IdentityAut",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\",
+      "BasePath": "_content/IdentityAut",
+      "RelativePath": "css/Layout.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\Layout.css"
+    },
+    {
+      "Identity": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\pngwing.com.png",
+      "SourceId": "IdentityAut",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\",
+      "BasePath": "_content/IdentityAut",
+      "RelativePath": "css/pngwing.com.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\pngwing.com.png"
     },
     {
       "Identity": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\site.css",

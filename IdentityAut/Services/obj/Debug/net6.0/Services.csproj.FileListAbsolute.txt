@@ -13,3 +13,5 @@ C:\Users\User\source\repos\IdentityAut\Services\obj\Debug\net6.0\Services.dll
 C:\Users\User\source\repos\IdentityAut\Services\obj\Debug\net6.0\refint\Services.dll
 C:\Users\User\source\repos\IdentityAut\Services\obj\Debug\net6.0\Services.pdb
 C:\Users\User\source\repos\IdentityAut\Services\obj\Debug\net6.0\ref\Services.dll
+C:\Users\User\source\repos\IdentityAut\Services\bin\Debug\net6.0\Identity-Entities-Context.dll
+C:\Users\User\source\repos\IdentityAut\Services\bin\Debug\net6.0\Identity-Entities-Context.pdb
