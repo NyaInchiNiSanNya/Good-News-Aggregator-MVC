@@ -1,7 +1,23 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@using Business_Logic
+@model Business_Logic.Models.TegHelperModels.ObjectListModel
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - IdentityAut</title>
+    <link href="@Url.Content("~/css/ScrollLent.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/Index.css")" rel="stylesheet" type="text/css" />
 
-<div class="text-center">
-    <h1>Ну как там с деньгами</h1>
+</head>
+<div id="grid">
+    @foreach(String x in Model.ArticlePreviews)
+    {
+        <div class="article-block">
+            @x
+        </div>
+    }
 </div>
+
+<pagination page-info="Model.PageInfo" page-action="Start"></pagination>
+

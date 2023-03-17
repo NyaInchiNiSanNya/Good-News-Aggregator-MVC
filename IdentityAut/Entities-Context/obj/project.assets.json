@@ -3690,9 +3690,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Identity-Entities-Context.csproj",
-      "projectName": "Identity-Entities-Context",
-      "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Identity-Entities-Context.csproj",
+      "projectUniqueName": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj",
+      "projectName": "Data",
+      "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\obj\\",
       "projectStyle": "PackageReference",

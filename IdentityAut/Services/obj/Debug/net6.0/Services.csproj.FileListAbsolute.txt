@@ -1,8 +1,6 @@
 C:\Users\User\source\repos\IdentityAut\Services\bin\Debug\net6.0\Services.deps.json
 C:\Users\User\source\repos\IdentityAut\Services\bin\Debug\net6.0\Services.dll
 C:\Users\User\source\repos\IdentityAut\Services\bin\Debug\net6.0\Services.pdb
-C:\Users\User\source\repos\IdentityAut\Services\bin\Debug\net6.0\Repositores.dll
-C:\Users\User\source\repos\IdentityAut\Services\bin\Debug\net6.0\Repositores.pdb
 C:\Users\User\source\repos\IdentityAut\Services\obj\Debug\net6.0\Services.csproj.AssemblyReference.cache
 C:\Users\User\source\repos\IdentityAut\Services\obj\Debug\net6.0\Services.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\User\source\repos\IdentityAut\Services\obj\Debug\net6.0\Services.AssemblyInfoInputs.cache
@@ -13,5 +11,9 @@ C:\Users\User\source\repos\IdentityAut\Services\obj\Debug\net6.0\Services.dll
 C:\Users\User\source\repos\IdentityAut\Services\obj\Debug\net6.0\refint\Services.dll
 C:\Users\User\source\repos\IdentityAut\Services\obj\Debug\net6.0\Services.pdb
 C:\Users\User\source\repos\IdentityAut\Services\obj\Debug\net6.0\ref\Services.dll
-C:\Users\User\source\repos\IdentityAut\Services\bin\Debug\net6.0\Identity-Entities-Context.dll
-C:\Users\User\source\repos\IdentityAut\Services\bin\Debug\net6.0\Identity-Entities-Context.pdb
+C:\Users\User\source\repos\IdentityAut\Services\bin\Debug\net6.0\IServices.dll
+C:\Users\User\source\repos\IdentityAut\Services\bin\Debug\net6.0\IServices.pdb
+C:\Users\User\source\repos\IdentityAut\Services\bin\Debug\net6.0\Core.dll
+C:\Users\User\source\repos\IdentityAut\Services\bin\Debug\net6.0\Data.dll
+C:\Users\User\source\repos\IdentityAut\Services\bin\Debug\net6.0\Core.pdb
+C:\Users\User\source\repos\IdentityAut\Services\bin\Debug\net6.0\Data.pdb

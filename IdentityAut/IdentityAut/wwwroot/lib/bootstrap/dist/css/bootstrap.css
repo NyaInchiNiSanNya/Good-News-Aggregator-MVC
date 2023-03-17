@@ -2993,34 +2993,33 @@ textarea.form-control-lg {
 }
 
 .btn-secondary {
-  color: #fff;
-  background-color: #6c757d;
-  border-color: #6c757d;
+    color: #fff;
+    background-color: #1e1c1c;
+    border-color: #3b3939;
 }
-.btn-secondary:hover {
-  color: #fff;
-  background-color: #5c636a;
-  border-color: #565e64;
-}
-.btn-check:focus + .btn-secondary, .btn-secondary:focus {
-  color: #fff;
-  background-color: #5c636a;
-  border-color: #565e64;
-  box-shadow: 0 0 0 0.25rem rgba(130, 138, 145, 0.5);
-}
-.btn-check:checked + .btn-secondary, .btn-check:active + .btn-secondary, .btn-secondary:active, .btn-secondary.active, .show > .btn-secondary.dropdown-toggle {
-  color: #fff;
-  background-color: #565e64;
-  border-color: #51585e;
-}
+    .btn-secondary:hover {
+        color: #ffe81a;
+        background-color: #3b3939;
+        border-color: #3b393;
+    }
+    .btn-check:focus + .btn-secondary, .btn-secondary:focus {
+        color: #ffe81a;
+        background-color: #3b3939;
+        border-color: #3b3939;
+    }
+    .btn-check:checked + .btn-secondary, .btn-check:active + .btn-secondary, .btn-secondary:active, .btn-secondary.active, .show > .btn-secondary.dropdown-toggle {
+        color: #ffe81a;
+        background-color: #3b3939;
+        border-color: #3b3939;
+    }
 .btn-check:checked + .btn-secondary:focus, .btn-check:active + .btn-secondary:focus, .btn-secondary:active:focus, .btn-secondary.active:focus, .show > .btn-secondary.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.25rem rgba(130, 138, 145, 0.5);
+  box-shadow: 0 0 0 0.25rem rgba(130, 138, 145, 0.5#3b3939);
 }
-.btn-secondary:disabled, .btn-secondary.disabled {
-  color: #fff;
-  background-color: #6c757d;
-  border-color: #6c757d;
-}
+    .btn-secondary:disabled, .btn-secondary.disabled {
+        color: #ffe81a;
+        background-color: #3b3939;
+        border-color: #3b3939;
+    }
 
 .btn-success {
   color: #fff;
@@ -3303,8 +3302,8 @@ textarea.form-control-lg {
 }
 
 .btn-outline-warning {
-  color: #ffc107;
-  border-color: #ffc107;
+    color: #000;
+    border-color: #000;
 }
 .btn-outline-warning:hover {
   color: #000;
@@ -4875,9 +4874,9 @@ textarea.form-control-lg {
 }
 
 .alert-secondary {
-  color: #41464b;
-  background-color: #e2e3e5;
-  border-color: #d3d6d8;
+    color: #1e1c1c;
+    background-color: #e2e3e5;
+    border-color: #d3d6d8;
 }
 .alert-secondary .alert-link {
   color: #34383c;

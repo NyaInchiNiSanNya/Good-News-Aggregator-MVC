@@ -2,12 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 
 
-namespace Project.Domain.DBContext
+namespace Entities_Context
 {
     public class UserNewsContext : DbContext
     {
-        public DbSet<News> News { get; set; }
-        public DbSet<UserConfig> Users { get; set; }
+        public DbSet<Artincle> News { get; set; }
+        public DbSet<UserConfig> UserConfiguration { get; set; }
+        public DbSet<UserInformation> UserInformation { get; set; }
         public DbSet<UserNews> UsersNews { get; set; }
 
         public UserNewsContext(DbContextOptions<UserNewsContext> options) : base(options)

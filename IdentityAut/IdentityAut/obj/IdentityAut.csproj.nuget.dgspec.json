@@ -4,6 +4,61 @@
     "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\IdentityAut.csproj": {}
   },
   "projects": {
+    "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj",
+        "projectName": "Core",
+        "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Identity-Entities-Context.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -109,11 +164,14 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
+              "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj": {
+                "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj"
+              },
               "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Identity-Entities-Context.csproj": {
                 "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Identity-Entities-Context.csproj"
               },
-              "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\Repositores.csproj": {
-                "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\Repositores.csproj"
+              "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\IServices.csproj": {
+                "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\IServices.csproj"
               },
               "C:\\Users\\User\\source\\repos\\IdentityAut\\Services\\Services.csproj": {
                 "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Services\\Services.csproj"
@@ -131,6 +189,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.5.1, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.3, )"
@@ -150,6 +212,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.3, )"
+            },
+            "RestSharp": {
+              "target": "Package",
+              "version": "[108.0.3, )"
             }
           },
           "imports": [
@@ -175,12 +241,12 @@
         }
       }
     },
-    "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\Repositores.csproj": {
+    "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\IServices.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\Repositores.csproj",
-        "projectName": "Repositores",
-        "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\Repositores.csproj",
+        "projectUniqueName": "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\IServices.csproj",
+        "projectName": "IServices",
+        "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\IServices.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\obj\\",
         "projectStyle": "PackageReference",
@@ -198,7 +264,14 @@
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj": {
+                "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj"
+              },
+              "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Identity-Entities-Context.csproj": {
+                "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Identity-Entities-Context.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -254,11 +327,14 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
+              "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj": {
+                "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj"
+              },
               "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Identity-Entities-Context.csproj": {
                 "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Identity-Entities-Context.csproj"
               },
-              "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\Repositores.csproj": {
-                "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\Repositores.csproj"
+              "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\IServices.csproj": {
+                "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\IServices.csproj"
               }
             }
           }
@@ -285,6 +361,10 @@
               "target": "Package",
               "version": "[7.0.0, )"
             },
+            "NUnit": {
+              "target": "Package",
+              "version": "[3.13.3, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.2, )"
@@ -292,6 +372,10 @@
             "System.Collections": {
               "target": "Package",
               "version": "[4.3.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.27.0, )"
             }
           },
           "imports": [

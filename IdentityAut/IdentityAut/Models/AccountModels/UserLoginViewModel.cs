@@ -1,16 +1,17 @@
 ﻿
-using System;
 using System.ComponentModel.DataAnnotations;
+using Business_Logic.ValidationRules;
 
-public class UserLoginViewModel
+public class UserLoginViewModel:ValidatePatterns,ValidateErrors
 {
-    [Required(ErrorMessage = "Введите почту")]
-    [EmailAddress(ErrorMessage = "Неправильный логин и (или) пароль")]
+    [Required(ErrorMessage =ValidateErrors.NoEmail )]
+    [EmailAddress(ErrorMessage = ValidateErrors.BadEmail)]
     public String Email { get; set; }
 
-    [Required(ErrorMessage = "Введите пароль")]
+    [Required(ErrorMessage = ValidateErrors.NoPassword)]
     [DataType(DataType.Password)]
-    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])\S{6,16}$"
-        , ErrorMessage = "Неправильный логин и (или) пароль")]
+    [RegularExpression(ValidatePatterns.PasswordPattern
+        , ErrorMessage = ValidateErrors.BadPassword)]
     public String Password { get; set; }
+
 }

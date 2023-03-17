@@ -10,3 +10,6 @@ C:\Users\User\source\repos\IdentityAut\Repositores\obj\Debug\net6.0\Repositores.
 C:\Users\User\source\repos\IdentityAut\Repositores\obj\Debug\net6.0\refint\Repositores.dll
 C:\Users\User\source\repos\IdentityAut\Repositores\obj\Debug\net6.0\Repositores.pdb
 C:\Users\User\source\repos\IdentityAut\Repositores\obj\Debug\net6.0\ref\Repositores.dll
+C:\Users\User\source\repos\IdentityAut\Repositores\bin\Debug\net6.0\Identity-Entities-Context.dll
+C:\Users\User\source\repos\IdentityAut\Repositores\bin\Debug\net6.0\Identity-Entities-Context.pdb
+C:\Users\User\source\repos\IdentityAut\Repositores\obj\Debug\net6.0\Repositores.csproj.CopyComplete

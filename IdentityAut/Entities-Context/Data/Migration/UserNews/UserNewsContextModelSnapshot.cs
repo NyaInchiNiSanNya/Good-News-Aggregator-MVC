@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Project.Domain.DBContext;
 
 #nullable disable
 
@@ -21,7 +20,7 @@ namespace Entities_Context.Data.Migration.UserNews
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Entities_Context.Entities.UserNews.News", b =>
+            modelBuilder.Entity("Entities_Context.Entities.UserNews.Artincle", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,14 +32,6 @@ namespace Entities_Context.Data.Migration.UserNews
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Resource")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tegs")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -61,9 +52,22 @@ namespace Entities_Context.Data.Migration.UserNews
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Config")
+                    b.Property<string>("Theme")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserConfiguration");
+                });
+
+            modelBuilder.Entity("Entities_Context.Entities.UserNews.UserInformation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -73,9 +77,14 @@ namespace Entities_Context.Data.Migration.UserNews
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserConfigId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("UserConfigId");
+
+                    b.ToTable("UserInformation");
                 });
 
             modelBuilder.Entity("Entities_Context.Entities.UserNews.UserNews", b =>
@@ -86,7 +95,7 @@ namespace Entities_Context.Data.Migration.UserNews
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("NewsId")
+                    b.Property<int>("ArtincleId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -94,30 +103,31 @@ namespace Entities_Context.Data.Migration.UserNews
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NewsId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("ArtincleId");
 
                     b.ToTable("UsersNews");
                 });
 
+            modelBuilder.Entity("Entities_Context.Entities.UserNews.UserInformation", b =>
+                {
+                    b.HasOne("Entities_Context.Entities.UserNews.UserConfig", "UserConfig")
+                        .WithMany()
+                        .HasForeignKey("UserConfigId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserConfig");
+                });
+
             modelBuilder.Entity("Entities_Context.Entities.UserNews.UserNews", b =>
                 {
-                    b.HasOne("Entities_Context.Entities.UserNews.News", "News")
+                    b.HasOne("Entities_Context.Entities.UserNews.Artincle", "Artincle")
                         .WithMany()
-                        .HasForeignKey("NewsId")
+                        .HasForeignKey("ArtincleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities_Context.Entities.UserNews.UserConfig", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("News");
-
-                    b.Navigation("User");
+                    b.Navigation("Artincle");
                 });
 #pragma warning restore 612, 618
         }

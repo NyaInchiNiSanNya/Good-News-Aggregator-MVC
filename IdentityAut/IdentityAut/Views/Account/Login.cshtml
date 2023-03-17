@@ -13,8 +13,8 @@
 <body>
     <form asp-controller="Account" method="post" asp-action="Login">
         <div>
-
-            <div asp-validation-summary="All"></div>
+            <div asp-validation-summary="All" class="field-validation-error"></div>
+        </div>
 
             <div>
                 <label asp-for="Email">Почта</label><br />
@@ -27,7 +27,7 @@
             </div>
 
             <button type="submit">Войти</button>
-        </div>
+        
     </form>
 
 <div>
@@ -35,7 +35,7 @@
 </div>
 
 @section scripts{
- 
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 }

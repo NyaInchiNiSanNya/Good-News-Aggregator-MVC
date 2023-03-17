@@ -1,4 +1,4 @@
-namespace IdentityAut.Models
+namespace Business_Logic.Models
 {
     public class ErrorViewModel
     {

@@ -7,5 +7,18 @@
 }
 function GetCookieName() {
     let el = document.getElementById("NameField");
-    el.textContent = readCookie("Name");
+    el.textContent = readCookie("name");
+}
+
+
+function GetCookieTheme() {
+
+    Classtheme = document.getElementById("theme");
+
+    if (readCookie("theme") == "Dark") {
+
+        document.body.style.background = '#2b2b2b';
+        Classtheme.style.background = '#2b2b2b';
+
+    }
 }

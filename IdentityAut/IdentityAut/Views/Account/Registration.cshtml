@@ -11,31 +11,32 @@
     <link rel="stylesheet" href="~/css/AuthoriazedErrors.css" asp-append-version="true" />
 </head>
 <body>
-    <form asp-controller="Account" method="post" asp-action="Registration">
+<form asp-controller="Account" method="post" asp-action="Registration">
+
+    <div asp-validation-summary="All" class="field-validation-error"></div>
 
     <div>
-        <div asp-validation-summary="All"></div>
-        <div>
-            <label asp-for="Name">Имя</label><br/>
-            <input asp-for="Name"></input>
-        </div>
-
-        <div>
-            <label asp-for="Email">Почта</label><br/>
-            <input asp-for="Email"></input>
-        </div>
-
-        <div>
-            <label asp-for="Password">Пароль</label><br/>
-            <input asp-for="Password"></input>
-        </div>
-
-        <div>
-            <label asp-for="ConfirmPassword">Подтверждение пароля</label><br/>
-            <input asp-for="ConfirmPassword"></input>
-        </div>
+        <label asp-for="Name">Имя</label><br/>
+        <input asp-for="Name"></input>
     </div>
-    <button type="submit">Зарегистрироваться</button>
+
+    <div>
+        <label asp-for="Email">Почта</label><br/>
+        <input asp-for="Email"></input>
+    </div>
+
+    <div>
+        <label asp-for="Password">Пароль</label><br/>
+        <input asp-for="Password"></input>
+    </div>
+
+    <div>
+        <label asp-for="ConfirmPassword">Подтверждение пароля</label><br/>
+        <input asp-for="ConfirmPassword"></input>
+    </div>
+    <div>
+        <button type="submit">Зарегистрироваться</button>
+    </div>
 </form>
 
 <div>
@@ -43,7 +44,7 @@
 </div>
 
 @section scripts{
- 
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 }

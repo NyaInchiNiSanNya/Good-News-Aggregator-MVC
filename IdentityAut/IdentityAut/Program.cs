@@ -1,14 +1,20 @@
-using CustomIdentityApp.Controllers;
+using System.Text;
+using Entities_Context;
 using Entities_Context.Entities.Identity;
 using Entities_Context.Entities.UserNews;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Project.Domain.DBContext;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Repositores;
+using Services;
 using Services.Account;
+using UserConfigRepositores;
 
-namespace IdentityAut
+namespace Business_Logic
 {
     public class Program
     {
@@ -18,9 +24,9 @@ namespace IdentityAut
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            
-            
-            builder.Services.AddDbContext<IdentityContext.IdentityContext>(opt =>
+
+
+            builder.Services.AddDbContext<IdentityContext>(opt =>
             {
                 var connString = builder.Configuration
                     .GetConnectionString("IdentityConnection");
@@ -36,21 +42,22 @@ namespace IdentityAut
 
             });
 
-            
+            builder.Services.AddHttpContextAccessor();
 
-            builder.Services.AddScoped<IdentityRepository, IdentityService>();
-            builder.Services.AddScoped<UserConfigRepositores.GetSetUserConfigRepositore, UserConfigService>();
+            builder.Services.AddScoped<IIdentityService, IdentityService>();
+            builder.Services.AddScoped<IUserInfoAndSettingsService, UserInfoAndSettingsService>();
 
-
+            builder.Services.AddAutoMapper(typeof(Program));
 
             builder.Services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<IdentityContext.IdentityContext>();
-            builder.Services.Configure<IdentityOptions>(opts => {
+                .AddEntityFrameworkStores<IdentityContext>();
+            builder.Services.Configure<IdentityOptions>(opts =>
+            {
                 opts.User.RequireUniqueEmail = true;
             });
 
-            
-            
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -60,7 +67,7 @@ namespace IdentityAut
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseAuthentication();    
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseHttpsRedirection();
             app.UseStaticFiles();

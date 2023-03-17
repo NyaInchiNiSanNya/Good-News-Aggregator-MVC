@@ -1,37 +1,64 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Repositores;
 using Services.Account;
 using UserConfigRepositores;
+using Microsoft.Extensions.Configuration;
+using Core.DTOs;
+using Business_Logic.Controllers.HelperClasses;
 
-namespace CustomIdentityApp.Controllers
+namespace Business_Logic.Controllers
 {
     public class AccountController : Controller
     {
 
-        private readonly IdentityRepository _IdentityRepository;
-        private readonly GetSetUserConfigRepositore _userConfigRepositore;
+        private readonly IIdentityService _IdentityService;
+        private readonly IUserInfoAndSettingsService _userConfigService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AccountController
-            (IdentityRepository IdentityRepository,
-                GetSetUserConfigRepositore userConfigRepositore)
+            (IIdentityService identityService,
+                IUserInfoAndSettingsService userConfigService,
+                IHttpContextAccessor httpContextAccessor)
         {
-            if (IdentityRepository is null)
+            if (identityService is null)
             {
                 throw new NullReferenceException();
 
             }
-            _IdentityRepository = IdentityRepository;
-           
-            
-            if (userConfigRepositore is null)
+            _IdentityService = identityService;
+
+
+            if (userConfigService is null)
             {
                 throw new NullReferenceException();
 
             }
 
-            _userConfigRepositore = userConfigRepositore;
+            _userConfigService = userConfigService;
+
+            if (httpContextAccessor is null)
+            {
+                throw new NullReferenceException();
+
+            }
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+
+        public async Task<IActionResult> CheckUserExist(string Email)
+        {
+
+            if (await _IdentityService.isUserExist(Email))
+            {
+                return Ok(false);
+            }
+            return Ok(true);
+
         }
 
 
@@ -47,75 +74,89 @@ namespace CustomIdentityApp.Controllers
             return View("Login");
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Registration
             (UserRegistrationViewModel model)
         {
-            if (ModelState.IsValid)
+            var validationResult = await AccountValidationHelper
+                .AccountRegistrationValidator(model, _IdentityService);
+
+            if (validationResult.IsValid)
             {
-                if (await _IdentityRepository.Registration
-                         (model.Email, model.Password))
-                {
-
-                    await SetDefoultUserConfig(model);
-
-                    return RedirectToAction("Login", "Account");
-                }
-                else
-                {
-                    
-                    ModelState.AddModelError(""
-                        , "Email уже существует");
-                }
-                
+                //создание пользователя в другой бд
+                await RegistratNewUser(model);
+                return RedirectToAction("Login", "Account");
             }
+
+            GetErros(validationResult);
+
             return View(model);
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> Login(UserLoginViewModel model)
         {
-            if (ModelState.IsValid)
+            var validationResult = await AccountValidationHelper
+                .AccountLoginValidator(model, _IdentityService);
+
+            if (validationResult.IsValid)
             {
+                await Cookie.SettingsAndInfoPutIn(
+                    _httpContextAccessor,
+                    await _userConfigService.GetUserInformation(model.Email));
 
-                
-                if (await _IdentityRepository.Login
-                        (model.Email, model.Password))
-                {
-
-                    await TakeUserConfigPutInCookie(model);
-                    return RedirectToAction("Start", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError(""
-                        , "Неправильный логин и (или) пароль");
-                }
-
+                return RedirectToAction("Start", "Home");
             }
+
+            GetErros(validationResult);
+
             return View(model);
         }
 
+
+
         [NonAction]
-        private async Task SetDefoultUserConfig(UserRegistrationViewModel model)
+        private async Task GetErros
+            (FluentValidation.Results.ValidationResult BadResult)
         {
-            await _userConfigRepositore.SetUserConfig(new Dictionary<string, string>()
+            foreach (var Errors in BadResult.Errors)
             {
-                { "Name", model.Name },
-                { "Email", model.Email },
-                { "Config", "Defoult" }
-            });
+                ModelState.AddModelError(Errors.PropertyName, Errors.ErrorMessage);
+            }
         }
 
-        [NonAction]
-        private async Task TakeUserConfigPutInCookie(UserLoginViewModel model)
+        //Зачем я это сделал?
+        public async Task<IActionResult> LogOut()
         {
-            Dictionary<String, String> Configuration = await _userConfigRepositore.GetUserConfig(model.Email);
+            //Response.Cookies.Append("name", "", new CookieOptions()
+            //{
+            //    Expires = DateTime.Now.AddDays(-1)
+            //});
+            //Response.Cookies.Append("email", "", new CookieOptions()
+            //{
+            //    Expires = DateTime.Now.AddDays(-1)
+            //});
+            //Response.Cookies.Append("theme", "", new CookieOptions()
+            //{
+            //    Expires = DateTime.Now.AddDays(-1)
+            //});
+            await _IdentityService.IdLogout();
+            return RedirectToAction("Start", "Home");
+        }
 
-            foreach (var Key in Configuration.Keys)
+
+
+        [NonAction]
+        private async Task RegistratNewUser(UserRegistrationViewModel model)
+        {
+            await _userConfigService.Registration(new GetUserInfoWithSettingsDTO()
             {
-                HttpContext.Response.Cookies.Append(Key, Configuration[Key]);
-            }
+                Name = model.Name,
+                Email = model.Email,
+            });
         }
 
     }

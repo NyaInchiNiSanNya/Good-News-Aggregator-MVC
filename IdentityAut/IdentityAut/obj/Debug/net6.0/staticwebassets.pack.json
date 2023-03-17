@@ -1,20 +1,24 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\IdentityAut.bundle.scp.css",
-      "PackagePath": "staticwebassets\\IdentityAut.bundle.scp.css"
+      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\MVC.bundle.scp.css",
+      "PackagePath": "staticwebassets\\MVC.bundle.scp.css"
     },
     {
       "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\Layout.css",
       "PackagePath": "staticwebassets\\css\\Layout.css"
     },
     {
-      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\pngwing.com.png",
-      "PackagePath": "staticwebassets\\css\\pngwing.com.png"
+      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\ScrollLent.css",
+      "PackagePath": "staticwebassets\\css\\ScrollLent.css"
     },
     {
-      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\site.css",
-      "PackagePath": "staticwebassets\\css\\site.css"
+      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\Themes\\dark.css",
+      "PackagePath": "staticwebassets\\css\\Themes\\dark.css"
+    },
+    {
+      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\Themes\\default.css",
+      "PackagePath": "staticwebassets\\css\\Themes\\default.css"
     },
     {
       "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\favicon.ico",
@@ -253,20 +257,20 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
-      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.IdentityAut.Microsoft.AspNetCore.StaticWebAssets.props",
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.MVC.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
     {
-      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.IdentityAut.props",
-      "PackagePath": "build\\IdentityAut.props"
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.MVC.props",
+      "PackagePath": "build\\MVC.props"
     },
     {
-      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.IdentityAut.props",
-      "PackagePath": "buildMultiTargeting\\IdentityAut.props"
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.MVC.props",
+      "PackagePath": "buildMultiTargeting\\MVC.props"
     },
     {
-      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.IdentityAut.props",
-      "PackagePath": "buildTransitive\\IdentityAut.props"
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.MVC.props",
+      "PackagePath": "buildTransitive\\MVC.props"
     }
   ],
   "ElementsToRemove": []

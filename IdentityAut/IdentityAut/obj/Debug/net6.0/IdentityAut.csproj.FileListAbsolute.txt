@@ -94,7 +94,12 @@ C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\System.Text.
 C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\Microsoft.Extensions.Http.dll
 C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\Newtonsoft.Json.dll
-C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\Repositores.dll
 C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\Services.dll
-C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\Repositores.pdb
 C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\Services.pdb
+C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\nunit.framework.dll
+C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\RestSharp.dll
+C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\FluentValidation.dll
+C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\DTOs.dll
+C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\IServices.dll
+C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\DTOs.pdb
+C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\IServices.pdb

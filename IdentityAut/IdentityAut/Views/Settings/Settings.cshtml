@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model  Business_Logic.Models.UserSettings.UserSettingsViewModel;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="~/css/AuthoriazedErrors.css" asp-append-version="true" />
+</head>
+<body>
+    <form asp-controller="Settings" method="post" asp-action="SetNewInfoConfig">
+
+
+        <div>
+            
+            <div>
+                <label asp-for="Email">Почта</label><br />
+                <select asp-for="Email">
+                    <option value=@Model.Email>@Model.Email</option>
+                </select>
+            </div>
+
+            <div asp-validation-summary="All" class="field-validation-error"></div>
+            <div>
+                <label asp-for="Name">Имя</label><br/>
+                <input asp-for="Name"></input>
+            </div>
+
+
+            <div>
+                <label asp-for="Theme">Тема</label><br/>
+                <select asp-for="Theme">
+                    <option value="Default">Default</option>
+                    <option value="Dark">Dark</option>
+                </select>
+            </div>
+
+        </div>
+    <button type="submit">Изменить</button>
+</form>
+    @section scripts{
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    }
+</body>
+</html>

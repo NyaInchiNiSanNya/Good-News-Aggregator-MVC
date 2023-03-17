@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QUN2wzbgw6l6TcaFGFpKXhqddN6Dy2lvxxJUSUDRCKvkxzwY/9Rc4NFe02lpX0800Z/z/wEAGG/p9+xyMWjHEA==",
+  "dgSpecHash": "JU2HZy+rneV3H3Sg8gSOceGzNBjFjNk5bX2Aeb5N48eqsfp/0oIIVAyny3CIde8mRAcuB/o+5JT479AclWOyRQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Identity-Entities-Context.csproj",
+  "projectFilePath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\User\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
