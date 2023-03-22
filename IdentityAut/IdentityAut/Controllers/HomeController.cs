@@ -17,7 +17,7 @@ namespace Business_Logic.Controllers
         {
             if (configuration is null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(configuration));
             }
             _configuration = configuration;
 

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "489GARj2Tdk/1orl9O+q84KGzA8yc8uX2YovwiJm7SI=",
+  "Hash": "p4CdhIPd7nYIVILPDxF2cnkfbRzdY9UzSaPiQOboJj0=",
   "Source": "MVC",
   "BasePath": "_content/MVC",
   "Mode": "Default",
@@ -134,6 +134,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\images\\404.jpg",
+      "SourceId": "MVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\",
+      "BasePath": "_content/MVC",
+      "RelativePath": "images/404.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\404.jpg"
     },
     {
       "Identity": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\js\\site.js",

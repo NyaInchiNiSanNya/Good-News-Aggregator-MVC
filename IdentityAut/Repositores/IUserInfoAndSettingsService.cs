@@ -9,9 +9,6 @@ namespace UserConfigRepositores
 {
     public interface IUserInfoAndSettingsService
     {
-        public Task Registration(GetUserInfoWithSettingsDTO getUserInfoWithSettingsDtOmodel);
-
-        public Task<Boolean> isExist(String Email);
 
         public Task<GetUserInfoWithSettingsDTO> GetUserInformation(String Email);
         

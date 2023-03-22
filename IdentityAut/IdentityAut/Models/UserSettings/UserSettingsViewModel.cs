@@ -9,12 +9,16 @@ namespace Business_Logic.Models.UserSettings
         [Required(ErrorMessage = ValidateErrors.NoName)]
         [RegularExpression(ValidatePatterns.NamePattern
             , ErrorMessage = ValidateErrors.BadName)]
-        public string Name { get; set; }
+        public String Name { get; set; }
 
-        [Remote("CheckUserExist", "Settings",
+        [Remote("", "Settings",
             ErrorMessage = ValidateErrors.EmailExist)]
-        public string Email { get; set; }
+        public String Email { get; set; }
 
-        public string Theme { get; set; }
+        public String Theme { get; set; }
+        public Int32 PositiveRate { get; set; }
+        public Int32 PositiveRateFilter { get; set; }
+        public String? ProfilePicture { get; set; }
+        public String Role { get; set; }
     }
 }

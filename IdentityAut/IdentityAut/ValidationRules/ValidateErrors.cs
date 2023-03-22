@@ -19,5 +19,8 @@
 
         protected const String BadTry = "Неправильный Email и(или) пароль";
 
+        protected const String NoRateFilter = "Введите ограничение на контент";
+        protected const String BadRateFilter = "Значение должно быть в диапозоне 0 - 10";
+
     }
 }

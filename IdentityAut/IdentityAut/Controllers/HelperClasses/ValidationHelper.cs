@@ -1,4 +1,5 @@
-﻿using Business_Logic.Models.UserSettings;
+﻿using AutoMapper;
+using Business_Logic.Models.UserSettings;
 using Business_Logic.ValidationRules;
 using FluentValidation;
 using FluentValidation.Results;
@@ -11,54 +12,46 @@ namespace Business_Logic.Controllers.HelperClasses
     {
 
         internal async static Task<ValidationResult> AccountLoginValidator
-            (UserLoginViewModel model, IIdentityService _IdentityService)
+            (UserLoginViewModel model,IMapper mapper,IIdentityService _identityService)
         {
-            UserLoginViewValidate validator = new UserLoginViewValidate(_IdentityService);
+            UserLoginViewValidate validator = new UserLoginViewValidate(mapper,_identityService);
 
-            var result = validator.Validate(model,
+            var result = await validator.ValidateAsync(model,
                 options =>
                     options.IncludeRuleSets("PatternsCheck"));
-
 
             if (result.IsValid)
             {
                 result = await validator.ValidateAsync(model,
                     options =>
-                        options.IncludeRuleSets("IsExist"));
+                        options.IncludeRuleSets("LoginCheck"));
             }
-
 
             return result;
         }
 
 
         internal async static Task<ValidationResult> AccountRegistrationValidator
-            (UserRegistrationViewModel model, IIdentityService _IdentityService)
+            (UserRegistrationViewModel model)
         {
+            Thread.Sleep(20000);
+            UserRegistrationViewValidate validator = new UserRegistrationViewValidate();
 
-            UserRegistrationViewValidate validator = new UserRegistrationViewValidate(_IdentityService);
-
-            var result = validator.Validate(model,
+            var result = await validator.ValidateAsync(model,
                 options =>
                     options.IncludeRuleSets("PatternsCheck"));
 
-
-            if (result.IsValid)
-            {
-                result = await validator.ValidateAsync(model,
-                    options =>
-                        options.IncludeRuleSets("IsExist"));
-            }
+           
 
             return result;
         }
 
 
         internal async static Task<ValidationResult> InfoSettingsValidator
-            (UserSettingsViewModel model, IUserInfoAndSettingsService _userConfigService)
+            (UserSettingsViewModel model)
         {
 
-            UserSettingsViewValidate validator = new UserSettingsViewValidate(_userConfigService);
+            UserSettingsViewValidate validator = new UserSettingsViewValidate();
 
             var result = await validator.ValidateAsync(model,
                 options =>

@@ -18,80 +18,55 @@ namespace Services.Account
 {
     public class UserInfoAndSettingsService : IUserInfoAndSettingsService
     {
-        private readonly UserNewsContext _UserInfoContext;
+        private readonly UserArticleContext _UserInfoContext;
 
-        private readonly IMapper _Mapper;
+        private readonly IMapper _mapper;
 
-        public UserInfoAndSettingsService(UserNewsContext userInfoContext
-        ,IMapper mapper)
+        public UserInfoAndSettingsService(UserArticleContext userInfoContext
+        , IMapper mapper)
         {
             if (userInfoContext is null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(userInfoContext));
             }
 
             _UserInfoContext = userInfoContext;
-            
+
             if (userInfoContext is null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(mapper));
             }
 
-            _Mapper = mapper;
-        }
-
-        public async Task<bool> isExist(string Email)
-        {
-            if (!Email.IsNullOrEmpty())
-            {
-                UserInformation User = new UserInformation()
-                {
-                    Email = Email
-                };
-
-
-                if (await _UserInfoContext.UserInformation
-                        .Where(x => User.Email==x.Email)
-                        .AsNoTracking()
-                        .FirstOrDefaultAsync() is not null)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-
-        public async Task Registration(GetUserInfoWithSettingsDTO getUserInfoAndSettingsDtOmodel)
-        {
-            await _UserInfoContext.UserInformation.AddAsync
-                (_Mapper.Map<UserInformation>(getUserInfoAndSettingsDtOmodel));
-
-            await _UserInfoContext.SaveChangesAsync();
+            _mapper = mapper;
         }
 
         public async Task<GetUserInfoWithSettingsDTO> GetUserInformation(String Email)
         {
-            return await _UserInfoContext.UserInformation
-                .Where(x => x.Email == Email)
-                        .Include(x => x.UserConfig)
-                        .AsNoTracking().ProjectTo<GetUserInfoWithSettingsDTO>(_Mapper.ConfigurationProvider)
+#pragma warning disable CS8603 // Possible null reference return.
+            return await _UserInfoContext.Users
+                .Where(x => x.Email.Equals(Email))
+                .AsNoTracking().ProjectTo<GetUserInfoWithSettingsDTO>(_mapper.ConfigurationProvider)
                         .FirstOrDefaultAsync();
-          
+#pragma warning restore CS8603 // Possible null reference return.
+
         }
 
         public async Task SetNewUserInfo(GetUserInfoWithSettingsDTO getUserInfoAndSettingsDtOmodel)
         {
-            UserInformation UpdateUser = _Mapper.Map<UserInformation>(getUserInfoAndSettingsDtOmodel);
-            
-            UserInformation User = await _UserInfoContext.UserInformation
-                .Where(x => x.Email == UpdateUser.Email)
-                .Include(x => x.UserConfig)
+
+            User User = await _UserInfoContext.Users
+                .Where(x => x.Email == getUserInfoAndSettingsDtOmodel.Email)
                 .FirstOrDefaultAsync();
 
-            User = UpdateUser;
-                
+            User.ThemeId = await _UserInfoContext.Themes
+                .Where(x => x.Theme.Equals(getUserInfoAndSettingsDtOmodel.Theme))
+                .Select(x=>x.Id)
+                .FirstOrDefaultAsync();
+
+            User.Name = getUserInfoAndSettingsDtOmodel.Name;
+            User.PositiveRateFilter = getUserInfoAndSettingsDtOmodel.PositiveRateFilter;
+            User.ProfilePicture = getUserInfoAndSettingsDtOmodel.ProfilePicture;
+
             await _UserInfoContext.SaveChangesAsync();
         }
 

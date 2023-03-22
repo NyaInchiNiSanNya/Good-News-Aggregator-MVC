@@ -2,8 +2,12 @@
 {
     public class GetUserInfoWithSettingsDTO
     {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Theme { get; set; } = "Default";
+        public String Name { get; set; }
+        public String Email { get; set; }
+        public String Theme { get; set; }
+        public Int32 PositiveRate { get; set; }
+        public Int32 PositiveRateFilter { get; set; }
+        public String? ProfilePicture { get; set; }
+        public String Role { get; set; }
     }
 }

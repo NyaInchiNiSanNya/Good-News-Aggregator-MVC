@@ -10,3 +10,6 @@ C:\Users\User\source\repos\IdentityAut\DTOs\obj\Debug\net6.0\Core.dll
 C:\Users\User\source\repos\IdentityAut\DTOs\obj\Debug\net6.0\refint\Core.dll
 C:\Users\User\source\repos\IdentityAut\DTOs\obj\Debug\net6.0\Core.pdb
 C:\Users\User\source\repos\IdentityAut\DTOs\obj\Debug\net6.0\ref\Core.dll
+C:\Users\User\source\repos\IdentityAut\DTOs\bin\Debug\net6.0\Data.dll
+C:\Users\User\source\repos\IdentityAut\DTOs\bin\Debug\net6.0\Data.pdb
+C:\Users\User\source\repos\IdentityAut\DTOs\obj\Debug\net6.0\Core.csproj.CopyComplete

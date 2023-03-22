@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repositores;
-using Services.Account;
 using UserConfigRepositores;
 using Microsoft.Extensions.Configuration;
-using Core.DTOs;
 using Business_Logic.Controllers.HelperClasses;
+using AutoMapper;
+using Core.DTOs.Account;
+using MVC.Filters.Validation;
+using Services.Account;
 
 namespace Business_Logic.Controllers
 {
@@ -17,42 +19,43 @@ namespace Business_Logic.Controllers
     {
 
         private readonly IIdentityService _IdentityService;
-        private readonly IUserInfoAndSettingsService _userConfigService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMapper _mapper;
 
         public AccountController
             (IIdentityService identityService,
-                IUserInfoAndSettingsService userConfigService,
-                IHttpContextAccessor httpContextAccessor)
+                IMapper mapper
+                )
         {
             if (identityService is null)
             {
-                throw new NullReferenceException();
+                throw new NullReferenceException(nameof(identityService));
 
             }
             _IdentityService = identityService;
 
 
-            if (userConfigService is null)
+            if (mapper is null)
             {
-                throw new NullReferenceException();
+                throw new NullReferenceException(nameof(mapper));
 
             }
-
-            _userConfigService = userConfigService;
-
-            if (httpContextAccessor is null)
-            {
-                throw new NullReferenceException();
-
-            }
-            _httpContextAccessor = httpContextAccessor;
+            _mapper = mapper;
         }
 
 
-        public async Task<IActionResult> CheckUserExist(string Email)
+        public async Task<IActionResult> CheckUserLoginExist(String Email)
         {
 
+            if (await _IdentityService.isUserExist(Email))
+            {
+                return Ok(true);
+            }
+            return Ok(false);
+
+        }
+
+        public async Task<IActionResult> CheckUserRegistrationExist(String Email)
+        {
             if (await _IdentityService.isUserExist(Email))
             {
                 return Ok(false);
@@ -76,87 +79,31 @@ namespace Business_Logic.Controllers
 
 
         [HttpPost]
+        [RegistrationValidationFilter]
         public async Task<IActionResult> Registration
-            (UserRegistrationViewModel model)
+            ([FromForm] UserRegistrationViewModel model)
         {
-            var validationResult = await AccountValidationHelper
-                .AccountRegistrationValidator(model, _IdentityService);
-
-            if (validationResult.IsValid)
-            {
-                //создание пользователя в другой бд
-                await RegistratNewUser(model);
-                return RedirectToAction("Login", "Account");
-            }
-
-            GetErros(validationResult);
-
-            return View(model);
+            await _IdentityService.Registration(
+                    _mapper.Map<UserRegistrationDTO>(model));
+            
+            return RedirectToAction("Login", "Account");
         }
-
-
 
         [HttpPost]
-        public async Task<IActionResult> Login(UserLoginViewModel model)
+        [ServiceFilter(typeof(LoginValidationFilterAttribute))]
+        public async Task<IActionResult> Login([FromForm] UserLoginViewModel model)
         {
-            var validationResult = await AccountValidationHelper
-                .AccountLoginValidator(model, _IdentityService);
-
-            if (validationResult.IsValid)
-            {
-                await Cookie.SettingsAndInfoPutIn(
-                    _httpContextAccessor,
-                    await _userConfigService.GetUserInformation(model.Email));
-
-                return RedirectToAction("Start", "Home");
-            }
-
-            GetErros(validationResult);
-
-            return View(model);
+           
+                //положить в куки или т.п.
+                return RedirectToAction("GetInfoConfig", "Settings");
         }
-
-
 
         [NonAction]
-        private async Task GetErros
-            (FluentValidation.Results.ValidationResult BadResult)
-        {
-            foreach (var Errors in BadResult.Errors)
-            {
-                ModelState.AddModelError(Errors.PropertyName, Errors.ErrorMessage);
-            }
-        }
 
-        //Зачем я это сделал?
         public async Task<IActionResult> LogOut()
         {
-            //Response.Cookies.Append("name", "", new CookieOptions()
-            //{
-            //    Expires = DateTime.Now.AddDays(-1)
-            //});
-            //Response.Cookies.Append("email", "", new CookieOptions()
-            //{
-            //    Expires = DateTime.Now.AddDays(-1)
-            //});
-            //Response.Cookies.Append("theme", "", new CookieOptions()
-            //{
-            //    Expires = DateTime.Now.AddDays(-1)
-            //});
             await _IdentityService.IdLogout();
             return RedirectToAction("Start", "Home");
-        }
-
-
-
-        [NonAction]
-        private async Task RegistratNewUser(UserRegistrationViewModel model)
-        {
-            await _userConfigService.Registration(new GetUserInfoWithSettingsDTO()
-            {
-                Name = model.Name,
-                Email = model.Email,
-            });
         }
 
     }

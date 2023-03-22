@@ -1,6 +1,5 @@
 using System.Text;
 using Entities_Context;
-using Entities_Context.Entities.Identity;
 using Entities_Context.Entities.UserNews;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -9,8 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using MVC.Filters.Validation;
 using Repositores;
-using Services;
 using Services.Account;
 using UserConfigRepositores;
 
@@ -26,15 +25,7 @@ namespace Business_Logic
             builder.Services.AddControllersWithViews();
 
 
-            builder.Services.AddDbContext<IdentityContext>(opt =>
-            {
-                var connString = builder.Configuration
-                    .GetConnectionString("IdentityConnection");
-                opt.UseSqlServer(connString);
-
-            });
-
-            builder.Services.AddDbContext<UserNewsContext>(opt =>
+            builder.Services.AddDbContext<UserArticleContext>(opt =>
             {
                 var connString = builder.Configuration
                     .GetConnectionString("DefaultConnection");
@@ -46,38 +37,32 @@ namespace Business_Logic
 
             builder.Services.AddScoped<IIdentityService, IdentityService>();
             builder.Services.AddScoped<IUserInfoAndSettingsService, UserInfoAndSettingsService>();
-
+            builder.Services.AddScoped<LoginValidationFilterAttribute>();
             builder.Services.AddAutoMapper(typeof(Program));
 
-            builder.Services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<IdentityContext>();
-            builder.Services.Configure<IdentityOptions>(opts =>
-            {
-                opts.User.RequireUniqueEmail = true;
-            });
-
-
-
+            builder.Services.AddSwaggerGen();
+            
+            
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //app.UseStatusCodePagesWithReExecute("/Error/{0}");
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSwagger();
+            app.UseSwaggerUI();
             app.UseRouting();
-
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Start}/{id?}");
-
             app.Run();
         }
     }

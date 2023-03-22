@@ -105,3 +105,8 @@ C:\Users\User\source\repos\IdentityAut\IdentityAut\obj\Debug\net6.0\MVC.pdb
 C:\Users\User\source\repos\IdentityAut\IdentityAut\obj\Debug\net6.0\MVC.genruntimeconfig.cache
 C:\Users\User\source\repos\IdentityAut\IdentityAut\obj\Debug\net6.0\ref\MVC.dll
 C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\User\source\repos\IdentityAut\IdentityAut\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\User\source\repos\IdentityAut\IdentityAut\obj\Debug\net6.0\MVC.MvcApplicationPartsAssemblyInfo.cs

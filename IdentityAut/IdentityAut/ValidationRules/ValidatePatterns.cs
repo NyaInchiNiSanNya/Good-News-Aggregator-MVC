@@ -1,4 +1,5 @@
-﻿namespace Business_Logic.ValidationRules
+﻿
+namespace Business_Logic.ValidationRules
 {
     internal interface ValidatePatterns
     {

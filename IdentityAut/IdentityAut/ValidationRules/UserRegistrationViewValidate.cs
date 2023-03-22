@@ -7,12 +7,10 @@ namespace Business_Logic.ValidationRules
         AbstractValidator<UserRegistrationViewModel>
         , ValidatePatterns, ValidateErrors
     {
-        private IIdentityService _identityService;
 
 
-        internal UserRegistrationViewValidate(IIdentityService identityService)
+        internal UserRegistrationViewValidate()
         {
-            _identityService = identityService;
 
             RuleSet("PatternsCheck", () =>
             {
@@ -39,18 +37,6 @@ namespace Business_Logic.ValidationRules
                     .WithMessage(ValidateErrors.BadConfirm)
                     .Equal(x => x.Password)
                     .WithMessage(ValidateErrors.BadConfirm);
-            });
-
-            RuleSet("IsExist", () =>
-            {
-                RuleFor(x => x)
-                    .MustAsync(async (x, concellation) =>
-                    {
-
-                        bool exists = await _identityService.Registration(x.Name, x.Email, x.Password);
-
-                        return exists;
-                    }).WithMessage(ValidateErrors.EmailExist);
             });
 
         }

@@ -4,14 +4,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Entities_Context
 {
-    public class UserNewsContext : DbContext
+    public class UserArticleContext : DbContext
     {
-        public DbSet<Artincle> News { get; set; }
-        public DbSet<UserConfig> UserConfiguration { get; set; }
-        public DbSet<UserInformation> UserInformation { get; set; }
-        public DbSet<UserNews> UsersNews { get; set; }
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<ArticleTag> ArticlesTags { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<UserRole> Roles { get; set; }
+        public DbSet<Source> Sources { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<SiteTheme> Themes { get; set; }
+        public DbSet<User> Users { get; set; }
 
-        public UserNewsContext(DbContextOptions<UserNewsContext> options) : base(options)
+
+        public UserArticleContext(DbContextOptions<UserArticleContext> options) : base(options)
         { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)

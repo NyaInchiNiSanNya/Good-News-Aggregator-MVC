@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.DTOs.Account;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +9,15 @@ namespace Repositores
 {
     public interface IIdentityService
     {
-        public Task<Boolean> Registration
-            (String Name, String Email, String password);
-        
+        public Task Registration
+            (UserRegistrationDTO model);
+
 
         public Task<Boolean> Login
-            (String Email, String password);
+            (UserLoginDTO model);
 
         public Task IdLogout();
 
-        public Task<Boolean> isUserExist(String email);
+        public Task<Boolean> isUserExist(String Email);
     }
 }

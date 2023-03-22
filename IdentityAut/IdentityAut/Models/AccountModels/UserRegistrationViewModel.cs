@@ -15,7 +15,7 @@ public class UserRegistrationViewModel:
 
     [Required(ErrorMessage = ValidateErrors.NoEmail)]
     [EmailAddress(ErrorMessage = ValidateErrors.BadEmail)]
-    [Remote( "CheckUserExist", "Account",
+    [Remote("CheckUserRegistrationExist", "Account",
         ErrorMessage = ValidateErrors.EmailExist)]
     public String Email { get; set; }
 

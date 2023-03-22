@@ -4,29 +4,46 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
-using Entities_Context.Entities.Identity;
+using AutoMapper;
+using Core.DTOs.Account;
+using Entities_Context;
+using Entities_Context.Entities.UserNews;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repositores;
 
 namespace Services.Account
 {
-    public sealed class IdentityService: IIdentityService
+    public sealed class IdentityService : IIdentityService
     {
-    
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
 
-        public IdentityService( UserManager<User> userManager
-            , SignInManager<User> signInManager)
+        private readonly UserArticleContext _userContext;
+
+        private readonly IMapper _Mapper;
+
+        public IdentityService(UserArticleContext userContext
+        , IMapper mapper)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+            if (userContext is null)
+            {
+                throw new ArgumentNullException(nameof(userContext));
+            }
+
+            _userContext = userContext;
+
+            if (mapper is null)
+            {
+                throw new ArgumentNullException(nameof(mapper));
+            }
+
+            _Mapper = mapper;
         }
 
-        public async Task<Boolean> isUserExist(string email)
+        public async Task<Boolean> isUserExist(String Email)
         {
-            if (await _userManager.FindByEmailAsync(email) is not null)
+            if (await _userContext.Users
+                    .AsNoTracking()
+                    .AnyAsync(x=>x.Email.Equals(Email)))
             {
                 return true;
             }
@@ -34,40 +51,51 @@ namespace Services.Account
             return false;
         }
 
-        public async Task<Boolean> Registration(String Name, String email, String password)
+
+        public async Task Registration(UserRegistrationDTO modelDTO)
         {
-            var result = await _userManager.CreateAsync(new User
-            {
-                UserName = email,
-                Email = email,
-            }, password);
+
+            User newUser = _Mapper.Map<User>(modelDTO);
+
+            newUser.ThemeId = await _userContext.Themes
+                .AsNoTracking()
+                .Where(x => x.Theme
+                    .Equals("default"))
+                .Select(x => x.Id).FirstOrDefaultAsync();
             
-            return result.Succeeded;
-            
+            newUser.RoleId = await _userContext.Roles
+                .AsNoTracking()
+                .Where(x => x.Role
+                    .Equals("User"))
+                .Select(x => x.Id).FirstOrDefaultAsync(); 
+
+            _userContext.Users.Add(newUser);
+
+
+
+            await _userContext.SaveChangesAsync();
         }
 
-        public async Task<Boolean> Login(String Email, String Password)
+        
+        public async Task<Boolean> Login(UserLoginDTO modelDTO)
         {
-            var result =
-                await _signInManager.PasswordSignInAsync
-                    (Email, Password, false, false);
-            
-            if (result.Succeeded)
+            //Баг #1 Асинхронный вызов ломает логин
+            if (await _userContext.Users
+                .AsNoTracking()
+                .AnyAsync(x =>
+                    x.Email.Equals(modelDTO.Email)
+                    && x.Password.Equals(modelDTO.Password)))
             {
-                await _signInManager.SignInAsync(new User()
-                {
-                    UserName = Email,
-                }, isPersistent: false);
-
-                
+                return true;
             }
-            return result.Succeeded;
-        } 
-        
-        
+
+            return false;
+
+        }
+
+
         public async Task IdLogout()
         {
-            await _signInManager.SignOutAsync();
         }
 
     }

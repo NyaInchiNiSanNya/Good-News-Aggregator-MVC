@@ -2,7 +2,6 @@
 using FluentValidation;
 using Microsoft.Identity.Client;
 using Repositores;
-using Services.Account;
 using UserConfigRepositores;
 
 namespace Business_Logic.ValidationRules
@@ -12,12 +11,9 @@ namespace Business_Logic.ValidationRules
         , ValidatePatterns
         , ValidateErrors
     {
-        private IUserInfoAndSettingsService _userInfoAndSettingsService;
 
-
-        internal UserSettingsViewValidate(IUserInfoAndSettingsService userInfoAndSettingsService)
+        internal UserSettingsViewValidate()
         {
-            _userInfoAndSettingsService = userInfoAndSettingsService;
 
             RuleSet("PatternsCheck", () =>
             {
@@ -32,7 +28,7 @@ namespace Business_Logic.ValidationRules
                     .MustAsync(async (x, concellation) =>
                     {
 
-                        if (x.Equals("Dark") || x.Equals("Default"))
+                        if (x.Equals("dark") || x.Equals("default"))
                         {
                             return true;
                         }
@@ -40,6 +36,13 @@ namespace Business_Logic.ValidationRules
 
                         return false;
                     });
+
+                RuleFor(x => x.PositiveRateFilter).NotNull()
+                    .WithMessage(ValidateErrors.NoRateFilter)
+                    .GreaterThan(0)
+                    .WithMessage(ValidateErrors.BadRateFilter)
+                    .LessThan(10)
+                    .WithMessage(ValidateErrors.BadRateFilter);
             });
 
 

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entities_Context.Data.Migration.UserNews
 {
-    [DbContext(typeof(UserNewsContext))]
+    [DbContext(typeof(UserArticleContext))]
     [Migration("20230308202319_sdsdv")]
     partial class sdsdv
     {
