@@ -9,15 +9,15 @@ namespace Repositores
 {
     public interface IIdentityService
     {
-        public Task Registration
+        public Task<Boolean> RegistrationAsync
             (UserRegistrationDTO model);
 
 
-        public Task<Boolean> Login
+        public Task<Boolean> LoginAsync
             (UserLoginDTO model);
 
-        public Task IdLogout();
+        public Task IdLogoutAsync();
 
-        public Task<Boolean> isUserExist(String Email);
+        public Task<Boolean> isUserExistAsync(String Email);
     }
 }

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "p4CdhIPd7nYIVILPDxF2cnkfbRzdY9UzSaPiQOboJj0=",
+  "Hash": "hRFPq4W7Vui28XXjYJ00b5iPxFaoSTDn2E7n1aaaBAQ=",
   "Source": "MVC",
   "BasePath": "_content/MVC",
   "Mode": "Default",
@@ -151,6 +151,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\404.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\images\\500.gif",
+      "SourceId": "MVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\",
+      "BasePath": "_content/MVC",
+      "RelativePath": "images/500.gif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\500.gif"
     },
     {
       "Identity": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\js\\site.js",

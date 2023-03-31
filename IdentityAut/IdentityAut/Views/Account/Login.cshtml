@@ -20,13 +20,18 @@
                 <label asp-for="Email">Почта</label><br />
                 <input asp-for="Email"></input>
             </div>
+        
+        @if (Model is not null)
+        {
+            <input type="hidden" asp-for="ReturnUrl" value="@Model.ReturnUrl"/>
+        }
+        <div>
+            <label asp-for="Password">Пароль</label><br />
+            <input asp-for="Password"></input>
+        </div>
 
-            <div>
-                <label asp-for="Password">Пароль</label><br />
-                <input asp-for="Password"></input>
-            </div>
 
-            <button type="submit">Войти</button>
+        <button type="submit">Войти</button>
         
     </form>
 

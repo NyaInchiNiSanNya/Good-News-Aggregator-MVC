@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using Business_Logic.ValidationRules;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,5 +17,8 @@ public class UserLoginViewModel:ValidatePatterns,ValidateErrors
     [RegularExpression(ValidatePatterns.PasswordPattern
         , ErrorMessage = ValidateErrors.BadPassword)]
     public String Password { get; set; }
+
+    [AllowNull]
+    public String? ReturnUrl { get; set; }=String.Empty;
 
 }

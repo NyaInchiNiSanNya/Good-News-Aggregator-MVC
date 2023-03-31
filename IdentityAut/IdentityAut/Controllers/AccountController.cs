@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
@@ -7,11 +8,15 @@ using Microsoft.EntityFrameworkCore;
 using Repositores;
 using UserConfigRepositores;
 using Microsoft.Extensions.Configuration;
-using Business_Logic.Controllers.HelperClasses;
 using AutoMapper;
 using Core.DTOs.Account;
 using MVC.Filters.Validation;
 using Services.Account;
+using IServices;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using Serilog;
 
 namespace Business_Logic.Controllers
 {
@@ -19,12 +24,14 @@ namespace Business_Logic.Controllers
     {
 
         private readonly IIdentityService _IdentityService;
+        private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
 
         public AccountController
             (IIdentityService identityService,
-                IMapper mapper
-                )
+                IMapper mapper,
+                IRoleService roleService
+            )
         {
             if (identityService is null)
             {
@@ -40,27 +47,28 @@ namespace Business_Logic.Controllers
 
             }
             _mapper = mapper;
+
+            if (roleService is null)
+            {
+                throw new NullReferenceException(nameof(mapper));
+
+            }
+            _roleService = roleService;
+
+            
         }
 
 
         public async Task<IActionResult> CheckUserLoginExist(String Email)
         {
 
-            if (await _IdentityService.isUserExist(Email))
-            {
-                return Ok(true);
-            }
-            return Ok(false);
+            return Ok(await _IdentityService.isUserExistAsync(Email));
 
         }
 
         public async Task<IActionResult> CheckUserRegistrationExist(String Email)
         {
-            if (await _IdentityService.isUserExist(Email))
-            {
-                return Ok(false);
-            }
-            return Ok(true);
+            return Ok(!await _IdentityService.isUserExistAsync(Email));
 
         }
 
@@ -74,7 +82,16 @@ namespace Business_Logic.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View("Login");
+
+            if (HttpContext.Request.Query.ContainsKey("ReturnUrl"))
+            {
+                var url = new UserLoginViewModel()
+                {
+                    ReturnUrl = HttpContext.Request.Query["ReturnUrl"]
+                };
+                return View(url);
+            }
+            return View();
         }
 
 
@@ -83,26 +100,66 @@ namespace Business_Logic.Controllers
         public async Task<IActionResult> Registration
             ([FromForm] UserRegistrationViewModel model)
         {
-            await _IdentityService.Registration(
-                    _mapper.Map<UserRegistrationDTO>(model));
-            
-            return RedirectToAction("Login", "Account");
+            if (await _IdentityService.RegistrationAsync(
+                    _mapper.Map<UserRegistrationDTO>(model)))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            return Conflict("Пользователь уже существует");
         }
+
+
 
         [HttpPost]
         [ServiceFilter(typeof(LoginValidationFilterAttribute))]
-        public async Task<IActionResult> Login([FromForm] UserLoginViewModel model)
+        public async Task<IActionResult> Login(UserLoginViewModel model)
         {
-           
-                //положить в куки или т.п.
-                return RedirectToAction("GetInfoConfig", "Settings");
+
+            const string authType = "Application Cookie";
+            
+            var claims = new List<Claim>
+                {
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, model.Email),
+                };
+
+
+            var roles = (await _roleService.GetUserRolesByUserName(model.Email));
+
+            if (roles is null)
+            {
+                throw new ArgumentException("Incorrect user or role", nameof(model));
+            }
+
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, role.Role));
+            }
+
+            var identity = new ClaimsIdentity(claims,
+                authType,
+                ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType);
+
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(identity));
+            
+            Log.Information("User {0} in the system, ip:{1}",model.Email
+                , HttpContext.Connection.RemoteIpAddress?.ToString());
+            
+            if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+            {
+                return LocalRedirect(model.ReturnUrl);
+            }
+
+            return RedirectToAction("GetInfoConfig", "Settings");
         }
 
-        [NonAction]
 
         public async Task<IActionResult> LogOut()
         {
-            await _IdentityService.IdLogout();
+            await _IdentityService.IdLogoutAsync();
             return RedirectToAction("Start", "Home");
         }
 

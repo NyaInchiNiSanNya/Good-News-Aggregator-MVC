@@ -31,7 +31,7 @@ namespace Business_Logic.ValidationRules
                 .MustAsync(async (x, concellation) =>
                 {
 
-                    if (await _IdentityService.Login(_mapper.Map<UserLoginDTO>(x)))
+                    if (await _IdentityService.LoginAsync(_mapper.Map<UserLoginDTO>(x)))
                     {
                         return true;
                     }

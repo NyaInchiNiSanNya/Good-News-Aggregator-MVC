@@ -10,8 +10,8 @@ namespace UserConfigRepositores
     public interface IUserInfoAndSettingsService
     {
 
-        public Task<GetUserInfoWithSettingsDTO> GetUserInformation(String Email);
+        public Task<GetUserInfoWithSettingsDTO> GetUserInformationAsync(String Email);
         
-        public Task SetNewUserInfo(GetUserInfoWithSettingsDTO getUserInfoWithSettingsDtOmodel);
+        public Task SetNewUserInfoAsync(GetUserInfoWithSettingsDTO getUserInfoWithSettingsDtOmodel);
     }
 }

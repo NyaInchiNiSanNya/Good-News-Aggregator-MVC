@@ -6,15 +6,15 @@ using FluentValidation.Results;
 using Repositores;
 using UserConfigRepositores;
 
-namespace Business_Logic.Controllers.HelperClasses
+namespace MVC.Filters.Validation
 {
     internal static class AccountValidationHelper
     {
 
         internal async static Task<ValidationResult> AccountLoginValidator
-            (UserLoginViewModel model,IMapper mapper,IIdentityService _identityService)
+            (UserLoginViewModel model, IMapper mapper, IIdentityService _identityService)
         {
-            UserLoginViewValidate validator = new UserLoginViewValidate(mapper,_identityService);
+            UserLoginViewValidate validator = new UserLoginViewValidate(mapper, _identityService);
 
             var result = await validator.ValidateAsync(model,
                 options =>
@@ -34,14 +34,13 @@ namespace Business_Logic.Controllers.HelperClasses
         internal async static Task<ValidationResult> AccountRegistrationValidator
             (UserRegistrationViewModel model)
         {
-            Thread.Sleep(20000);
             UserRegistrationViewValidate validator = new UserRegistrationViewValidate();
 
             var result = await validator.ValidateAsync(model,
                 options =>
                     options.IncludeRuleSets("PatternsCheck"));
 
-           
+
 
             return result;
         }

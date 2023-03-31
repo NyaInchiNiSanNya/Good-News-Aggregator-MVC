@@ -23,8 +23,8 @@ namespace Entities_Context.Entities.UserNews
 
         public List<Comment>? Comments { get; set; }
 
-        public Int32 RoleId { get; set; }
-        public UserRole Role { get; set; }
+        public List<UsersRoles> Role { get; set; }
+
         public SiteTheme Theme { get; set; }
         public Int32 ThemeId { get; set; }
     }

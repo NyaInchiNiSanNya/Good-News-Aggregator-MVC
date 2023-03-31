@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
-using Business_Logic.Controllers.HelperClasses;
 using Core.DTOs.Account;
 using System.IO.Pipelines;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Repositores;
+using Serilog;
 
 namespace MVC.Filters.Validation
 {
@@ -25,6 +25,8 @@ namespace MVC.Filters.Validation
 
             if (!validationResult.IsValid)
             {
+                var ip = context.HttpContext.Connection.RemoteIpAddress?.ToString();
+                Log.Warning("Validation error when registering with IP: {0}:", ip);
                 foreach (var Errors in validationResult.Errors)
                 {
                     context.ModelState.AddModelError(Errors.PropertyName, Errors.ErrorMessage);

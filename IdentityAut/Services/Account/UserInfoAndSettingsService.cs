@@ -40,7 +40,7 @@ namespace Services.Account
             _mapper = mapper;
         }
 
-        public async Task<GetUserInfoWithSettingsDTO> GetUserInformation(String Email)
+        public async Task<GetUserInfoWithSettingsDTO> GetUserInformationAsync(String Email)
         {
 #pragma warning disable CS8603 // Possible null reference return.
             return await _UserInfoContext.Users
@@ -51,7 +51,7 @@ namespace Services.Account
 
         }
 
-        public async Task SetNewUserInfo(GetUserInfoWithSettingsDTO getUserInfoAndSettingsDtOmodel)
+        public async Task SetNewUserInfoAsync(GetUserInfoWithSettingsDTO getUserInfoAndSettingsDtOmodel)
         {
 
             User User = await _UserInfoContext.Users

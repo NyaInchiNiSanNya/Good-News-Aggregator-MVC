@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Business_Logic.Controllers.HelperClasses;
 using Business_Logic.Models.UserSettings;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Repositores;
+using Serilog;
 
 namespace MVC.Filters.Validation
 {
@@ -24,6 +24,7 @@ namespace MVC.Filters.Validation
 
                 if (!validationResult.IsValid)
                 {
+                    Log.Warning("Validation error when changing settings from IP: {0}:");
                     foreach (var Errors in validationResult.Errors)
                     {
                         context.ModelState.AddModelError(Errors.PropertyName, Errors.ErrorMessage);

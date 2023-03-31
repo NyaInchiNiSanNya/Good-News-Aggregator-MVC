@@ -12,15 +12,17 @@ namespace MVC.MappingProfiles
             SourceMemberNamingConvention = LowerUnderscoreNamingConvention.Instance;
             DestinationMemberNamingConvention = PascalCaseNamingConvention.Instance;
 
-            CreateMap<GetUserInfoWithSettingsDTO, User>().ReverseMap().
-                ForMember(
-                dest => dest.Role, 
-                opt => 
-                    opt.MapFrom(src => src.Role.Role)).
-                
-                ForMember(est => est.Theme,
-                opt =>
-                    opt.MapFrom(src => src.Theme.Theme));
+            CreateMap<GetUserInfoWithSettingsDTO, User>().ReverseMap()
+                //.
+                //ForMember(
+                //dest => dest.Role,
+                //opt =>
+                //    opt.MapFrom(src => src.Role.Role)).
+
+                //ForMember(est => est.Theme,
+                //opt =>
+                //    opt.MapFrom(src => src.Theme.Theme))
+                ;
 
             CreateMap<GetUserInfoWithSettingsDTO, UserSettingsViewModel>().ReverseMap();
         }

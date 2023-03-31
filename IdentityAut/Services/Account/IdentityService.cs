@@ -8,9 +8,11 @@ using AutoMapper;
 using Core.DTOs.Account;
 using Entities_Context;
 using Entities_Context.Entities.UserNews;
+using IServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repositores;
+
 
 namespace Services.Account
 {
@@ -20,9 +22,10 @@ namespace Services.Account
         private readonly UserArticleContext _userContext;
 
         private readonly IMapper _Mapper;
+        private readonly IRoleService _roleService;
 
         public IdentityService(UserArticleContext userContext
-        , IMapper mapper)
+        , IMapper mapper,IRoleService roleService)
         {
             if (userContext is null)
             {
@@ -37,54 +40,99 @@ namespace Services.Account
             }
 
             _Mapper = mapper;
+
+            if (roleService is null)
+            {
+                throw new ArgumentNullException(nameof(mapper));
+            }
+
+            _roleService=roleService;
         }
 
-        public async Task<Boolean> isUserExist(String Email)
+        public async Task<Boolean> isUserExistAsync(String Email)
         {
-            if (await _userContext.Users
+            return await _userContext.Users
+                .AsNoTracking()
+                .AnyAsync(x => x.Email.Equals(Email));
+        }
+
+
+        public async Task<Boolean> RegistrationAsync(UserRegistrationDTO modelDTO)
+        {
+
+            if(!await isUserExistAsync(modelDTO.Email)){
+
+                User newUser = _Mapper.Map<User>(modelDTO);
+
+                newUser.ThemeId = await _userContext.Themes
                     .AsNoTracking()
-                    .AnyAsync(x=>x.Email.Equals(Email)))
-            {
+                    .Where(x => x.Theme
+                        .Equals("default"))
+                    .Select(x => x.Id).FirstOrDefaultAsync();
+                
+                if (newUser.ThemeId == 0)
+                {
+                    //исправить
+                    throw new InvalidOperationException("Theme not found");
+                }
+
+                newUser.Password = MakeHash(modelDTO.Password);
+
+                _userContext.Users.Add(newUser);
+
+
+                await _userContext.SaveChangesAsync();
+
+                UserRole Role = await _roleService.GetDefaultRole();
+
+
+                if (Role is null)
+                {
+                    await _roleService.InitiateDefaultRolesAsync();
+
+                    Role= await _roleService.GetDefaultRole();
+                }
+
+
+                UsersRoles newUserRole=new UsersRoles()
+                {
+                    RoleId =Role.Id,
+
+                    UserId= await _userContext.Users.Where(x=>x.Email.Equals(modelDTO.Email))
+                        .Select(x=>x.Id)
+                        .FirstOrDefaultAsync()
+                };
+
+                _userContext.UsersRoles.Add(newUserRole);
+                await _userContext.SaveChangesAsync();
+
+
                 return true;
             }
 
             return false;
         }
 
-
-        public async Task Registration(UserRegistrationDTO modelDTO)
+        #region PasswordHash
+        static String MakeHash(String Password)
         {
-
-            User newUser = _Mapper.Map<User>(modelDTO);
-
-            newUser.ThemeId = await _userContext.Themes
-                .AsNoTracking()
-                .Where(x => x.Theme
-                    .Equals("default"))
-                .Select(x => x.Id).FirstOrDefaultAsync();
-            
-            newUser.RoleId = await _userContext.Roles
-                .AsNoTracking()
-                .Where(x => x.Role
-                    .Equals("User"))
-                .Select(x => x.Id).FirstOrDefaultAsync(); 
-
-            _userContext.Users.Add(newUser);
-
-
-
-            await _userContext.SaveChangesAsync();
+            return BCrypt.Net.BCrypt.HashPassword(Password);
         }
 
-        
-        public async Task<Boolean> Login(UserLoginDTO modelDTO)
+        static Boolean CheckPassword(String Password,String PasswordHash)
         {
-            //Баг #1 Асинхронный вызов ломает логин
-            if (await _userContext.Users
-                .AsNoTracking()
-                .AnyAsync(x =>
-                    x.Email.Equals(modelDTO.Email)
-                    && x.Password.Equals(modelDTO.Password)))
+            return BCrypt.Net.BCrypt.Verify(Password,PasswordHash);
+        }
+        #endregion
+
+        public async Task<Boolean> LoginAsync(UserLoginDTO modelDTO)
+        {
+            User CheckUser = _userContext.Users
+                .Where(x => x.Email.Equals(modelDTO.Email)).FirstOrDefault();
+
+
+            if (CheckUser is not null
+                    && CheckPassword(modelDTO.Password, CheckUser.Password))
             {
                 return true;
             }
@@ -94,7 +142,7 @@ namespace Services.Account
         }
 
 
-        public async Task IdLogout()
+        public async Task IdLogoutAsync()
         {
         }
 

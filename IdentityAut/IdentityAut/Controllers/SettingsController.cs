@@ -1,8 +1,9 @@
 ﻿using System.Net;
 using AutoMapper;
-using Business_Logic.Controllers.HelperClasses;
 using Business_Logic.Models.UserSettings;
 using Core.DTOs;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +15,8 @@ using static MVC.Filters.Validation.SettingFilter;
 
 namespace Business_Logic.Controllers
 {
-    public class SettingsController : Controller
+     [Authorize(Roles = "Admin")]
+     public class SettingsController : Controller
     {
         private readonly IUserInfoAndSettingsService _userConfigService;
         private readonly IMapper _mapper;
@@ -49,7 +51,7 @@ namespace Business_Logic.Controllers
         public async Task<IActionResult> SetNewInfoConfig([FromForm] UserSettingsViewModel infoSettingsView)
         {
           
-                await _userConfigService.SetNewUserInfo(_mapper.Map<GetUserInfoWithSettingsDTO>(infoSettingsView));
+                await _userConfigService.SetNewUserInfoAsync(_mapper.Map<GetUserInfoWithSettingsDTO>(infoSettingsView));
 
                 return RedirectToAction("GetInfoConfig");
                 
@@ -63,7 +65,7 @@ namespace Business_Logic.Controllers
             //достать информацию о юзере(Email)
 
             GetUserInfoWithSettingsDTO infoSettings =
-                    await _userConfigService.GetUserInformation("Demes@mail.ru");
+                    await _userConfigService.GetUserInformationAsync("Demes@mail.ru");
 
             if (infoSettings is not null)
             {

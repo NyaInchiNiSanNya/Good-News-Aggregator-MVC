@@ -211,15 +211,10 @@ namespace Entities_Context.Data.Migration.UserNews
                     b.Property<string>("ProfilePicture")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ThemeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.HasIndex("ThemeId");
 
@@ -241,6 +236,29 @@ namespace Entities_Context.Data.Migration.UserNews
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("Entities_Context.Entities.UserNews.UsersRoles", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UsersRoles");
                 });
 
             modelBuilder.Entity("Entities_Context.Entities.UserNews.Article", b =>
@@ -294,21 +312,32 @@ namespace Entities_Context.Data.Migration.UserNews
 
             modelBuilder.Entity("Entities_Context.Entities.UserNews.User", b =>
                 {
-                    b.HasOne("Entities_Context.Entities.UserNews.UserRole", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Entities_Context.Entities.UserNews.SiteTheme", "Theme")
                         .WithMany("Users")
                         .HasForeignKey("ThemeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Theme");
+                });
+
+            modelBuilder.Entity("Entities_Context.Entities.UserNews.UsersRoles", b =>
+                {
+                    b.HasOne("Entities_Context.Entities.UserNews.UserRole", "Role")
+                        .WithMany("User")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities_Context.Entities.UserNews.User", "User")
+                        .WithMany("Role")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Role");
 
-                    b.Navigation("Theme");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entities_Context.Entities.UserNews.Article", b =>
@@ -336,11 +365,13 @@ namespace Entities_Context.Data.Migration.UserNews
             modelBuilder.Entity("Entities_Context.Entities.UserNews.User", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Entities_Context.Entities.UserNews.UserRole", b =>
                 {
-                    b.Navigation("Users");
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

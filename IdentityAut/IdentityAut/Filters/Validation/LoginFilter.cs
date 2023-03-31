@@ -1,8 +1,8 @@
-﻿using Business_Logic.Controllers.HelperClasses;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Repositores;
+using Serilog;
 
 namespace MVC.Filters.Validation
 {
@@ -34,6 +34,7 @@ namespace MVC.Filters.Validation
 
         public override async void OnActionExecuting(ActionExecutingContext context)
         {
+
             var FormObject = 
                 context.ActionArguments.SingleOrDefault(p =>
                     p.Value is UserLoginViewModel);
@@ -45,17 +46,29 @@ namespace MVC.Filters.Validation
             
             if (!validationResult.IsValid)
             {
+                var ip = context.HttpContext.Connection.RemoteIpAddress?.ToString();
+
+                if (context.ActionArguments.TryGetValue("user", out var userObj) && userObj is UserLoginViewModel user)
+                {
+                    Log.Warning("Validation error when logging in with IP: {0}.Email:{1}", ip,user.Email);
+                }
+                else
+                {
+                    Log.Warning("Validation error when logging in with IP: {0}", ip);
+                }
+
                 foreach (var Errors in validationResult.Errors)
                 {
                     context.ModelState.AddModelError(Errors.PropertyName, Errors.ErrorMessage);
                 }
+
                 context.Result = new ViewResult
                 {
                     ViewName = "Login",
                 };
             }
 
-
+            
 
         }
     }

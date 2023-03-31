@@ -29,6 +29,10 @@
       "PackagePath": "staticwebassets\\images\\404.jpg"
     },
     {
+      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\images\\500.gif",
+      "PackagePath": "staticwebassets\\images\\500.gif"
+    },
+    {
       "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

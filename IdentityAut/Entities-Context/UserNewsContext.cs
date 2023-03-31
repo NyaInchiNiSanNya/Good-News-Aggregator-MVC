@@ -14,6 +14,7 @@ namespace Entities_Context
         public DbSet<Tag> Tags { get; set; }
         public DbSet<SiteTheme> Themes { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UsersRoles> UsersRoles { get; set; }
 
 
         public UserArticleContext(DbContextOptions<UserArticleContext> options) : base(options)
