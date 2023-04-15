@@ -260,6 +260,10 @@
             "Telegram.Bot": {
               "target": "Package",
               "version": "[18.0.0, )"
+            },
+            "materialize": {
+              "target": "Package",
+              "version": "[0.97.6, )"
             }
           },
           "imports": [

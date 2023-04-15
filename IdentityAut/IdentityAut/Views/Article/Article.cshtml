@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Int32 a = 0;
+}
+@using Business_Logic
+@using Core.DTOs.Article
+@model Business_Logic.Models.TegHelperModels.ObjectListModel
+
+
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - IdentityAut</title>
+    <link href="@Url.Content("~/css/ScrollLent.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/Index.css")" rel="stylesheet" type="text/css" />
+</head>
+<script>
+    const imgElement;
+    let base64String;
+</script>
+<div id="grid">
+    @foreach (ArticleDTO x in Model.ArticlePreviews)
+    {
+        <div class="card mb-3" style="width: 100%;">
+            @if (x.ArticlePicture != null)
+            {
+                <img class="card-img-top" id="image-@x.Id" src="" >
+                <script>
+                imgElement = document.getElementById("image-@x.Id");
+                base64String = @Html.Raw(Json.Serialize(x.ArticlePicture));
+                imgElement.src = "data:image/jpeg;base64," + base64String;
+            </script>
+            }
+            <div class="card-body">
+                <h5 class="card-title">@x.Title</h5>
+                <p class="card-text">@x.Source</p>
+
+                <p class="card-text">@x.ShortDescription</p>
+                <a href="#" class="btn-number btn-Pages">Читать</a>
+                <a href="#" class="btn-number btn-Pages">В источник -></a>
+            </div>
+        </div>
+
+    }
+</div>
+<pagination page-info="Model.PageInfo" page-action="Start"></pagination>
+

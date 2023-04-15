@@ -23,9 +23,10 @@ namespace Services.Account
 
         private readonly IMapper _Mapper;
         private readonly IRoleService _roleService;
+        private readonly IUiThemeService _uiTheme;
 
         public IdentityService(UserArticleContext userContext
-        , IMapper mapper,IRoleService roleService)
+        , IMapper mapper,IRoleService roleService, IUiThemeService uiTheme)
         {
             if (userContext is null)
             {
@@ -47,6 +48,13 @@ namespace Services.Account
             }
 
             _roleService=roleService;
+
+            if (uiTheme is null)
+            {
+                throw new ArgumentNullException(nameof(mapper));
+            }
+
+            _uiTheme = uiTheme;
         }
 
         public async Task<Boolean> isUserExistAsync(String Email)
@@ -64,19 +72,16 @@ namespace Services.Account
 
                 User newUser = _Mapper.Map<User>(modelDTO);
 
-                newUser.ThemeId = await _userContext.Themes
-                    .AsNoTracking()
-                    .Where(x => x.Theme
-                        .Equals("default"))
-                    .Select(x => x.Id).FirstOrDefaultAsync();
+                newUser.ThemeId =await _uiTheme.GetIdDefaultThemeAsync();
                 
-                if (newUser.ThemeId == 0)
-                {
-                    //исправить
-                    throw new InvalidOperationException("Theme not found");
-                }
-
                 newUser.Password = MakeHash(modelDTO.Password);
+
+                newUser.Created=DateTime.Now;
+
+                newUser.ProfilePicture =
+                    Convert.ToBase64String(
+                        await File.ReadAllBytesAsync(
+                            "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\images\\defaultImage3.jpg"));
 
                 _userContext.Users.Add(newUser);
 
@@ -100,7 +105,7 @@ namespace Services.Account
 
                     UserId= await _userContext.Users.Where(x=>x.Email.Equals(modelDTO.Email))
                         .Select(x=>x.Id)
-                        .FirstOrDefaultAsync()
+                        .SingleOrDefaultAsync()
                 };
 
                 _userContext.UsersRoles.Add(newUserRole);

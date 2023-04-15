@@ -17,6 +17,8 @@ namespace MVC.MappingProfiles
 
             CreateMap<User, UserLoginDTO>().ReverseMap();
             CreateMap<UserLoginViewModel, UserLoginDTO>().ReverseMap();
+
+            CreateMap<User, UserDTO>();
         }
     }
 }

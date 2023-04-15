@@ -3,6 +3,7 @@ using Business_Logic.Models.UserSettings;
 using Business_Logic.ValidationRules;
 using FluentValidation;
 using FluentValidation.Results;
+using IServices;
 using Repositores;
 using UserConfigRepositores;
 
@@ -47,7 +48,7 @@ namespace MVC.Filters.Validation
 
 
         internal async static Task<ValidationResult> InfoSettingsValidator
-            (UserSettingsViewModel model)
+            (NewUserSettingsViewModel model)
         {
 
             UserSettingsViewValidate validator = new UserSettingsViewValidate();

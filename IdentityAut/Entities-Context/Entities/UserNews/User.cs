@@ -1,5 +1,4 @@
-﻿using Entities_Context.Data.Migration.UserNews;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +10,7 @@ namespace Entities_Context.Entities.UserNews
 {
     public class User
     {
+
         public Int32 Id { get; set; }
         public String Name { get; set; }
         public String? ProfilePicture { get; set; }

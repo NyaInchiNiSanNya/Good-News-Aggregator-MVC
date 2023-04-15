@@ -1,25 +1,17 @@
-using System.Text;
+
 using Entities_Context;
-using Entities_Context.Entities.UserNews;
+
 using IServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using MVC.Filters.Validation;
 using Repositores;
 using Services.Account;
 using UserConfigRepositores;
 using MVC.Middlware;
 using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.Telegram;
-using Telegram.Bot;
-using System.Diagnostics;
+using Services.Article;
+
 
 namespace Business_Logic
 {
@@ -49,10 +41,14 @@ namespace Business_Logic
                     .ReadFrom.Configuration(ctx.Configuration);
 
             });
-
-            builder.Services.AddTransient<IIdentityService, IdentityService>();
-            builder.Services.AddTransient<IUserInfoAndSettingsService, UserInfoAndSettingsService>();
-            builder.Services.AddTransient<IRoleService, RoleService>();
+            builder.Services.AddScoped<ISourceService, SourceService>();
+            builder.Services.AddScoped<IAdminService, AdminService>();
+            builder.Services.AddScoped<IArticleService, ArticleService>();
+            builder.Services.AddScoped<IIdentityService, IdentityService>();
+            builder.Services.AddScoped<IUserInfoAndSettingsService, UserInfoAndSettingsService>();
+            builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IUiThemeService, UiThemeService>();
+            builder.Services.AddTransient<SettingsValidationFilterAttribute>();
             builder.Services.AddScoped<LoginValidationFilterAttribute>();
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services
@@ -64,10 +60,10 @@ namespace Business_Logic
                     options.AccessDeniedPath = new PathString("/Account/Login");
 
                 });
-            builder.Services.AddMvc(options =>
-            {
-                options.Filters.Add<CustomExceptionFilter>();
-            });
+            //builder.Services.AddMvc(options =>
+            //{
+            //    options.Filters.Add<CustomExceptionFilter>();
+            //});
 
             builder.Services.AddSwaggerGen();
             
@@ -92,7 +88,7 @@ namespace Business_Logic
             app.UseAuthorization();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Start}/{id?}");
+                pattern: "{controller=Article}/{action=GetArticlesByPage}/{id?}");
             app.Run();
         }
     }

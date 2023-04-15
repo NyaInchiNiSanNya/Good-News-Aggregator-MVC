@@ -8,10 +8,18 @@ using System.Threading.Tasks;
 
 namespace IServices
 {
-    //public class IUiThemeService
-    //{
-    //    public Task<SiteTheme> GetUiThemeById(String Email);
+    public interface IUiThemeService
+    {
+        public Task<String> GetThemeNameByIdAsync(Int32 Id);
 
-    //    public Task SetNewUserInfoAsync(GetUserInfoWithSettingsDTO getUserInfoWithSettingsDtOmodel);
-    //}
+        public Task InitiateThemeAsync();
+
+        public Task<Int32> GetIdThemeByStringAsync(string Theme);
+
+        public Task<Int32> GetIdDefaultThemeAsync();
+
+        public Task<Boolean> IsThemeExistByNameAsync(string Theme);
+        
+        public Task<List<String>> GetAllThemesAsync();
+    }
 }

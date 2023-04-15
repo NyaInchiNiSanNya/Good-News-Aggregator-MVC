@@ -1,48 +1,64 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = null;
 }
 @model UserLoginViewModel;
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="~/css/AuthoriazedErrors.css" asp-append-version="true" />
-</head>
-<body>
-    <form asp-controller="Account" method="post" asp-action="Login">
-        <div>
-            <div asp-validation-summary="All" class="field-validation-error"></div>
-        </div>
-
-            <div>
-                <label asp-for="Email">Почта</label><br />
-                <input asp-for="Email"></input>
-            </div>
-        
-        @if (Model is not null)
-        {
-            <input type="hidden" asp-for="ReturnUrl" value="@Model.ReturnUrl"/>
-        }
-        <div>
-            <label asp-for="Password">Пароль</label><br />
-            <input asp-for="Password"></input>
-        </div>
-
-
-        <button type="submit">Войти</button>
-        
-    </form>
-
-<div>
-    <a type="buttom" asp-controller="Account" asp-action="Registration" method="get">Регистрация</a>
-</div>
-
-@section scripts{
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="@Url.Content("~/css/RegistrationLogin.css")" rel="stylesheet" type="text/css" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-}
+</head>
+<body>
+    <div class="container container1" style="height: 500px;">
+        
+        <div class="heading">
+            <h1 style="color: #fff">Вход</h1>
+        </div>
+
+        <div class="container2">
+
+            <form asp-controller="Account" class="form" method="post" asp-action="Login">
+
+                <div class="text-danger ValidationWarning">
+                    <div asp-validation-summary="All"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">Почта</label>
+                    <input asp-for="Email" type="email" class="form-control input" placeholder="name@example.com">
+                </div>
+
+                @if (Model is not null)
+                {
+                    <input type="hidden" asp-for="ReturnUrl" value="@Model.ReturnUrl" />
+                }
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="col-form-label">Пароль</label>
+                    <input asp-for="Password" type="password" class="form-control input" aria-labelledby="passwordHelpInline">
+                </div>
+
+                <div class="col-12 BOTTOMSI" >
+                    <button class="btn-number btn-Pages" type="submit">Войти</button>
+                </div>
+                
+                <div class="col-12 BOTTOMSI">
+                    <a class="btn-number btn-Pages" type="buttom" asp-controller="Account" asp-action="Registration" method="get">Регистрация</a>
+                </div>
+
+                <div class="col-12 BOTTOMSI">
+                    <a type="buttom" asp-controller="Article" asp-action="GetArticlesByPage" method="get">На Главную</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
 </body>
 </html>

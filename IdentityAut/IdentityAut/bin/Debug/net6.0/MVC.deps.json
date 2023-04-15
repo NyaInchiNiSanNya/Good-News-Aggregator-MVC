@@ -26,7 +26,8 @@
           "Serilog.Sinks.Telegram.Alternative": "1.1.1",
           "Services": "1.0.0",
           "Swashbuckle.AspNetCore.Swagger": "6.5.0",
-          "Telegram.Bot": "18.0.0"
+          "Telegram.Bot": "18.0.0",
+          "materialize": "0.97.6"
         },
         "runtime": {
           "MVC.dll": {}
@@ -132,6 +133,12 @@
             "assemblyVersion": "2.14.0.0",
             "fileVersion": "2.14.1.48190"
           }
+        }
+      },
+      "jQuery/2.1.1": {},
+      "materialize/0.97.6": {
+        "dependencies": {
+          "jQuery": "2.1.1"
         }
       },
       "Microsoft.AspNetCore.Authentication/2.2.0": {
@@ -1674,6 +1681,20 @@
       "sha512": "sha512-lQKvtaTDOXnoVJ20ibTuSIOf2i0uO0MPbDhd1jm238I+U/2ZnRENj0cktKZhtchBMtCUSRQ5v4xBCUbKNmyVMw==",
       "path": "humanizer.core/2.14.1",
       "hashPath": "humanizer.core.2.14.1.nupkg.sha512"
+    },
+    "jQuery/2.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/cy0NGAGBx0W6XLqrnehQAKeJhfnZLDdPnBvlNLq/k4mraD1a7rbHBYzV5PYBaz9t5wh+VrGhPUbPztvnFAOrQ==",
+      "path": "jquery/2.1.1",
+      "hashPath": "jquery.2.1.1.nupkg.sha512"
+    },
+    "materialize/0.97.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OkglpguooZOAF/gJPw+lPQsxz5fLaj3xPGd7gXcSPorugUiOYjD/zIUP+bJep95Xkll2CXtpLvfWS94Jvw9A9Q==",
+      "path": "materialize/0.97.6",
+      "hashPath": "materialize.0.97.6.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication/2.2.0": {
       "type": "package",

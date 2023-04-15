@@ -1,41 +1,66 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model  Business_Logic.Models.UserSettings.UserSettingsViewModel;
+@model Business_Logic.Models.UserSettings.ShowUserInfoAndConfigViewModel;
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="~/css/AuthoriazedErrors.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="@Url.Content("~/css/Settings.css")" rel="stylesheet" type="text/css" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 </head>
-<body>
+<body >
+<div class="block">
     <form asp-controller="Settings" method="post" asp-action="SetNewInfoConfig">
 
+        <div asp-validation-summary="All"  class="field-validation-error"></div>
 
         <div>
-            
-
-
-            <div asp-validation-summary="All" class="field-validation-error"></div>
-            <div>
-                <label asp-for="Name">Имя</label><br/>
-                <input asp-for="Name"></input>
-            </div>
-
-
-            <div>
-                <label asp-for="Theme">Тема</label><br/>
-                <select asp-for="Theme">
-                    <option value="Default">Default</option>
-                    <option value="Dark">Dark</option>
-                </select>
-            </div>
-
+            <label class="form-label"  asp-for="Name">Имя</label><br/>
+            <input class="form-control input" asp-for="Name"></input>
         </div>
-    <button type="submit">Изменить</button>
-</form>
-    @section scripts{
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    }
+
+        <div>
+            <label class="form-label" asp-for="Theme">Тема</label><br/>
+            <select asp-for="Theme" class="form-select form-select-sm" aria-label=".form-select-sm example" asp-items="@(Model.AllThemes.Select(theme => new SelectListItem { Text = theme, Value = theme }))"></select>
+        </div>
+
+        <div>
+            <label class="form-label" asp-for="PositiveRateFilter">Фильтр позитивности</label><br/>
+            <label class="form-label" style="font-size: 11px;" asp-for="PositiveRateFilter">Не показывать контент c оценкой ниже данной</label><br/>
+            <select asp-for="PositiveRateFilter" style="width: 80px" class="form-select form-select-sm" aria-label=".form-select-sm example" asp-items="@(new SelectList(Enumerable.Range(1, 10)))"></select>
+        </div>
+
+        <div class="col-12 BOTTOMSI">
+            <button class="btn-number btn-Pages"  type="submit">Изменить</button>
+        </div>
+
+    </form>
+</div>
+<div>
+    <div class="Icontainer block rounded-circle border border-4 border-dark" style="margin-top: 100px">
+        <img id="image">
+    </div>
+    <div style="width: 300px; display: block; margin-left: 400px; margin-top: 100px">
+        <input class="form-control form-control-sm" type="file">
+    </div>
+</div>
+@section scripts{
+    <script>
+    
+            const imgElement = document.getElementById("image");
+            var base64String = @Html.Raw(Json.Serialize(Model.ProfilePicture));
+            imgElement.src = "data:image/jpeg;base64," + base64String;
+
+    
+    </script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
 </body>
 </html>

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Business_Logic.Models.UserSettings;
-using Core.DTOs;
+using Core.DTOs.Account;
 using Entities_Context.Entities.UserNews;
 
 namespace MVC.MappingProfiles
@@ -12,19 +12,11 @@ namespace MVC.MappingProfiles
             SourceMemberNamingConvention = LowerUnderscoreNamingConvention.Instance;
             DestinationMemberNamingConvention = PascalCaseNamingConvention.Instance;
 
-            CreateMap<GetUserInfoWithSettingsDTO, User>().ReverseMap()
-                //.
-                //ForMember(
-                //dest => dest.Role,
-                //opt =>
-                //    opt.MapFrom(src => src.Role.Role)).
+            CreateMap<GetUserInfoWithSettingsDTO, User>().ReverseMap();
 
-                //ForMember(est => est.Theme,
-                //opt =>
-                //    opt.MapFrom(src => src.Theme.Theme))
-                ;
+            CreateMap<GetUserInfoWithSettingsDTO, NewUserSettingsViewModel>().ReverseMap();
 
-            CreateMap<GetUserInfoWithSettingsDTO, UserSettingsViewModel>().ReverseMap();
+            CreateMap<ShowUserInfoAndConfigViewModel, GetUserInfoWithSettingsDTO>().ReverseMap();
         }
     }
 

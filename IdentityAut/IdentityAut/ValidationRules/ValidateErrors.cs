@@ -22,5 +22,7 @@
         protected const String NoRateFilter = "Введите ограничение на контент";
         protected const String BadRateFilter = "Значение должно быть в диапозоне 0 - 10";
 
+        protected const String NoTheme = "Такой темы не существует";
+
     }
 }

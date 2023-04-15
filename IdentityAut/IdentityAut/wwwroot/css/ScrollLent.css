@@ -1,19 +1,4 @@
-﻿#grid {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 1vw;
-}
-
-#grid > div {
-    width: 300px;
-    height: 100px;
-    text-align: center;
-    padding: 10px;
-    background: red;
-    text-align: center;
-}
-.btn-Pages {
+﻿.btn-Pages {
     color: #fff;
     background-color: #1e1c1c;
     border-color: #3b3939;
@@ -23,7 +8,35 @@
         background-color: #3b3939;
         border-color: #3b3939;
     }
+@media (min-width: 992px) {
+    #grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 1vw;
+        grid-auto-rows: 40%;
+    }
 
+        #grid > div {
+            padding: 10px;
+            background: red;
+            text-align: center;
+        }
+}
+@media (max-width: 991px) {
+    #grid {
+        grid-template-rows: 1fr 1fr;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 1vw;
+    }
+
+    #grid > div {
+        padding: 10px;
+        background: red;
+        text-align: center;
+    }
+    
+}
 .btn-number {
     display: inline-block;
     font-weight: 400;

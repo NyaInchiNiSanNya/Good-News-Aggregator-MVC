@@ -145,6 +145,15 @@
           }
         }
       },
+      "jQuery/2.1.1": {
+        "type": "package"
+      },
+      "materialize/0.97.6": {
+        "type": "package",
+        "dependencies": {
+          "jQuery": "2.1.1"
+        }
+      },
       "Microsoft.AspNetCore.Authentication/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -3035,6 +3044,88 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
+      ]
+    },
+    "jQuery/2.1.1": {
+      "sha512": "/cy0NGAGBx0W6XLqrnehQAKeJhfnZLDdPnBvlNLq/k4mraD1a7rbHBYzV5PYBaz9t5wh+VrGhPUbPztvnFAOrQ==",
+      "type": "package",
+      "path": "jquery/2.1.1",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/jquery-2.1.1-vsdoc.js",
+        "Content/Scripts/jquery-2.1.1.js",
+        "Content/Scripts/jquery-2.1.1.min.js",
+        "Content/Scripts/jquery-2.1.1.min.map",
+        "Tools/common.ps1",
+        "Tools/install.ps1",
+        "Tools/jquery-2.1.1.intellisense.js",
+        "Tools/uninstall.ps1",
+        "jquery.2.1.1.nupkg.sha512",
+        "jquery.nuspec"
+      ]
+    },
+    "materialize/0.97.6": {
+      "sha512": "OkglpguooZOAF/gJPw+lPQsxz5fLaj3xPGd7gXcSPorugUiOYjD/zIUP+bJep95Xkll2CXtpLvfWS94Jvw9A9Q==",
+      "type": "package",
+      "path": "materialize/0.97.6",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.txt",
+        "content/content/materialize/css/materialize.css",
+        "content/content/materialize/css/materialize.min.css",
+        "content/content/materialize/font/material-design-icons/LICENSE.txt",
+        "content/content/materialize/font/material-design-icons/Material-Design-Icons.eot",
+        "content/content/materialize/font/material-design-icons/Material-Design-Icons.svg",
+        "content/content/materialize/font/material-design-icons/Material-Design-Icons.ttf",
+        "content/content/materialize/font/material-design-icons/Material-Design-Icons.woff",
+        "content/content/materialize/font/material-design-icons/Material-Design-Icons.woff2",
+        "content/content/materialize/font/roboto/Roboto-Bold.eot",
+        "content/content/materialize/font/roboto/Roboto-Bold.ttf",
+        "content/content/materialize/font/roboto/Roboto-Bold.woff",
+        "content/content/materialize/font/roboto/Roboto-Bold.woff2",
+        "content/content/materialize/font/roboto/Roboto-Light.eot",
+        "content/content/materialize/font/roboto/Roboto-Light.ttf",
+        "content/content/materialize/font/roboto/Roboto-Light.woff",
+        "content/content/materialize/font/roboto/Roboto-Light.woff2",
+        "content/content/materialize/font/roboto/Roboto-Medium.eot",
+        "content/content/materialize/font/roboto/Roboto-Medium.ttf",
+        "content/content/materialize/font/roboto/Roboto-Medium.woff",
+        "content/content/materialize/font/roboto/Roboto-Medium.woff2",
+        "content/content/materialize/font/roboto/Roboto-Regular.eot",
+        "content/content/materialize/font/roboto/Roboto-Regular.ttf",
+        "content/content/materialize/font/roboto/Roboto-Regular.woff",
+        "content/content/materialize/font/roboto/Roboto-Regular.woff2",
+        "content/content/materialize/font/roboto/Roboto-Thin.eot",
+        "content/content/materialize/font/roboto/Roboto-Thin.ttf",
+        "content/content/materialize/font/roboto/Roboto-Thin.woff",
+        "content/content/materialize/font/roboto/Roboto-Thin.woff2",
+        "content/content/materialize/fonts/roboto/Roboto-Bold.eot",
+        "content/content/materialize/fonts/roboto/Roboto-Bold.ttf",
+        "content/content/materialize/fonts/roboto/Roboto-Bold.woff",
+        "content/content/materialize/fonts/roboto/Roboto-Bold.woff2",
+        "content/content/materialize/fonts/roboto/Roboto-Light.eot",
+        "content/content/materialize/fonts/roboto/Roboto-Light.ttf",
+        "content/content/materialize/fonts/roboto/Roboto-Light.woff",
+        "content/content/materialize/fonts/roboto/Roboto-Light.woff2",
+        "content/content/materialize/fonts/roboto/Roboto-Medium.eot",
+        "content/content/materialize/fonts/roboto/Roboto-Medium.ttf",
+        "content/content/materialize/fonts/roboto/Roboto-Medium.woff",
+        "content/content/materialize/fonts/roboto/Roboto-Medium.woff2",
+        "content/content/materialize/fonts/roboto/Roboto-Regular.eot",
+        "content/content/materialize/fonts/roboto/Roboto-Regular.ttf",
+        "content/content/materialize/fonts/roboto/Roboto-Regular.woff",
+        "content/content/materialize/fonts/roboto/Roboto-Regular.woff2",
+        "content/content/materialize/fonts/roboto/Roboto-Thin.eot",
+        "content/content/materialize/fonts/roboto/Roboto-Thin.ttf",
+        "content/content/materialize/fonts/roboto/Roboto-Thin.woff",
+        "content/content/materialize/fonts/roboto/Roboto-Thin.woff2",
+        "content/scripts/materialize/materialize.js",
+        "content/scripts/materialize/materialize.min.js",
+        "materialize.0.97.6.nupkg.sha512",
+        "materialize.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Authentication/2.2.0": {
@@ -7887,7 +7978,8 @@
       "Serilog.Sinks.Telegram.Alternative >= 1.1.1",
       "Services >= 1.0.0",
       "Swashbuckle.AspNetCore.Swagger >= 6.5.0",
-      "Telegram.Bot >= 18.0.0"
+      "Telegram.Bot >= 18.0.0",
+      "materialize >= 0.97.6"
     ]
   },
   "packageFolders": {
@@ -8005,6 +8097,10 @@
           "Telegram.Bot": {
             "target": "Package",
             "version": "[18.0.0, )"
+          },
+          "materialize": {
+            "target": "Package",
+            "version": "[0.97.6, )"
           }
         },
         "imports": [

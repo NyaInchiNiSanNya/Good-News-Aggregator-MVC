@@ -8,8 +8,8 @@
         public String FullText { get; set; }
         public Int32 PositiveRate { get; set; }
         public String URL { get; set; }
+        public String ArticlePicture { get; set; }
         public DateTime DateTime { get; set; }
-        
         public Int32 SourceId { get; set; }
         public Source Source { get; set; }
 

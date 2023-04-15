@@ -10,9 +10,10 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UserConfigRepositores;
-using Core.DTOs;
 using Microsoft.IdentityModel.Tokens;
 using Entities_Context;
+using IServices;
+using Core.DTOs.Account;
 
 namespace Services.Account
 {
@@ -22,8 +23,10 @@ namespace Services.Account
 
         private readonly IMapper _mapper;
 
+        private readonly IUiThemeService _uiThemeService;
+
         public UserInfoAndSettingsService(UserArticleContext userInfoContext
-        , IMapper mapper)
+        , IMapper mapper, IUiThemeService uiThemeService)
         {
             if (userInfoContext is null)
             {
@@ -32,40 +35,59 @@ namespace Services.Account
 
             _UserInfoContext = userInfoContext;
 
-            if (userInfoContext is null)
+            if (mapper is null)
             {
                 throw new ArgumentNullException(nameof(mapper));
             }
 
             _mapper = mapper;
+            
+            if (uiThemeService is null)
+            {
+                throw new ArgumentNullException(nameof(uiThemeService));
+            }
+            _uiThemeService = uiThemeService;
         }
 
         public async Task<GetUserInfoWithSettingsDTO> GetUserInformationAsync(String Email)
         {
-#pragma warning disable CS8603 // Possible null reference return.
-            return await _UserInfoContext.Users
+            User UserModel= await _UserInfoContext.Users
+                .AsNoTracking()
                 .Where(x => x.Email.Equals(Email))
-                .AsNoTracking().ProjectTo<GetUserInfoWithSettingsDTO>(_mapper.ConfigurationProvider)
-                        .FirstOrDefaultAsync();
-#pragma warning restore CS8603 // Possible null reference return.
+                .SingleOrDefaultAsync();
 
+            if (UserModel is not null)
+            {
+                GetUserInfoWithSettingsDTO model = new GetUserInfoWithSettingsDTO()
+                {
+                    Name = UserModel.Name,
+                    Theme = await _uiThemeService.GetThemeNameByIdAsync(UserModel.ThemeId),
+                    AllThemes = await _uiThemeService.GetAllThemesAsync(),
+                    PositiveRate = UserModel.PositiveRate,
+                    PositiveRateFilter = UserModel.PositiveRateFilter,
+                    ProfilePicture = Convert.FromBase64String(UserModel.ProfilePicture)
+                };
+                return model;
+            }
+
+            return null;
         }
 
-        public async Task SetNewUserInfoAsync(GetUserInfoWithSettingsDTO getUserInfoAndSettingsDtOmodel)
+        public async Task SetNewUserInfoAsync(GetUserInfoWithSettingsDTO getUserInfoAndSettingsDtOmodel,String Email)
         {
 
             User User = await _UserInfoContext.Users
-                .Where(x => x.Email == getUserInfoAndSettingsDtOmodel.Email)
-                .FirstOrDefaultAsync();
+                .Where(x => x.Email.Equals(Email))
+                .SingleOrDefaultAsync();
 
-            User.ThemeId = await _UserInfoContext.Themes
-                .Where(x => x.Theme.Equals(getUserInfoAndSettingsDtOmodel.Theme))
-                .Select(x=>x.Id)
-                .FirstOrDefaultAsync();
+            User.ThemeId =await _uiThemeService.GetIdThemeByStringAsync(getUserInfoAndSettingsDtOmodel.Theme);
 
+            
             User.Name = getUserInfoAndSettingsDtOmodel.Name;
+
             User.PositiveRateFilter = getUserInfoAndSettingsDtOmodel.PositiveRateFilter;
-            User.ProfilePicture = getUserInfoAndSettingsDtOmodel.ProfilePicture;
+
+            //User.ProfilePicture = BitConverter.ToString(getUserInfoAndSettingsDtOmodel.ProfilePicture);
 
             await _UserInfoContext.SaveChangesAsync();
         }

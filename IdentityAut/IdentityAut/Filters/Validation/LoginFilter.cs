@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Repositores;
 using Serilog;
+using Microsoft.Extensions.Configuration;
 
 namespace MVC.Filters.Validation
 {
@@ -18,7 +19,7 @@ namespace MVC.Filters.Validation
         {
             if (identityService is null)
             {
-                throw new NullReferenceException();
+                throw new NullReferenceException(nameof(identityService));
 
             }
             _IdentityService = identityService;
@@ -26,7 +27,7 @@ namespace MVC.Filters.Validation
 
             if (mapper is null)
             {
-                throw new NullReferenceException();
+                throw new NullReferenceException(nameof(mapper));
 
             }
             _mapper = mapper;

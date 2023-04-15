@@ -1,5 +1,6 @@
 ﻿using Business_Logic.Models.UserSettings;
 using FluentValidation;
+using IServices;
 using Microsoft.Identity.Client;
 using Repositores;
 using UserConfigRepositores;
@@ -7,7 +8,7 @@ using UserConfigRepositores;
 namespace Business_Logic.ValidationRules
 {
     internal class UserSettingsViewValidate :
-        AbstractValidator<UserSettingsViewModel>
+        AbstractValidator<NewUserSettingsViewModel>
         , ValidatePatterns
         , ValidateErrors
     {
@@ -23,19 +24,6 @@ namespace Business_Logic.ValidationRules
                     .Matches(ValidatePatterns.NamePattern)
                     .WithMessage(ValidateErrors.BadName);
 
-                //нарушен солид
-                RuleFor(x => x.Theme)
-                    .MustAsync(async (x, concellation) =>
-                    {
-
-                        if (x.Equals("dark") || x.Equals("default"))
-                        {
-                            return true;
-                        }
-
-
-                        return false;
-                    });
 
                 RuleFor(x => x.PositiveRateFilter).NotNull()
                     .WithMessage(ValidateErrors.NoRateFilter)

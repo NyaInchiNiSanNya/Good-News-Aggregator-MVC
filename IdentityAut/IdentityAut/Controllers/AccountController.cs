@@ -113,7 +113,7 @@ namespace Business_Logic.Controllers
 
         [HttpPost]
         [ServiceFilter(typeof(LoginValidationFilterAttribute))]
-        public async Task<IActionResult> Login(UserLoginViewModel model)
+        public async Task<IActionResult> Login([FromForm] UserLoginViewModel model)
         {
 
             const string authType = "Application Cookie";
@@ -160,7 +160,7 @@ namespace Business_Logic.Controllers
         public async Task<IActionResult> LogOut()
         {
             await _IdentityService.IdLogoutAsync();
-            return RedirectToAction("Start", "Home");
+            return RedirectToAction("GetArticlesByPage", "Article");
         }
 
     }

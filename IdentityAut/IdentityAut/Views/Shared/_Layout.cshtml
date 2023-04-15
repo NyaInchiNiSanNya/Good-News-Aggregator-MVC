@@ -1,48 +1,49 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <title>@ViewData["Title"] - IdentityAut</title>
-    <link href="@Url.Content("~/css/Layout.css")" rel="stylesheet" type="text/css"/>
+    <link href="@Url.Content("~/css/Layout.css")" rel="stylesheet" type="text/css" />
     <script src="@Url.Content("~/js/site.js")" type="text/javascript"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
 </head>
+<body id="theme">
+    <header id="pageHeader">
+        <div class="ScrollSortHelperBlock">
 
-<body id="theme" >
-<header id="pageHeader">
-    <div class="ScrollSortHelperBlock">
-
-        @if (false)
-        {
-            <script>GetCookieTheme();</script>
-            <h type="button" class="NameFieldClass" id="NameField"><script>GetCookieName();</script></h>
+            <a type="button" class="HelperBlockbuttom" asp-controller="Admin" asp-action="UserList">Админ</a>
+            <a type="button" class="HelperBlockbuttom" asp-controller="Account" asp-action="Login">Вход</a>
             <a type="button" class="HelperBlockbuttom" asp-controller="Settings" asp-action="GetInfoConfig">Настройки</a>
             <a type="button" class="HelperBlockbuttom" asp-controller="Account" asp-action="LogOut">Выйти</a>
-        }
-        else
-        {
+
+            @*else
+            {
             <a type="button" class="HelperBlockbuttom" asp-controller="Account" asp-action="Login" method="get">Вход</a>
-        }
-            
-    </div>
-</header>
-<article id="mainArticle">
+            }*@
+
+        </div>
+    </header>
+    <article id="mainArticle">
         @RenderBody()
-</article>
-  
-<nav id="mainNav">
-    <div class="menu">
-        <br>
-        <br>
-        <a type="button" class="buttom">Поле</a>
-        <a type="button" class="buttom">Длинное поле</a>
-        <a type="button" class="buttom">Очень длинное поле</a>
-    </div>
-</nav>
-<footer id="pageFooter"></footer>
+    </article>
+    <nav id="mainNav" class="disIfMobile">
+        <div class="menu">
+            <a class="navbar-brand pct" style="margin-right: 0rem;" href="#">
+                <img src="/images/Log.png" alt="Bootstrap" width="40%">
+            </a>
+
+            <a type="button" class="buttom">Новости</a>
+            <a type="button" class="buttom">Наука</a>
+            <a type="button" class="buttom">Спорт</a>
+            <a type="button" class="buttom">Мемы</a>
+            <a type="button" class="buttom">Поиск</a>
+
+        </div>
+    </nav>
+    <footer id="pageFooter" class="disIfMobile"></footer>
 </body>
 </html>
 @await RenderSectionAsync("Scripts", required: false)

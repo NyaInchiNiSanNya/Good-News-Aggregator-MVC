@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Core.DTOs;
+using Core.DTOs.Account;
 
 namespace UserConfigRepositores
 {
@@ -12,6 +12,6 @@ namespace UserConfigRepositores
 
         public Task<GetUserInfoWithSettingsDTO> GetUserInformationAsync(String Email);
         
-        public Task SetNewUserInfoAsync(GetUserInfoWithSettingsDTO getUserInfoWithSettingsDtOmodel);
+        public Task SetNewUserInfoAsync(GetUserInfoWithSettingsDTO getUserInfoWithSettingsDtOmodel, String Email);
     }
 }

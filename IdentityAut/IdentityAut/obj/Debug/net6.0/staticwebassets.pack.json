@@ -5,20 +5,24 @@
       "PackagePath": "staticwebassets\\MVC.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\Admin.css",
+      "PackagePath": "staticwebassets\\css\\Admin.css"
+    },
+    {
       "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\Layout.css",
       "PackagePath": "staticwebassets\\css\\Layout.css"
+    },
+    {
+      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\RegistrationLogin.css",
+      "PackagePath": "staticwebassets\\css\\RegistrationLogin.css"
     },
     {
       "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\ScrollLent.css",
       "PackagePath": "staticwebassets\\css\\ScrollLent.css"
     },
     {
-      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\Themes\\dark.css",
-      "PackagePath": "staticwebassets\\css\\Themes\\dark.css"
-    },
-    {
-      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\Themes\\default.css",
-      "PackagePath": "staticwebassets\\css\\Themes\\default.css"
+      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\css\\Settings.css",
+      "PackagePath": "staticwebassets\\css\\Settings.css"
     },
     {
       "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\favicon.ico",
@@ -31,6 +35,22 @@
     {
       "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\images\\500.gif",
       "PackagePath": "staticwebassets\\images\\500.gif"
+    },
+    {
+      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\images\\Log.png",
+      "PackagePath": "staticwebassets\\images\\Log.png"
+    },
+    {
+      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\images\\defaultImage.jpg",
+      "PackagePath": "staticwebassets\\images\\defaultImage.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\images\\defaultImage2.jpg",
+      "PackagePath": "staticwebassets\\images\\defaultImage2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\images\\defaultImage3.jpg",
+      "PackagePath": "staticwebassets\\images\\defaultImage3.jpg"
     },
     {
       "Id": "C:\\Users\\User\\source\\repos\\IdentityAut\\IdentityAut\\wwwroot\\js\\site.js",

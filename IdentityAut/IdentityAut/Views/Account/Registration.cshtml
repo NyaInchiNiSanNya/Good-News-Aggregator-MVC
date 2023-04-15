@@ -1,7 +1,5 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = null;
 }
 @model UserRegistrationViewModel;
 <!DOCTYPE html>
@@ -9,44 +7,61 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="~/css/AuthoriazedErrors.css" asp-append-version="true" />
-</head>
-<body>
-<form asp-controller="Account" method="post" asp-action="Registration">
-
-    <div asp-validation-summary="All" class="field-validation-error"></div>
-
-    <div>
-        <label asp-for="Name">Имя</label><br/>
-        <input asp-for="Name"></input>
-    </div>
-
-    <div>
-        <label asp-for="Email">Почта</label><br/>
-        <input asp-for="Email"></input>
-    </div>
-
-    <div>
-        <label asp-for="Password">Пароль</label><br/>
-        <input asp-for="Password"></input>
-    </div>
-
-    <div>
-        <label asp-for="ConfirmPassword">Подтверждение пароля</label><br/>
-        <input asp-for="ConfirmPassword"></input>
-    </div>
-    <div>
-        <button type="submit">Зарегистрироваться</button>
-    </div>
-</form>
-
-<div>
-        <a type="buttom" asp-controller="Account" asp-action="Login" method="get">Вход</a>
-</div>
-
-@section scripts{
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="@Url.Content("~/css/RegistrationLogin.css")" rel="stylesheet" type="text/css" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-}
+</head>
+<body>
+<div class="container container1" style="height: 700px;">
+    <div class="heading">
+            <h1 style="color: #fff">Регистрация</h1>
+        </div>
+
+            <div class="container2">
+
+                <form asp-controller="Account" method="post" asp-action="Registration" style="margin-left: 20px;">
+
+                    <div class="text-danger ValidationWarning">
+                        <div asp-validation-summary="All"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Имя</label>
+                        <input asp-for="Name" class="form-control input">
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">Почта</label>
+                        <input asp-for="Email" type="email" class="form-control input" placeholder="name@example.com">
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="col-form-label">Пароль</label>
+                        <input asp-for="Password" type="password" class="form-control input" aria-labelledby="passwordHelpInline">
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="col-form-label">Подтверждение пароля</label>
+                        <input asp-for="Password" type="password" class="form-control input" aria-labelledby="passwordHelpInline">
+                    </div>
+
+                    <div class="col-12 BOTTOMSI" style="width: 200px;">
+                        <button class="btn-number btn-Pages" type="submit">Зарегистрироваться</button>
+                    </div>
+
+                    <div class="col-12 BOTTOMSI" style="width: 100px;">
+                        <a class="btn-number btn-Pages" type="buttom" asp-controller="Account" asp-action="Login" method="get">Вход</a>
+                    </div>
+
+                    <div class="col-12 BOTTOMSI">
+                        <a type="buttom" asp-controller="Article" asp-action="GetArticlesByPage" method="get">На Главную</a>
+                    </div>
+                </form>
+            </div>
+            </div>
+
 </body>
 </html>
