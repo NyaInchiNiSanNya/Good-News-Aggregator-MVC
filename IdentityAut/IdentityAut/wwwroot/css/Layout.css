@@ -5,7 +5,7 @@
         grid-template-areas:
                            "nav header"
                            "nav article"
-                           "footer article";
+                           "nav article";
         grid-template-rows: 120px 100%;
         grid-template-columns: 20% 77%;
         background-color: #dc3545;
@@ -14,16 +14,12 @@
         margin: 0;
     }
 
-    header,footer, article, nav, div {
+    header, article, nav, div {
         padding: 20px;
     }
 
     #pageHeader {
         grid-area: header;
-    }
-
-    #pageFooter {
-        grid-area: footer;
     }
 
     #mainArticle {
@@ -36,8 +32,7 @@
 
     .ScrollSortHelperBlock {
         background: #1e1c1c;
-        border-radius: 10px; /* Уголки */
-        /*сверху справа снизу слева*/
+        border-radius: 10px; 
         margin: 20px 0px 0px 0px;
         width: 100%;
         text-align: right;
@@ -89,12 +84,6 @@
 
     }
 
-    
-
-    #pageFooter {
-        grid-area: footer;
-    }
-
     #mainArticle {
         grid-area: article;
     }
@@ -122,10 +111,9 @@
     align-items: center;
 }
 .menu {
-    background: #1e1c1c; /* Цвет фона */
-    padding: 0em 0em 3em; /* Поля вокруг текста */
-    border-radius: 10px; /* Уголки */
-    /*сверху справа снизу слева*/
+    background: #1e1c1c;
+    padding: 0em 0em 3em; 
+    border-radius: 10px; 
     margin: 20px 0px 50px 40px;
 }
 

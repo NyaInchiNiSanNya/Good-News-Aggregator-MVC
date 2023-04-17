@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj": {}
+    "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Entities-Context\\Data.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj": {
+    "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Entities-Context\\Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Entities-Context\\Data.csproj",
         "projectName": "Data",
-        "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj",
+        "projectPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Entities-Context\\Data.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\obj\\",
+        "outputPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Entities-Context\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",

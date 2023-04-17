@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\source\\repos\\IdentityAut\\Services\\Services.csproj": {}
+    "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Services\\Services.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj": {
+    "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\DTOs\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\DTOs\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj",
+        "projectPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\DTOs\\Core.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\obj\\",
+        "outputPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\DTOs\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj": {
-                "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj"
+              "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Entities-Context\\Data.csproj": {
+                "projectPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Entities-Context\\Data.csproj"
               }
             }
           }
@@ -63,14 +63,14 @@
         }
       }
     },
-    "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj": {
+    "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Entities-Context\\Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Entities-Context\\Data.csproj",
         "projectName": "Data",
-        "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj",
+        "projectPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Entities-Context\\Data.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\obj\\",
+        "outputPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Entities-Context\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -148,14 +148,14 @@
         }
       }
     },
-    "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\IServices.csproj": {
+    "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Repositores\\IServices.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\IServices.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Repositores\\IServices.csproj",
         "projectName": "IServices",
-        "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\IServices.csproj",
+        "projectPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Repositores\\IServices.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\obj\\",
+        "outputPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Repositores\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -172,11 +172,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj": {
-                "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj"
+              "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\DTOs\\Core.csproj": {
+                "projectPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\DTOs\\Core.csproj"
               },
-              "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj": {
-                "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj"
+              "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Entities-Context\\Data.csproj": {
+                "projectPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Entities-Context\\Data.csproj"
               }
             }
           }
@@ -210,14 +210,14 @@
         }
       }
     },
-    "C:\\Users\\User\\source\\repos\\IdentityAut\\Services\\Services.csproj": {
+    "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Services\\Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\source\\repos\\IdentityAut\\Services\\Services.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Services\\Services.csproj",
         "projectName": "Services",
-        "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Services\\Services.csproj",
+        "projectPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Services\\Services.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Services\\obj\\",
+        "outputPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Services\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -234,14 +234,14 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj": {
-                "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\DTOs\\Core.csproj"
+              "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\DTOs\\Core.csproj": {
+                "projectPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\DTOs\\Core.csproj"
               },
-              "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj": {
-                "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Entities-Context\\Data.csproj"
+              "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Entities-Context\\Data.csproj": {
+                "projectPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Entities-Context\\Data.csproj"
               },
-              "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\IServices.csproj": {
-                "projectPath": "C:\\Users\\User\\source\\repos\\IdentityAut\\Repositores\\IServices.csproj"
+              "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Repositores\\IServices.csproj": {
+                "projectPath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\Repositores\\IServices.csproj"
               }
             }
           }
