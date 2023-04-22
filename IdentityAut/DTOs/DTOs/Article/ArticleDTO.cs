@@ -1,5 +1,4 @@
-﻿using Entities_Context.Entities.UserNews;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +10,7 @@ namespace Core.DTOs.Article
     {
         public Int32 Id { get; set; }
         public String Title { get; set; }
-        public String ShortDescription { get; set; }
         public byte[]? ArticlePicture { get; set; }
-        public String FullText { get; set; }
         public Int32 PositiveRate { get; set; }
         public String URL { get; set; }
         public DateTime DateTime { get; set; }

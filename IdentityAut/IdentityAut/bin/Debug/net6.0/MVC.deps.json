@@ -18,6 +18,7 @@
           "Microsoft.EntityFrameworkCore.Design": "7.0.3",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.3",
           "Microsoft.EntityFrameworkCore.Tools": "7.0.3",
+          "Repositories": "1.0.0",
           "RestSharp": "108.0.3",
           "Serilog": "2.12.0",
           "Serilog.AspNetCore": "6.1.0",
@@ -1565,15 +1566,13 @@
         }
       },
       "Core/1.0.0": {
-        "dependencies": {
-          "Data": "1.0.0"
-        },
         "runtime": {
           "Core.dll": {}
         }
       },
       "Data/1.0.0": {
         "dependencies": {
+          "Core": "1.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.14",
           "Microsoft.EntityFrameworkCore": "7.0.3",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.3",
@@ -1590,6 +1589,16 @@
         },
         "runtime": {
           "IServices.dll": {}
+        }
+      },
+      "Repositories/1.0.0": {
+        "dependencies": {
+          "Data": "1.0.0",
+          "IServices": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "7.0.3"
+        },
+        "runtime": {
+          "Repositories.dll": {}
         }
       },
       "Services/1.0.0": {
@@ -2799,6 +2808,11 @@
       "sha512": ""
     },
     "IServices/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Repositories/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

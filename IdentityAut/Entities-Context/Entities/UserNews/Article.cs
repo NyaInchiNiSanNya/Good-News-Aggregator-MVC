@@ -1,6 +1,8 @@
-﻿namespace Entities_Context.Entities.UserNews
+﻿using AspNetSamples.Core;
+
+namespace Entities_Context.Entities.UserNews
 {
-    public class Article
+    public class Article : IBaseEntity
     {
         public Int32 Id { get; set; }
         public String Title { get; set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Abstract;
 using Entities_Context;
 using Entities_Context.Entities.UserNews;
 using IServices;
@@ -10,28 +11,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Services.Article
 {
+
     public class SourceService:ISourceService
     {
-        private readonly UserArticleContext _articleContext;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public SourceService(UserArticleContext articleContext)
+        public SourceService(IUnitOfWork unitOfWork)
         {
-            if (articleContext is null)
+            if (unitOfWork is null)
             {
-                throw new ArgumentNullException(nameof(articleContext));
+                throw new ArgumentNullException(nameof(unitOfWork));
             }
 
-            _articleContext = articleContext;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<String> GetServiceNameByIdAsync(Int32 Id)
+        public async Task<String> GetSourceNameByIdAsync(Int32 Id)
         {
-            return await _articleContext.Sources
-                .AsNoTracking()
-                .Where(source => source.Id == Id)
-                .Select(Source=>Source.Name)
-                .FirstOrDefaultAsync();
+            Source? Source = await _unitOfWork.Source.GetByIdAsync(Id);
             
+            if (Source is not null)
+            {
+                return Source.Name;
+            }
+
+            return "Неизвестен";
         }
     }
 }

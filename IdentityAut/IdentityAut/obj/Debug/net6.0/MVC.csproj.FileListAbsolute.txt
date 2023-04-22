@@ -254,3 +254,5 @@ C:\Users\User\Desktop\ASP-Project\ASProject\IdentityAut\IdentityAut\obj\Debug\ne
 C:\Users\User\Desktop\ASP-Project\ASProject\IdentityAut\IdentityAut\obj\Debug\net6.0\MVC.pdb
 C:\Users\User\Desktop\ASP-Project\ASProject\IdentityAut\IdentityAut\obj\Debug\net6.0\MVC.genruntimeconfig.cache
 C:\Users\User\Desktop\ASP-Project\ASProject\IdentityAut\IdentityAut\obj\Debug\net6.0\ref\MVC.dll
+C:\Users\User\Desktop\ASP-Project\ASProject\IdentityAut\IdentityAut\bin\Debug\net6.0\Repositories.dll
+C:\Users\User\Desktop\ASP-Project\ASProject\IdentityAut\IdentityAut\bin\Debug\net6.0\Repositories.pdb

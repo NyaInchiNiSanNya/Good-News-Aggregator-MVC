@@ -9,7 +9,7 @@ namespace Business_Logic.ValidationRules
 {
     internal class UserLoginViewValidate : AbstractValidator<UserLoginViewModel>, ValidatePatterns, ValidateErrors
     {
-        internal UserLoginViewValidate(IMapper _mapper,IIdentityService _IdentityService)
+        internal UserLoginViewValidate(IMapper _mapper,IAuthService authService)
         {
 
             RuleSet("PatternsCheck", () =>
@@ -31,7 +31,7 @@ namespace Business_Logic.ValidationRules
                 .MustAsync(async (x, concellation) =>
                 {
 
-                    if (await _IdentityService.LoginAsync(_mapper.Map<UserLoginDTO>(x)))
+                    if (await authService.LoginAsync(_mapper.Map<UserLoginDTO>(x)))
                     {
                         return true;
                     }

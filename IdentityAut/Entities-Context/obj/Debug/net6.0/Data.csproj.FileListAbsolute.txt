@@ -26,3 +26,6 @@ C:\Users\User\Desktop\ASP-Project\ASProject\IdentityAut\Entities-Context\obj\Deb
 C:\Users\User\Desktop\ASP-Project\ASProject\IdentityAut\Entities-Context\obj\Debug\net6.0\Data.pdb
 C:\Users\User\Desktop\ASP-Project\ASProject\IdentityAut\Entities-Context\obj\Debug\net6.0\Data.genruntimeconfig.cache
 C:\Users\User\Desktop\ASP-Project\ASProject\IdentityAut\Entities-Context\obj\Debug\net6.0\ref\Data.dll
+C:\Users\User\Desktop\ASP-Project\ASProject\IdentityAut\Entities-Context\bin\Debug\net6.0\Core.dll
+C:\Users\User\Desktop\ASP-Project\ASProject\IdentityAut\Entities-Context\bin\Debug\net6.0\Core.pdb
+C:\Users\User\Desktop\ASP-Project\ASProject\IdentityAut\Entities-Context\obj\Debug\net6.0\Data.csproj.CopyComplete

@@ -28,8 +28,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWxsVXNlcnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/Desktop/ASP-Project/ASProject/IdentityAut/IdentityAut/Views/Article/Article.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZVxBcnRpY2xlLmNzaHRtbA==
+[C:/Users/User/Desktop/ASP-Project/ASProject/IdentityAut/IdentityAut/Views/Article/Articles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZVxBcnRpY2xlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User/Desktop/ASP-Project/ASProject/IdentityAut/IdentityAut/Views/Article/FullArticle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJ0aWNsZVxGdWxsQXJ0aWNsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/User/Desktop/ASP-Project/ASProject/IdentityAut/IdentityAut/Views/Home/Privacy.cshtml]

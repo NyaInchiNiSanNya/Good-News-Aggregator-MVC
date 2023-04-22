@@ -4,6 +4,7 @@ using Entities_Context;
 using IServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using MVC.ControllerFactory;
 using MVC.Filters.Validation;
 using Repositores;
 using Services.Account;
@@ -11,7 +12,13 @@ using UserConfigRepositores;
 using MVC.Middlware;
 using Serilog;
 using Services.Article;
-
+using System.Data;
+using Abstract;
+using AspNetSamples.Abstractions.Data.Repositories;
+using Entities_Context.Entities.UserNews;
+using IServices.Repositories;
+using AspNetSamples.Repositories;
+using Repositories.Implementations;
 
 namespace Business_Logic
 {
@@ -41,10 +48,21 @@ namespace Business_Logic
                     .ReadFrom.Configuration(ctx.Configuration);
 
             });
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
+            builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+            builder.Services.AddScoped<ISourceRepository, SourceRepository>();
+            builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+            builder.Services.AddScoped<IUsersRolesRepository, UsersRolesRepository>();
+            builder.Services.AddScoped<IUserInterfaceThemeRepository, UserInterfaceThemeRepository>();
+
+            builder.Services.AddTransient<IServiceFactory,ServiceFactory>();
             builder.Services.AddScoped<ISourceService, SourceService>();
-            builder.Services.AddScoped<IAdminService, AdminService>();
+            builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IArticleService, ArticleService>();
-            builder.Services.AddScoped<IIdentityService, IdentityService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserInfoAndSettingsService, UserInfoAndSettingsService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IUiThemeService, UiThemeService>();

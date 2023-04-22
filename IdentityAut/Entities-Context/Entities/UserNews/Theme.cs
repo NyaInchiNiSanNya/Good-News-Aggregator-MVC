@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AspNetSamples.Core;
 
 namespace Entities_Context.Entities.UserNews
 {
-    public class SiteTheme
+    public class SiteTheme : IBaseEntity 
     {
         public Int32 Id { get; set; }
         public String Theme { get; set; }

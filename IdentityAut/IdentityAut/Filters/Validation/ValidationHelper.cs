@@ -13,9 +13,9 @@ namespace MVC.Filters.Validation
     {
 
         internal async static Task<ValidationResult> AccountLoginValidator
-            (UserLoginViewModel model, IMapper mapper, IIdentityService _identityService)
+            (UserLoginViewModel model, IMapper mapper, IAuthService authService)
         {
-            UserLoginViewValidate validator = new UserLoginViewValidate(mapper, _identityService);
+            UserLoginViewValidate validator = new UserLoginViewValidate(mapper, authService);
 
             var result = await validator.ValidateAsync(model,
                 options =>
@@ -50,7 +50,6 @@ namespace MVC.Filters.Validation
         internal async static Task<ValidationResult> InfoSettingsValidator
             (NewUserSettingsViewModel model)
         {
-
             UserSettingsViewValidate validator = new UserSettingsViewValidate();
 
             var result = await validator.ValidateAsync(model,

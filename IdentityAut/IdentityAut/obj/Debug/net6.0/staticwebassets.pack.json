@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\css\\Admin.css"
     },
     {
+      "Id": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\FullArticle.css",
+      "PackagePath": "staticwebassets\\css\\FullArticle.css"
+    },
+    {
       "Id": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\Layout.css",
       "PackagePath": "staticwebassets\\css\\Layout.css"
     },

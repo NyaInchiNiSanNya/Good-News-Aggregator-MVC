@@ -1,11 +1,11 @@
 ﻿
-@media (min-width: 992px) {
+@media (min-width:  940px) {
     body {
         display: grid;
         grid-template-areas:
-                           "nav header"
-                           "nav article"
-                           "nav article";
+            "nav header"
+            "nav article"
+            "nav article";
         grid-template-rows: 120px 100%;
         grid-template-columns: 20% 77%;
         background-color: #dc3545;
@@ -48,7 +48,7 @@
         text-decoration: none;
     }
 }
-@media (max-width: 991px) {
+@media (max-width: 940px) {
     body {
         display: grid;
         grid-template-areas:

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using AspNetSamples.Core;
 
 namespace Entities_Context.Entities.UserNews
 {
-    public class ArticleTag
+    public class ArticleTag : IBaseEntity
     {
         public Int32 Id { get; set; }
 

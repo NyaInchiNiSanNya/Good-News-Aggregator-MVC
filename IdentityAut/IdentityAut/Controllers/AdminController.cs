@@ -2,6 +2,7 @@
 using IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MVC.ControllerFactory;
 using Repositores;
 
 namespace MVC.Controllers
@@ -10,36 +11,24 @@ namespace MVC.Controllers
     public class AdminController : Controller
     {
 
-        private readonly IAdminService _AdminService;
-        private readonly IMapper _mapper;
+        private readonly IServiceFactory _serviceFactory;
 
         public AdminController
-        (IAdminService adminService,
-            IMapper mapper
-        )
+        (IServiceFactory serviceFactory)
         {
-            if (adminService is null)
+            if (serviceFactory is null)
             {
-                throw new NullReferenceException(nameof(adminService));
-
+                throw new NullReferenceException(nameof(serviceFactory));
             }
-            _AdminService = adminService;
-
-
-            if (mapper is null)
-            {
-                throw new NullReferenceException(nameof(mapper));
-
-            }
-            _mapper = mapper;
-
-
+            _serviceFactory = serviceFactory;
         }
 
         [HttpGet]
         public async  Task<IActionResult> UserList()
         {
-            return View("AllUsers", await _AdminService.GetAllUsers());
+            return View("AllUsers", await _serviceFactory
+                .createAdminService()
+                .GetAllUsersWithRolesAsync());
         }
     }
 }

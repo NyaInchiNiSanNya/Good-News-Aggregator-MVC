@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Abstract;
 using AutoMapper;
 using Entities_Context;
 using Entities_Context.Entities.UserNews;
@@ -15,45 +16,52 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Services.Account
 {
-    public class RoleService:IRoleService
+    public class RoleService :IRoleService
     {
-        private readonly UserArticleContext _userContext;
+        private readonly IUnitOfWork _unitOfWork;
 
 
-        public RoleService(UserArticleContext userContext
-            , IMapper mapper)
+        public RoleService(IUnitOfWork unitOfWork)
         {
-            if (userContext is null)
+            if (unitOfWork is null)
             {
-                throw new ArgumentNullException(nameof(userContext));
+                throw new ArgumentNullException(nameof(unitOfWork));
             }
 
-            _userContext = userContext;
+            _unitOfWork = unitOfWork;
 
         }
 
-        public async Task<List<UserRole>> GetUserRolesByUserId(int Id)
+        public async Task<List<UserRole>> GetUserRolesByUserIdAsync(int Id)
         {
-            User user = await _userContext.Users
-                .AsNoTracking()
-                .Where(x => x.Id == Id)
-                .Include(x => x.Role)
-                .ThenInclude(x => x.Role)
-                .SingleOrDefaultAsync();
-
-            return user.Role.Select(r=>r.Role).ToList();
+            List<UsersRoles>? userRoles = (await _unitOfWork.UsersRoles
+                .FindBy(userRole=>userRole.UserId==Id,userRole=>userRole.Role)
+                .ToListAsync());
+            
+            if (userRoles is not null)
+            {
+                List<UserRole> Roles=new List<UserRole>();
+                
+                foreach (var role in userRoles)
+                {
+                    Roles.Add(role.Role);
+                }
+                return Roles;
+            }
+            
+            return null;
         }
 
-        public async Task<List<UserRole>> GetUserRolesByUserName(String Email)
+        public async Task<List<UserRole>> GetUserRolesByUserNameAsync(String Email)
         {
-            User user = await _userContext.Users
-                .AsNoTracking()
-                .Where(x => x.Email.Equals(Email))
-                .Include(x => x.Role)
-                .ThenInclude(x => x.Role)
-                .SingleOrDefaultAsync();
+            User? user = (await _unitOfWork.Users.FindBy(x => x.Email.Equals(Email)).FirstOrDefaultAsync());
 
-            return user.Role.Select(r => r.Role).ToList();
+            if (user is not null)
+            {
+                return await GetUserRolesByUserIdAsync(user.Id);
+            }
+
+            return null;
         }
 
         public async Task InitiateDefaultRolesAsync()
@@ -63,40 +71,50 @@ namespace Services.Account
 
             if (! await IsRoleExistsAsync("User"))
             {
-                await _userContext.Roles.AddAsync(new UserRole(){Role="User"});
+                await _unitOfWork.Roles.AddAsync(new UserRole(){Role="User"});
 
                 AnyChanges=true;
             }
             if (!await IsRoleExistsAsync("Admin"))
             {
-                await _userContext.Roles.AddAsync(new UserRole() { Role = "Admin" });
+                await _unitOfWork.Roles.AddAsync(new UserRole() { Role = "Admin" });
 
                 AnyChanges=true;
             }
             if (!await IsRoleExistsAsync("SuperAdmin"))
             {
-                await _userContext.Roles.AddAsync(new UserRole() { Role = "SuperAdmin" });
+                await _unitOfWork.Roles.AddAsync(new UserRole() { Role = "SuperAdmin" });
                
                 AnyChanges=true;
             }
 
             if (AnyChanges)
             {
-                await _userContext.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
             }
         }
 
-        public async Task<bool> IsRoleExistsAsync(string name)
+        public async Task<bool> IsRoleExistsAsync(String role)
         {
-            return await _userContext.Users.AnyAsync(x => x.Name == name);
+            return await _unitOfWork.Roles.FindBy(x => x.Role == role).FirstOrDefaultAsync() is not null;
         }
 
-        public async Task<UserRole> GetDefaultRole()
+        public async Task<UserRole> GetDefaultRoleAsync()
         {
-            return await _userContext.Roles
-                .AsNoTracking()
-                .Where(x=>x.Role=="User")
+            UserRole? defaultRole = await _unitOfWork.Roles
+                .FindBy(x=>x.Role.Equals("User"))
                 .FirstOrDefaultAsync();
+
+            if (defaultRole is null)
+            {
+                await InitiateDefaultRolesAsync();
+
+                defaultRole = await _unitOfWork.Roles
+                    .FindBy(x => x.Role.Equals("User"))
+                    .FirstOrDefaultAsync();
+            }
+
+            return defaultRole;
         }
     }
 }

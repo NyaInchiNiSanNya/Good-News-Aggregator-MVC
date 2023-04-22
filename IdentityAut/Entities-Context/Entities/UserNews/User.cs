@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using System.Data;
+using AspNetSamples.Core;
 
 namespace Entities_Context.Entities.UserNews
 {
-    public class User
+    public class User : IBaseEntity
     {
 
         public Int32 Id { get; set; }

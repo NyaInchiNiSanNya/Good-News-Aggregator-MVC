@@ -25,7 +25,7 @@ public class UserRegistrationViewModel:
         , ErrorMessage = ValidateErrors.BadPassword)]
     public String Password { get; set; }
 
-    [Required(ErrorMessage = ValidateErrors.BadConfirm)]
+    [Required(ErrorMessage = ValidateErrors.NoConfirm)]
     [DataType(DataType.Password)]
     [Compare("Password"
         , ErrorMessage = ValidateErrors.BadConfirm)]

@@ -17,58 +17,40 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using Serilog;
+using MVC.ControllerFactory;
 
 namespace Business_Logic.Controllers
 {
     public class AccountController : Controller
     {
-
-        private readonly IIdentityService _IdentityService;
-        private readonly IRoleService _roleService;
-        private readonly IMapper _mapper;
-
+        private readonly IServiceFactory _serviceFactory;
+        
         public AccountController
-            (IIdentityService identityService,
-                IMapper mapper,
-                IRoleService roleService
+            (IServiceFactory serviceFactory
             )
         {
-            if (identityService is null)
+            if (serviceFactory is null)
             {
-                throw new NullReferenceException(nameof(identityService));
-
+                throw new NullReferenceException(nameof(serviceFactory));
             }
-            _IdentityService = identityService;
-
-
-            if (mapper is null)
-            {
-                throw new NullReferenceException(nameof(mapper));
-
-            }
-            _mapper = mapper;
-
-            if (roleService is null)
-            {
-                throw new NullReferenceException(nameof(mapper));
-
-            }
-            _roleService = roleService;
-
-            
+            _serviceFactory = serviceFactory;
         }
 
 
         public async Task<IActionResult> CheckUserLoginExist(String Email)
         {
 
-            return Ok(await _IdentityService.isUserExistAsync(Email));
+            return Ok(await _serviceFactory
+                .createIdentityService()
+                .isUserExistAsync(Email));
 
         }
 
         public async Task<IActionResult> CheckUserRegistrationExist(String Email)
         {
-            return Ok(!await _IdentityService.isUserExistAsync(Email));
+            return Ok(!await _serviceFactory
+                .createIdentityService()
+                .isUserExistAsync(Email));
 
         }
 
@@ -100,8 +82,12 @@ namespace Business_Logic.Controllers
         public async Task<IActionResult> Registration
             ([FromForm] UserRegistrationViewModel model)
         {
-            if (await _IdentityService.RegistrationAsync(
-                    _mapper.Map<UserRegistrationDTO>(model)))
+            if (await _serviceFactory
+                    .createIdentityService()
+                    .RegistrationAsync(
+                    _serviceFactory
+                        .createMapperService()
+                        .Map<UserRegistrationDTO>(model)))
             {
                 return RedirectToAction("Login", "Account");
             }
@@ -118,13 +104,17 @@ namespace Business_Logic.Controllers
 
             const string authType = "Application Cookie";
             
+
             var claims = new List<Claim>
                 {
                     new Claim(ClaimsIdentity.DefaultNameClaimType, model.Email),
                 };
 
 
-            var roles = (await _roleService.GetUserRolesByUserName(model.Email));
+            var roles = (await _serviceFactory
+                .createRoleService()
+                .GetUserRolesByUserNameAsync(model.Email));
+
 
             if (roles is null)
             {
@@ -159,7 +149,7 @@ namespace Business_Logic.Controllers
 
         public async Task<IActionResult> LogOut()
         {
-            await _IdentityService.IdLogoutAsync();
+            await _serviceFactory.createIdentityService().IdLogoutAsync();
             return RedirectToAction("GetArticlesByPage", "Article");
         }
 

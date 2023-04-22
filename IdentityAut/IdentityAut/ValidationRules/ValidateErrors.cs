@@ -13,6 +13,8 @@
             "Ваш пароль должен содержать символы верхнего и нижнего регистров, а так же цифры и спец. символ";
 
         protected const String BadConfirm = "Пароли не совпадают";
+        
+        protected const String NoConfirm = "Пароль не подтвержден";
 
         protected const String EmailExist = "Пользователь с таким Email уже существует";
 

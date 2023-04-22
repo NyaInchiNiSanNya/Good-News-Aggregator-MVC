@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "epneJlifDdvHF34k9mRep/chR5zxtvXpDFIHzVTIYsE=",
+  "Hash": "v8tIEb2QD3vQym10gTBWCCSSpLa6/bTW2vMdqom425s=",
   "Source": "MVC",
   "BasePath": "_content/MVC",
   "Mode": "Default",
@@ -66,6 +66,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\Admin.css"
+    },
+    {
+      "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\FullArticle.css",
+      "SourceId": "MVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\",
+      "BasePath": "_content/MVC",
+      "RelativePath": "css/FullArticle.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\FullArticle.css"
     },
     {
       "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\Layout.css",

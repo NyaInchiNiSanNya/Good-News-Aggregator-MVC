@@ -35,11 +35,8 @@
     <ProjectReference Include="..\DTOs\Core.csproj" />
     <ProjectReference Include="..\Entities-Context\Data.csproj" />
     <ProjectReference Include="..\Repositores\IServices.csproj" />
+    <ProjectReference Include="..\Repositories\Repositories.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\HelperClasses\" />
   </ItemGroup>
 
 </Project>

@@ -33,8 +33,6 @@ namespace Business_Logic.ValidationRules
                     .WithMessage(ValidateErrors.BadPassword);
 
                 RuleFor(x => x.ConfirmPassword)
-                    .NotNull()
-                    .WithMessage(ValidateErrors.BadConfirm)
                     .Equal(x => x.Password)
                     .WithMessage(ValidateErrors.BadConfirm);
             });

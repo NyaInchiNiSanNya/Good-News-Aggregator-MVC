@@ -9,23 +9,27 @@ using IServices;
 using Entities_Context.Entities.UserNews;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Abstract;
 
 namespace Services.Account
 {
+
     public class UiThemeService:IUiThemeService
     {
-        private readonly UserArticleContext _userContext;
+        private const String DefaultTheme = "default";
+        private const String DarkTheme = "dark";
+
+        private readonly IUnitOfWork _unitOfWork;
 
 
-        public UiThemeService(UserArticleContext userContext
-            , IMapper mapper)
+        public UiThemeService(IUnitOfWork unitOfWork)
         {
-            if (userContext is null)
+            if (unitOfWork is null)
             {
-                throw new ArgumentNullException(nameof(userContext));
+                throw new ArgumentNullException(nameof(unitOfWork));
             }
 
-            _userContext = userContext;
+            _unitOfWork = unitOfWork;
 
         }
 
@@ -34,11 +38,10 @@ namespace Services.Account
         {
             if (await IsThemeExistByNameAsync(Theme))
             {
-                return await _userContext.Themes
-                    .AsNoTracking()
-                    .Where(x => x.Theme.Equals(Theme))
-                    .Select(x => x.Id)
-                    .FirstOrDefaultAsync();
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                return (await _unitOfWork.UserInterfaceTheme.FindBy(x=>x.Theme.Equals(Theme))
+                    .FirstOrDefaultAsync()).Id;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             }
 
             return await GetIdDefaultThemeAsync();
@@ -51,42 +54,42 @@ namespace Services.Account
 
             Boolean AnyChanges = false;
 
-            if (!await IsThemeExistByNameAsync("default"))
+            if (!await IsThemeExistByNameAsync(DefaultTheme))
             {
-                await _userContext.Themes.AddAsync(new SiteTheme() { Theme = "default" });
+                await _unitOfWork.UserInterfaceTheme.AddAsync(new SiteTheme() { Theme = DefaultTheme });
 
                 AnyChanges = true;
             }
-            if (!await IsThemeExistByNameAsync("dark"))
+            if (!await IsThemeExistByNameAsync(DarkTheme))
             {
-                await _userContext.Themes.AddAsync(new SiteTheme() { Theme = "dark" });
+                await _unitOfWork.UserInterfaceTheme.AddAsync(new SiteTheme() { Theme = DarkTheme });
 
                 AnyChanges = true;
             }
 
             if (AnyChanges)
             {
-                await _userContext.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync();
             }
         }
 
         public async Task<Int32> GetIdDefaultThemeAsync()
         {
-            Int32 Id = await _userContext.Themes
-                .AsNoTracking()
-                .Where(x => x.Theme == "default")
-                .Select(x => x.Id)
+            var theme = await _unitOfWork.UserInterfaceTheme
+                .FindBy(x => x.Theme == DefaultTheme)
                 .FirstOrDefaultAsync();
+            
+            Int32 Id = theme?.Id ?? 0;
 
             if (Id == 0)
             {
                 await InitiateThemeAsync();
 
-                return await _userContext.Themes
-                    .AsNoTracking()
-                    .Where(x => x.Theme == "default")
-                    .Select(x => x.Id)
+                theme = await _unitOfWork.UserInterfaceTheme
+                    .FindBy(x => x.Theme == DefaultTheme)
                     .FirstOrDefaultAsync();
+
+                return theme?.Id ?? 0;
             }
 
             return Id;
@@ -94,43 +97,44 @@ namespace Services.Account
 
         public async Task<List<String>> GetAllThemesAsync()
         {
-            List<String> ThemeList = await _userContext.Themes
-                .AsNoTracking()
-                .Select(x => x.Theme)
+            List<SiteTheme> themeList = await _unitOfWork.UserInterfaceTheme.GetAsQueryable()
                 .ToListAsync();
 
-            if (ThemeList is null)
+            List<String> allThemes = new List<string>();
+
+            if (themeList is not null)
+            {
+
+                foreach (var theme in themeList)
+                {
+                  allThemes.Add(theme.Theme);  
+                }
+            }
+            else
             {
                 await InitiateThemeAsync();
 
-                return await _userContext.Themes
-                    .AsNoTracking()
-                    .Select(x => x.Theme)
-                    .ToListAsync();
+                foreach (var theme in themeList)
+                {
+                    allThemes.Add(theme.Theme);
+                }
             }
 
-            return ThemeList;
+            return allThemes;
         }
 
-        public async Task<Boolean> IsThemeExistByNameAsync(string Theme)
+        public async Task<Boolean> IsThemeExistByNameAsync(String theme)
         {
-            return await _userContext.Themes.AnyAsync(x => x.Theme==Theme);
+            return await _unitOfWork.UserInterfaceTheme
+                .FindBy(x=>x.Theme==theme)
+                .FirstOrDefaultAsync() is not null;
         }
 
         public async Task<String> GetThemeNameByIdAsync(Int32 Id)
         {
-            String Theme = await _userContext.Themes
-                .AsNoTracking()
-                .Where(x => x.Id == Id)
-                .Select(x => x.Theme)
-                .FirstOrDefaultAsync();
-
-            if (!Theme.IsNullOrEmpty())
-            {
-                return Theme;
-            }
-
-            return "default";
+            var theme = (await _unitOfWork.UserInterfaceTheme.GetByIdAsync(Id));
+            
+            return theme?.Theme?? DefaultTheme;
         }
 
 

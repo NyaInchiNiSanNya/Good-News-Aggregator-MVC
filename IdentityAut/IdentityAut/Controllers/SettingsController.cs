@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.IdentityModel.Tokens;
+using MVC.ControllerFactory;
 using MVC.Filters.Validation;
 using Repositores;
 using Services.Account;
@@ -22,39 +23,18 @@ namespace Business_Logic.Controllers
     [Authorize]
      public class SettingsController : Controller
     {
-        private readonly IUserInfoAndSettingsService _userConfigService;
-        private readonly IMapper _mapper;
-        private readonly IUiThemeService _uiThemeService;
+        private readonly IServiceFactory _serviceFactory;
 
 
         public SettingsController
-        (IUserInfoAndSettingsService userConfigService,
-            IMapper mapper , IUiThemeService uiThemeService)
+        (IServiceFactory serviceFactory)
         {
 
-            if (userConfigService is null)
+            if (serviceFactory is null)
             {
-                throw new NullReferenceException(nameof(userConfigService));
-
+                throw new NullReferenceException(nameof(serviceFactory));
             }
-            _userConfigService = userConfigService;
-
-
-            if (mapper is null)
-            {
-                throw new NullReferenceException(nameof(mapper));
-
-            }
-
-            _mapper = mapper;
-
-            if (uiThemeService is null)
-            {
-                throw new NullReferenceException(nameof(mapper));
-
-            }
-
-            _uiThemeService = uiThemeService;
+            _serviceFactory = serviceFactory;
         }
         
         
@@ -64,7 +44,9 @@ namespace Business_Logic.Controllers
         public async Task<IActionResult> SetNewInfoConfig([FromForm] NewUserSettingsViewModel infoSettingsView)
         {
 
-            await _userConfigService.SetNewUserInfoAsync(_mapper.Map<GetUserInfoWithSettingsDTO>(infoSettingsView)
+            await _serviceFactory.createUserConfigService()
+                .SetNewUserInfoAsync(
+                    _serviceFactory.createMapperService().Map<GetUserInfoWithSettingsDTO>(infoSettingsView)
                     , HttpContext.User.Identity.Name);
             
             return RedirectToAction("GetInfoConfig");
@@ -77,11 +59,14 @@ namespace Business_Logic.Controllers
         public async Task<IActionResult> GetInfoConfig()
         {
             GetUserInfoWithSettingsDTO infoSettings =
-                    await _userConfigService.GetUserInformationAsync(HttpContext.User.Identity.Name);
+                    await _serviceFactory.createUserConfigService()
+                        .GetUserInformationAsync(HttpContext.User.Identity.Name);
 
+            
             if (infoSettings is not null)
             {
-                return  View("Settings",_mapper.Map<ShowUserInfoAndConfigViewModel>(infoSettings));
+                return  View("Settings",_serviceFactory
+                    .createMapperService().Map<ShowUserInfoAndConfigViewModel>(infoSettings));
             }
 
             return null;
@@ -91,7 +76,9 @@ namespace Business_Logic.Controllers
         public async Task<IActionResult> isThemeExist(String Theme)
         {
 
-            return Ok(await _uiThemeService.IsThemeExistByNameAsync(Theme));
+            return Ok(await _serviceFactory
+                .createThemeService()
+                .IsThemeExistByNameAsync(Theme));
         }
     }
 }

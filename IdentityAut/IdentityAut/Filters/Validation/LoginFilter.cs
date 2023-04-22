@@ -10,19 +10,19 @@ namespace MVC.Filters.Validation
     public class LoginValidationFilterAttribute : ActionFilterAttribute
     {
 
-        private readonly IIdentityService _IdentityService;
+        private readonly IAuthService _authService;
         private readonly IMapper _mapper;
 
         public LoginValidationFilterAttribute(
-            IIdentityService identityService,
+            IAuthService authService,
             IMapper mapper)
         {
-            if (identityService is null)
+            if (authService is null)
             {
-                throw new NullReferenceException(nameof(identityService));
+                throw new NullReferenceException(nameof(authService));
 
             }
-            _IdentityService = identityService;
+            _authService = authService;
 
 
             if (mapper is null)
@@ -42,7 +42,7 @@ namespace MVC.Filters.Validation
 
             var validationResult = await AccountValidationHelper
                 .AccountLoginValidator(
-                    (UserLoginViewModel)FormObject.Value, _mapper, _IdentityService);
+                    (UserLoginViewModel)FormObject.Value, _mapper, _authService);
 
             
             if (!validationResult.IsValid)
