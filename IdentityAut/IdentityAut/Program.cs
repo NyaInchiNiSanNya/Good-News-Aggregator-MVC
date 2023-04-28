@@ -52,6 +52,7 @@ namespace Business_Logic
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
+            builder.Services.AddScoped<ITagRepository, TagRepository>();
             builder.Services.AddScoped<IUsersRepository, UsersRepository>();
             builder.Services.AddScoped<ISourceRepository, SourceRepository>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
@@ -106,7 +107,7 @@ namespace Business_Logic
             app.UseAuthorization();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Article}/{action=GetArticlesByPage}/{id?}");
+                pattern: "{controller=Article}/{action=GetArticlesByPage}/{tag?}/{id?}");
             app.Run();
         }
     }

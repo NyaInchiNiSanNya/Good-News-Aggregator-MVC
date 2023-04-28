@@ -46,7 +46,7 @@ namespace Business_Logic.Controllers
 
             await _serviceFactory.createUserConfigService()
                 .SetNewUserInfoAsync(
-                    _serviceFactory.createMapperService().Map<GetUserInfoWithSettingsDTO>(infoSettingsView)
+                    _serviceFactory.createMapperService().Map<userInfoWithSettingsDTO>(infoSettingsView)
                     , HttpContext.User.Identity.Name);
             
             return RedirectToAction("GetInfoConfig");
@@ -58,7 +58,7 @@ namespace Business_Logic.Controllers
         [HttpGet]
         public async Task<IActionResult> GetInfoConfig()
         {
-            GetUserInfoWithSettingsDTO infoSettings =
+            userInfoWithSettingsDTO infoSettings =
                     await _serviceFactory.createUserConfigService()
                         .GetUserInformationAsync(HttpContext.User.Identity.Name);
 
@@ -79,6 +79,17 @@ namespace Business_Logic.Controllers
             return Ok(await _serviceFactory
                 .createThemeService()
                 .IsThemeExistByNameAsync(Theme));
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetUserByteArrayPicture([FromBody] String userPicture)
+        {
+            if (HttpContext.User.Identity.Name is not null)
+            {
+                await _serviceFactory.createUserConfigService()
+                    .SetNewProfilePictureByNameAsync(userPicture, HttpContext.User.Identity.Name);
+            }
+
+            return Ok();
         }
     }
 }

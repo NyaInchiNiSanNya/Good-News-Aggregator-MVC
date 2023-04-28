@@ -51,7 +51,7 @@ namespace Business_Logic.TegHelpers
                         tag.AddCssClass("active");
                     }
                 }
-                tag.Attributes["href"] = urlHelper.Action(PageAction, new { page = i });
+                tag.Attributes["href"] = urlHelper.Action(PageAction, new { page = i});
                 tag.InnerHtml.Append(anchorInnerHtml);
                 result.InnerHtml.AppendHtml(tag);
             }

@@ -13,6 +13,7 @@ namespace Abstract
         public IRoleRepository Roles { get; }
         public IUsersRolesRepository UsersRoles { get; }
         public IUserInterfaceThemeRepository UserInterfaceTheme { get; }
+        public ITagRepository Tag { get; }
         public Task<int> SaveChangesAsync();
     }
 }

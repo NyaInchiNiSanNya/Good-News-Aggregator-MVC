@@ -12,7 +12,6 @@ public class CustomExceptionFilter : IExceptionFilter
             context.RouteData.Values["controller"]);
         context.ExceptionHandled= true;
 
-
         context.HttpContext.Response.StatusCode=500;
         Log.CloseAndFlush();
     }

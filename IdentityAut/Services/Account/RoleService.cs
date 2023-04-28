@@ -75,12 +75,14 @@ namespace Services.Account
 
                 AnyChanges=true;
             }
+
             if (!await IsRoleExistsAsync("Admin"))
             {
                 await _unitOfWork.Roles.AddAsync(new UserRole() { Role = "Admin" });
 
                 AnyChanges=true;
             }
+
             if (!await IsRoleExistsAsync("SuperAdmin"))
             {
                 await _unitOfWork.Roles.AddAsync(new UserRole() { Role = "SuperAdmin" });
@@ -98,6 +100,7 @@ namespace Services.Account
         {
             return await _unitOfWork.Roles.FindBy(x => x.Role == role).FirstOrDefaultAsync() is not null;
         }
+
 
         public async Task<UserRole> GetDefaultRoleAsync()
         {

@@ -1,6 +1,6 @@
 ﻿namespace Core.DTOs.Account
 {
-    public class GetUserInfoWithSettingsDTO
+    public class userInfoWithSettingsDTO
     {
         public string Name { get; set; }
         public string Theme { get; set; }

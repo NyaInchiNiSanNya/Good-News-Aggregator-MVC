@@ -81,10 +81,9 @@ namespace Services.Account
 
                 newUser.Created=DateTime.Now;
 
-                newUser.ProfilePicture =
-                    Convert.ToBase64String(
-                        await File.ReadAllBytesAsync(
-                            @"C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\images\\defaultImage3.jpg"));
+                PictureBase64EncoderDecoder encoder=new PictureBase64EncoderDecoder();
+                newUser.ProfilePicture = await 
+                    encoder.PictureEncoder(@"C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\images\\defaultImage3.jpg");
 
                 await _unitOfWork.Users.AddAsync(newUser);
 
@@ -99,7 +98,6 @@ namespace Services.Account
                     throw new ArgumentException("Can't create role");
                 }
 
-
                 UsersRoles newUserRole=new UsersRoles()
                 {
                     RoleId =Role.Id,
@@ -108,8 +106,8 @@ namespace Services.Account
                 };
 
                 await _unitOfWork.UsersRoles.AddAsync(newUserRole);
+                
                 await _unitOfWork.SaveChangesAsync();
-
 
                 return true;
             }

@@ -15,7 +15,7 @@ namespace Entities_Context.Entities.UserNews
         public Int32 ArticleId { get; set; }
         public Article Article { get; set; }
 
-        public Int32 TegId { get; set; }
+        public Int32 TagId { get; set; }
         public Tag Tag  { get; set; }
     }
 }

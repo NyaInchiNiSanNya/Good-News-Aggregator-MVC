@@ -4,12 +4,14 @@
 }
 @using Business_Logic
 @using Core.DTOs.Article
+@using System.Collections.Specialized
 @model Business_Logic.Models.TegHelperModels.ObjectListModel
 
 
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - IdentityAut</title>
+    <link href="@Url.Content("~/css/magic/magic.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/css/ScrollLent.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/css/Index.css")" rel="stylesheet" type="text/css" />
 </head>
@@ -20,7 +22,21 @@
 <div id="grid">
     @foreach (ArticleDTO x in Model.ArticlePreviews)
     {
-        <div style="">
+        <div class="article-card" style="position: relative;overflow:hidden;">
+
+            <div class="full hidden puffOut" style="padding: 0;margin: 0; height: 27rem; position: absolute; z-index:1000">
+                <div class="cardInfo" style="">
+                    <h5 style="padding-right:0">@x.ShortDescription</h5>
+                </div>
+                <div class="card-botton" style="position: absolute;bottom:0">
+                    <a href="@Url.Action("GetSelectedArticle", "Article", new { ArticleId = x.Id })" class="btn-number btn-Pages" >Читать</a>
+                    <a href="@x.URL" class="btn-number btn-Pages">В источник -></a>
+                    <a href="@Url.Action("DeleteArticlesById", "Article", new { articleId = x.Id})" type="button" class="btn btn-danger">Удалить</a>
+                </div> 
+            </div>
+
+            <div class="preview" style="padding: 0;margin: 0;position: relative;">
+
             @if (x.ArticlePicture != null)
             {
                 <div class="Icontainer">
@@ -44,15 +60,14 @@
                 </div>
                 <h5 style="padding-right:0">@x.Title</h5>
             </div>
-            
-            <div class="card-botton">
-                <a href="@Url.Action("GetSelectedArticle", "Article", new { ArticleId = x.Id })" class="btn-number btn-Pages">Читать</a>
-                <a href="@x.URL" class="btn-number btn-Pages">В источник -></a>
-
             </div>
         </div>
 
     }
 </div>
-<pagination page-info="Model.PageInfo" page-action="Start"></pagination>
+@section Scripts{
+    <script src="/js/Article.js"></script>
+    
+}
+<pagination page-info="Model.PageInfo" page-action="GetArticlesByPage"></pagination>
 

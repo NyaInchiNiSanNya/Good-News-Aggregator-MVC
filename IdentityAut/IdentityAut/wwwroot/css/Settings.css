@@ -12,12 +12,7 @@
     height: 300px;
     overflow: hidden;
 }
-img {
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
-    object-position: center center;
-}
+
 .btn-number {
     display: inline-block;
     font-weight: 400;
@@ -53,4 +48,10 @@ img {
     width: 100px;
     display: inline-block;
     margin-bottom: 15px
+}
+.user_picture {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    object-position: center center;
 }

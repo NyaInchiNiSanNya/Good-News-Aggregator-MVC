@@ -29,6 +29,22 @@
       "PackagePath": "staticwebassets\\css\\Settings.css"
     },
     {
+      "Id": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\magic\\magic.css",
+      "PackagePath": "staticwebassets\\css\\magic\\magic.css"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\magic\\magic.css.map",
+      "PackagePath": "staticwebassets\\css\\magic\\magic.css.map"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\magic\\magic.min.css",
+      "PackagePath": "staticwebassets\\css\\magic\\magic.min.css"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\magic\\magic.min.css.map",
+      "PackagePath": "staticwebassets\\css\\magic\\magic.min.css.map"
+    },
+    {
       "Id": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
@@ -57,8 +73,24 @@
       "PackagePath": "staticwebassets\\images\\defaultImage3.jpg"
     },
     {
+      "Id": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\js\\Article-Search.js",
+      "PackagePath": "staticwebassets\\js\\Article-Search.js"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\js\\Article.js",
+      "PackagePath": "staticwebassets\\js\\Article.js"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\js\\Settings.js",
+      "PackagePath": "staticwebassets\\js\\Settings.js"
+    },
+    {
       "Id": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\lib\\bootstrap-autocomplete\\autocomplete.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap-autocomplete\\autocomplete.js"
     },
     {
       "Id": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\lib\\bootstrap\\LICENSE",

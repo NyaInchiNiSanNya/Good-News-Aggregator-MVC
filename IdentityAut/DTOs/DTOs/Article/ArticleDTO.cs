@@ -14,7 +14,9 @@ namespace Core.DTOs.Article
         public Int32 PositiveRate { get; set; }
         public String URL { get; set; }
         public DateTime DateTime { get; set; }
+        public String ShortDescription { get; set; }
         public String Source { get; set; }
         public Int32 SourceId { get; set; }
+        public String? SortTeg { get; set; }
     }
 }

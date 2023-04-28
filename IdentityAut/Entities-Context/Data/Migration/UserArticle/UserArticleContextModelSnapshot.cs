@@ -80,9 +80,6 @@ namespace Entities_Context.Data.Migration.UserArticle
                     b.Property<int>("TagId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TegId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ArticleId");

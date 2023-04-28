@@ -71,6 +71,7 @@ namespace Services.Account
                         userDto.Roles.Add(Role.Role);
                     }
                 }
+
                 return usersList;
             }
 

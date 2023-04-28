@@ -42,11 +42,14 @@
 </div>
 <div>
     <div class="Icontainer block rounded-circle border border-4 border-dark" style="margin-top: 100px">
-        <img id="image">
+        <img class="user_picture" id="image">
     </div>
     <div style="width: 300px; display: block; margin-left: 400px; margin-top: 100px">
-        <input class="form-control form-control-sm" type="file">
+        <input class="form-control form-control-sm" type="file" id="userProfile">
+        
+        <p id="image-validation" class="text-danger"></p>
     </div>
+    
 </div>
 @section scripts{
     <script>
@@ -57,6 +60,8 @@
 
     
     </script>
+
+    <script src="/js/Settings.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

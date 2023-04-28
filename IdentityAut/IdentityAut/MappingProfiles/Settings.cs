@@ -12,11 +12,11 @@ namespace MVC.MappingProfiles
             SourceMemberNamingConvention = LowerUnderscoreNamingConvention.Instance;
             DestinationMemberNamingConvention = PascalCaseNamingConvention.Instance;
 
-            CreateMap<GetUserInfoWithSettingsDTO, User>().ReverseMap();
+            CreateMap<userInfoWithSettingsDTO, User>().ReverseMap();
 
-            CreateMap<GetUserInfoWithSettingsDTO, NewUserSettingsViewModel>().ReverseMap();
+            CreateMap<userInfoWithSettingsDTO, NewUserSettingsViewModel>().ReverseMap();
 
-            CreateMap<ShowUserInfoAndConfigViewModel, GetUserInfoWithSettingsDTO>().ReverseMap();
+            CreateMap<ShowUserInfoAndConfigViewModel, userInfoWithSettingsDTO>().ReverseMap();
         }
     }
 

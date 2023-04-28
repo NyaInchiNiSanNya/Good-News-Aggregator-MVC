@@ -28,7 +28,7 @@ public class Repository<TEntity> : IRepository<TEntity>
         GC.SuppressFinalize(this);
     }
 
-    public virtual async Task<TEntity?> GetByIdAsync(int id)
+    public virtual async Task<TEntity?> GetByIdAsync(Int32 id)
     {
         return await DbSet.AsNoTracking().FirstOrDefaultAsync(entity => entity.Id == id);
     }
@@ -81,7 +81,7 @@ public class Repository<TEntity> : IRepository<TEntity>
         DbSet.Update(entity);
     }
 
-    public virtual async Task Remove(int id)
+    public virtual async Task Remove(Int32 id)
     {
         var entity =
             await DbSet.FirstOrDefaultAsync(ent => ent.Id == id);
@@ -93,7 +93,7 @@ public class Repository<TEntity> : IRepository<TEntity>
         DbSet.RemoveRange(entities);
     }
 
-    public virtual async Task<int> CountAsync()
+    public virtual async Task<Int32> CountAsync()
     {
         return await DbSet.CountAsync();
     }

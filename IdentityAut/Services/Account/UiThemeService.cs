@@ -60,6 +60,7 @@ namespace Services.Account
 
                 AnyChanges = true;
             }
+
             if (!await IsThemeExistByNameAsync(DarkTheme))
             {
                 await _unitOfWork.UserInterfaceTheme.AddAsync(new SiteTheme() { Theme = DarkTheme });

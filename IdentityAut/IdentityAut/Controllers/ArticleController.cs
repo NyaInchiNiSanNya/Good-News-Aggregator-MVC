@@ -8,7 +8,9 @@ using Core.DTOs.Article;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using IServices;
+using Microsoft.AspNetCore.Authorization;
 using MVC.ControllerFactory;
+using NUnit.Framework;
 
 namespace Business_Logic.Controllers
 {
@@ -25,11 +27,42 @@ namespace Business_Logic.Controllers
 
         }
 
-        public async Task<IActionResult> GetArticlesByPage(Int32 page = 1)
+        public async Task<IActionResult> GetArticlesNames(String searchLineRequest = "")
         {
-            var totalArticlesCount = await _serviceFactory
-                .createArticlesService()
-                .GetTotalArticleCountAsync();
+            List<AutoCompleteDataDto> list =
+                await _serviceFactory.createArticlesService()
+                    .GetArticlesNamesByPartNameAsync(searchLineRequest);
+            return Ok(list);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetArticlesByPage(Int32 page = 1, String tag="",String searchLineRequest ="")
+        {
+            Int32 articlesCount = 0;
+
+            if (!String.IsNullOrEmpty(searchLineRequest))
+            {
+                articlesCount = await _serviceFactory
+                    .createArticlesService()
+                    .GetArticleCountWithPartNameAsync(searchLineRequest);
+                
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(tag))
+                {
+                    articlesCount = await _serviceFactory
+                        .createArticlesService()
+                        .GetArticleCountWithTagAsync(tag);
+                }
+                else
+                {
+                    articlesCount = await _serviceFactory
+                        .createArticlesService()
+                        .GetTotalArticleCountAsync();
+                }
+            }
+
 
 
             if (Int32.TryParse(_serviceFactory
@@ -42,13 +75,31 @@ namespace Business_Logic.Controllers
                 {
                     PageSize = pageSize,
                     PageNumber = page,
-                    TotalItems = totalArticlesCount
+                    TotalItems = articlesCount
                 };
 
-                var articles = await _serviceFactory
-                    .createArticlesService()
-                    .GetShortArticlesWithSourceByPageAsync(page,pageSize);
-                
+                List<ArticleDTO> articles = new List<ArticleDTO>();
+
+
+                if (!String.IsNullOrEmpty(searchLineRequest))
+                {
+                    articles = await _serviceFactory.createArticlesService().GetArticlesByPartNameAsync(page, pageSize,searchLineRequest);
+                }
+                else
+                {
+
+                    if (!String.IsNullOrEmpty(tag))
+                    {
+                        articles = await _serviceFactory
+                            .createArticlesService().GetArticlesWithSourceByTagByPageAsync(page, pageSize, tag);
+                    }
+                    else
+                    {
+                        articles = await _serviceFactory
+                            .createArticlesService()
+                            .GetShortArticlesWithSourceByPageAsync(page, pageSize);
+                    }
+                }
 
                 return View("Articles", new ObjectListModel()
                 {
@@ -61,6 +112,8 @@ namespace Business_Logic.Controllers
                 return StatusCode(500, new { Message = "Can't read configuration data" });
             }
         }
+
+        [HttpGet]
         public async Task<IActionResult> GetSelectedArticle(Int32 ArticleId)
         {
             FullArticleDTO fullArticleDto = await _serviceFactory
@@ -74,6 +127,22 @@ namespace Business_Logic.Controllers
 
             return NotFound();
 
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteArticlesById(Int32 ArticleId)
+        {
+            await _serviceFactory.createArticlesService().DeleteArticleById(ArticleId);
+
+            return RedirectToAction("GetArticlesByPage");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetArticleNamesBySearchStringPart(Int32 ArticleId)
+        {
+            await _serviceFactory.createArticlesService().DeleteArticleById(ArticleId);
+
+            return RedirectToAction("GetArticlesByPage");
         }
 
     }
