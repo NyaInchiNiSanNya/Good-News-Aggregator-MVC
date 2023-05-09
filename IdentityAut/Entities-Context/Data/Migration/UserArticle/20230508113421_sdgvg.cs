@@ -1,23 +1,24 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Entities_Context.Data.Migration.UserArticle
+namespace Entities_Context.Migrations
 {
     /// <inheritdoc />
-    public partial class PictureForArticles : Microsoft.EntityFrameworkCore.Migrations.Migration
+    public partial class sdgvg : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            
+            migrationBuilder.DropColumn(
+                name: "ItemId",
+                table: "Articles");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            
+
         }
     }
 }

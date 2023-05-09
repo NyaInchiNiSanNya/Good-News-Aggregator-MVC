@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Migration\UserArticle\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DTOs\Core.csproj" />
   </ItemGroup>
 

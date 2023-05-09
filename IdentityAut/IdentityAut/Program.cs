@@ -1,6 +1,3 @@
-
-using Entities_Context;
-
 using IServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +16,7 @@ using Entities_Context.Entities.UserNews;
 using IServices.Repositories;
 using AspNetSamples.Repositories;
 using Repositories.Implementations;
+using IServices.Services;
 
 namespace Business_Logic
 {
@@ -57,8 +55,9 @@ namespace Business_Logic
             builder.Services.AddScoped<ISourceRepository, SourceRepository>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
             builder.Services.AddScoped<IUsersRolesRepository, UsersRolesRepository>();
+            builder.Services.AddScoped<IArticleTagRepository, ArticleTagRepository>();
             builder.Services.AddScoped<IUserInterfaceThemeRepository, UserInterfaceThemeRepository>();
-
+            builder.Services.AddTransient<IArticleTagService, ArticleTagService>();
             builder.Services.AddTransient<IServiceFactory,ServiceFactory>();
             builder.Services.AddScoped<ISourceService, SourceService>();
             builder.Services.AddScoped<IUserService, UserService>();

@@ -9,32 +9,15 @@
     <link href="@Url.Content("~/css/FullArticle.css")" rel="stylesheet" type="text/css" />
 </head>
 <div style="padding-top: 0">
-    <div style="padding-top: 0">
-        <p class="fs-1 fw-bolder" style="line-height: 1;padding-top: 0">@Model.Title</p>
+    <div style="padding-top: 0;font-size: 20px;">
+        <p class="fs-1 fw-bolder" style="line-height: 1;padding-top: 0">@Html.Raw(Model.Title)</p>
         <div style="padding: 10px;display: flex">
-            <p class="fw-light fs-5">@Model.Source</p>
-            <p class="fw-light fs-5" style="padding-left:50px">@(Model.DateTime.ToLongDateString())</p>
+            <p class="fw-light fs-5">@Html.Raw(Model.SourceName)</p>
+            <p class="fw-light fs-5" style="padding-left:50px">@Html.Raw(Model.DateTime.ToLongDateString())</p>
         </div>
 
-        <div style="line-height: 1; padding-left: 0;padding-top:0">
-            <p class="fs-4 fw-bolder">@Model.ShortDescription</p>
-        </div>
-
-        @if (@Model.ArticlePicture != null)
-
-        {
-            <div class="Icontainer">
-                <img class="Articleimg" id="image-@Model.Id" src="">
-            </div>
-            <script>
-                imgElement = document.getElementById("image-@Model.Id");
-                base64String = @Html.Raw(Json.Serialize(Model.ArticlePicture));
-                imgElement.src = "data:image/jpeg;base64," + base64String;
-            </script>
-        }
-    
-        <div style="line-height: 1; padding-left: 0;padding-top:30px">
-            <p class="fs-5 fst-normal">@Model.FullText</p>
+        <div style="padding: 0px;" >
+            <p class="fs-5 fst-normal">@Html.Raw(@Model.FullText)</p>
         </div>
         
         <div>

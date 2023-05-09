@@ -2,16 +2,16 @@
 
 #nullable disable
 
-namespace Entities_Context.Data.Migration.UserArticle
+namespace Entities_Context.Migrations
 {
     /// <inheritdoc />
-    public partial class PictureForArticles2 : Microsoft.EntityFrameworkCore.Migrations.Migration
+    public partial class asf : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "ArticlePicture",
+                name: "Header",
                 table: "Articles",
                 type: "nvarchar(max)",
                 nullable: false,
@@ -22,7 +22,7 @@ namespace Entities_Context.Data.Migration.UserArticle
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ArticlePicture",
+                name: "Header",
                 table: "Articles");
         }
     }

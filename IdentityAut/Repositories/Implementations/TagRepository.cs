@@ -1,6 +1,5 @@
 ﻿using AspNetSamples.Repositories;
 using Entities_Context.Entities.UserNews;
-using Entities_Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;

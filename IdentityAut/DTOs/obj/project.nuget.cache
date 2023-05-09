@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "pqFI4xvfgEYmrI7qzw1CdYxqEBSkcJZSuCWb4ExQssvWP9lgRac4Fmd4BkcAHtSX9gYOi4GM3QjdYYGhmYM3KA==",
+  "dgSpecHash": "RVggJMMpjn8o2KPq8x/HpTSURN/jwV/04rlB7KagrEuI5nJN2CPi/OHWYGA8zkbXqufbXuyim+w/Dxl8xO98KQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\DTOs\\Core.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\User\\.nuget\\packages\\system.servicemodel.syndication\\7.0.0\\system.servicemodel.syndication.7.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

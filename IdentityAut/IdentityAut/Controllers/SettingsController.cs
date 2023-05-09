@@ -21,23 +21,23 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace Business_Logic.Controllers
 {
     [Authorize]
-     public class SettingsController : Controller
+    public class SettingsController : Controller
     {
         private readonly IServiceFactory _serviceFactory;
 
-
         public SettingsController
-        (IServiceFactory serviceFactory)
+            (IServiceFactory serviceFactory)
         {
 
             if (serviceFactory is null)
             {
                 throw new NullReferenceException(nameof(serviceFactory));
             }
+
             _serviceFactory = serviceFactory;
         }
-        
-        
+
+
 
         [HttpPost]
         [SettingsValidationFilterAttribute]
@@ -48,13 +48,14 @@ namespace Business_Logic.Controllers
                 .SetNewUserInfoAsync(
                     _serviceFactory.createMapperService().Map<userInfoWithSettingsDTO>(infoSettingsView)
                     , HttpContext.User.Identity.Name);
-            
+
             return RedirectToAction("GetInfoConfig");
-                
+
 
         }
 
-        [Route("Set")]
+
+
         [HttpGet]
         public async Task<IActionResult> GetInfoConfig()
         {
@@ -80,6 +81,7 @@ namespace Business_Logic.Controllers
                 .createThemeService()
                 .IsThemeExistByNameAsync(Theme));
         }
+
         [HttpPost]
         public async Task<IActionResult> GetUserByteArrayPicture([FromBody] String userPicture)
         {

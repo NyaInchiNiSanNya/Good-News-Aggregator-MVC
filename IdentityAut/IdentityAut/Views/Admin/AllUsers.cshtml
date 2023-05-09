@@ -13,16 +13,17 @@
 
 </head>
 <body style="width: 100%;">
-    <div style="width: 100%;">
+<div style="width: 100%;">
+
     <table class="table" style="width: 100%;">
         <thead>
         <tr>
-                    <th scope="col" style="text-align: center;">Id</th>
-                    <th scope="col" style="text-align: center;">Name</th>
-                    <th scope="col" style="text-align: center;">Email</th>
-                    <th scope="col" style="text-align: center;">Created</th>
-                    <th scope="col" style="text-align: center;">Positive Rate</th>
-                    <th scope="col" style="text-align: center;">Roles</th>
+            <th scope="col" style="text-align: center;">Id</th>
+            <th scope="col" style="text-align: center;">Name</th>
+            <th scope="col" style="text-align: center;">Email</th>
+            <th scope="col" style="text-align: center;">Created</th>
+            <th scope="col" style="text-align: center;">Positive Rate</th>
+            <th scope="col" style="text-align: center;">Roles</th>
         </tr>
         </thead>
         <tbody>
@@ -38,19 +39,19 @@
 
                     @foreach (var r in x.Roles)
                     {
-                        RoleString +=" " + r;
+                        RoleString += " " + r;
                     }
                     <p style="text-align: center;" style="text-align: center;">@RoleString</p>
                     @{
                         RoleString = String.Empty;
                     }
-                            
+
                 </td>
-                        <td><a ctype="button" class="btn btn btn-danger">BAN</a></td>
+                <td><a ctype="button" class="btn btn btn-danger">BAN</a></td>
             </tr>
         }
         </tbody>
     </table>
-        
+
 </div>
 </body>

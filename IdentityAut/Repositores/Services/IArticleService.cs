@@ -20,5 +20,6 @@ namespace IServices
         public Task DeleteArticleById(Int32 id);
         public Task<Int32> GetTotalArticleCountAsync();
         public Task<FullArticleDTO> GetFullArticleByIdAsync(Int32 id);
+        public Task AggregateArticlesAsync();
     }
 }

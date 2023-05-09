@@ -1,6 +1,5 @@
 ﻿
 using Core.DTOs.Article;
-using Entities_Context;
 using Entities_Context.Entities.UserNews;
 using IServices.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -31,10 +30,9 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
     public async Task<List<Article>> GetArticlesByPageAsync(Int32 page, Int32 pageSize)
     {
         var articles = await DbSet
-            .Include(article => article.Source)
+            .OrderByDescending(x => x.DateTime)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
-            .OrderByDescending(x=>x.DateTime)
             .ToListAsync();
 
         return articles;

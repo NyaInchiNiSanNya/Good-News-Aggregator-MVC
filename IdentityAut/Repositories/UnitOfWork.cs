@@ -1,6 +1,5 @@
 ﻿using Abstract;
 using AspNetSamples.Abstractions.Data.Repositories;
-using Entities_Context;
 using Entities_Context.Entities.UserNews;
 using IServices.Repositories;
 using Repositories.Implementations;
@@ -13,6 +12,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly UserArticleContext _dbContext;
 
     private readonly IArticleRepository _articlesRepository;
+    private readonly IArticleTagRepository _articlesTagRepository;
     private readonly ISourceRepository _sourceRepository;
     private readonly IUsersRepository _userRepository;
     private readonly IUsersRolesRepository _usersRolesRepository;
@@ -27,8 +27,10 @@ public class UnitOfWork : IUnitOfWork
         IRoleRepository roleRepository,
         IUsersRolesRepository usersRolesRepository,
         IUserInterfaceThemeRepository interfaceThemeRepository,
+        IArticleTagRepository articlesTagRepository,
         ITagRepository tagRepository)
     {
+        _articlesTagRepository = articlesTagRepository;
         _dbContext = dbContext;
         _articlesRepository = articleRepository;
         _sourceRepository = sourceRepository;
@@ -44,6 +46,7 @@ public class UnitOfWork : IUnitOfWork
     public IUsersRepository Users => _userRepository;
     public IRoleRepository Roles => _roleRepository;
     public IUsersRolesRepository UsersRoles => _usersRolesRepository;
+    public IArticleTagRepository ArticlesTags => _articlesTagRepository;
     public IUserInterfaceThemeRepository UserInterfaceTheme => _userInterfaceThemeRepository;
     public ITagRepository Tag=> _tagRepository;
     public async Task<int> SaveChangesAsync()

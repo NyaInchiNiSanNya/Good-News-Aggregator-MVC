@@ -13,15 +13,16 @@ using Entities_Context.Entities.UserNews;
 using IServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Services.Account
 {
     public class RoleService :IRoleService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IConfiguration _configuration;
 
-
-        public RoleService(IUnitOfWork unitOfWork)
+        public RoleService(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             if (unitOfWork is null)
             {
@@ -30,6 +31,12 @@ namespace Services.Account
 
             _unitOfWork = unitOfWork;
 
+
+            if (configuration is null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+            _configuration = configuration;
         }
 
         public async Task<List<UserRole>> GetUserRolesByUserIdAsync(int Id)
@@ -66,30 +73,24 @@ namespace Services.Account
 
         public async Task InitiateDefaultRolesAsync()
         {
+            String[] RolesFromConfig = _configuration["Roles:all"].Split(" ");
 
+            if (RolesFromConfig.Length==0)
+            {
+                throw new ArgumentException("No roles are defined in the configuration file");
+            }
+            
             Boolean AnyChanges = false;
 
-            if (! await IsRoleExistsAsync("User"))
+            foreach (String role in RolesFromConfig)
             {
-                await _unitOfWork.Roles.AddAsync(new UserRole(){Role="User"});
+                if (!await IsRoleExistsAsync(role))
+                {
+                    await _unitOfWork.Roles.AddAsync(new UserRole() { Role = role });
 
-                AnyChanges=true;
+                    AnyChanges = true;
+                }
             }
-
-            if (!await IsRoleExistsAsync("Admin"))
-            {
-                await _unitOfWork.Roles.AddAsync(new UserRole() { Role = "Admin" });
-
-                AnyChanges=true;
-            }
-
-            if (!await IsRoleExistsAsync("SuperAdmin"))
-            {
-                await _unitOfWork.Roles.AddAsync(new UserRole() { Role = "SuperAdmin" });
-               
-                AnyChanges=true;
-            }
-
             if (AnyChanges)
             {
                 await _unitOfWork.SaveChangesAsync();
@@ -105,7 +106,7 @@ namespace Services.Account
         public async Task<UserRole> GetDefaultRoleAsync()
         {
             UserRole? defaultRole = await _unitOfWork.Roles
-                .FindBy(x=>x.Role.Equals("User"))
+                .FindBy(x=>x.Role.Equals(_configuration["Roles:all"]))
                 .FirstOrDefaultAsync();
 
             if (defaultRole is null)
@@ -113,7 +114,7 @@ namespace Services.Account
                 await InitiateDefaultRolesAsync();
 
                 defaultRole = await _unitOfWork.Roles
-                    .FindBy(x => x.Role.Equals("User"))
+                    .FindBy(x => x.Role.Equals(_configuration["Roles:default"]))
                     .FirstOrDefaultAsync();
             }
 

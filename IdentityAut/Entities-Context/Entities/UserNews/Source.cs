@@ -13,7 +13,8 @@ namespace Entities_Context.Entities.UserNews
 
         public String Name { get; set; }
         public Int32 PositiveRate {get; set; }
-        public String URL { get; set; }
+        public String RssFeedUrl { get; set; }
+        public String OriginUrl { get; set; }
 
         public List<Article> Articles { get; set; }
     }

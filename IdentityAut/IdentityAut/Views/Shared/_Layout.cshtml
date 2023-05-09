@@ -22,7 +22,7 @@
                     </form>
                 </div>
                 <div style="margin: 0;padding: 0">
-                    <a type="button" class="HelperBlockbuttom" asp-controller="Admin" asp-action="UserList">Админ</a>
+                    <a type="button" class="HelperBlockbuttom" asp-controller="Admin" asp-action="GetAdminPage">Админ</a>
                     <a type="button" class="HelperBlockbuttom" asp-controller="Account" asp-action="Login">Вход</a>
                     <a type="button" class="HelperBlockbuttom" asp-controller="Settings" asp-action="GetInfoConfig">Настройки</a>
                     <a type="button" class="HelperBlockbuttom" asp-controller="Account" asp-action="LogOut">Выйти</a>
@@ -38,14 +38,14 @@
     <nav id="mainNav" class="disIfMobile">
         <div class="menu">
             <a class="navbar-brand pct" style="margin-right: 0rem;" asp-controller="Article" asp-action="GetArticlesByPage">
-                <img src="/images/Log.png" alt="Bootstrap" width="40%">
+                <img src="/images/Log.png" alt="Bootstrap" style="width:40%">
             </a>
+            
             <a type="button" class="buttom" href="@Url.Action("GetArticlesByPage", "Article", new { tag = "" })">Новости</a>
-            <a type="button" class="buttom" href="@Url.Action("GetArticlesByPage", "Article", new { tag = "Спорт" })">Спорт</a>
-            <a type="button" class="buttom" href="@Url.Action("GetArticlesByPage", "Article", new { tag = "Экономика" })">Экономика</a>
-            <a type="button" class="buttom" href="@Url.Action("GetArticlesByPage", "Article", new { tag = "Наука" })">Наука</a>
-            <a type="button" class="buttom" href="@Url.Action("GetArticlesByPage", "Article", new { tag = "Политика" })">Политика</a>
-            <a type="button" class="buttom" href="@Url.Action("GetArticlesByPage", "Article", new { tag = "Общество" })">Общество</a>
+            <a type="button" class="buttom" href="@Url.Action("GetArticlesByPage", "Article", new { tag = "авто" })">Авто</a>
+            <a type="button" class="buttom" href="@Url.Action("GetArticlesByPage", "Article", new { tag = "животные" })">Животные</a>
+            <a type="button" class="buttom" href="@Url.Action("GetArticlesByPage", "Article", new { tag = "лайфстайл" })">Лайфстайл</a>
+            <a type="button" class="buttom" href="@Url.Action("GetArticlesByPage", "Article", new { tag = "позновательное" })">Позновательное</a>
             <a type="button" class="buttom" asp-controller="Admin" asp-action="UserList">Предложить новость</a>
         </div>
     </nav>

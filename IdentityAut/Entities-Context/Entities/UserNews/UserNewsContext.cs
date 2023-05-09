@@ -1,8 +1,7 @@
-﻿using Entities_Context.Entities.UserNews;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 
-namespace Entities_Context
+namespace Entities_Context.Entities.UserNews
 {
     public class UserArticleContext : DbContext
     {

@@ -10,19 +10,19 @@ using Entities_Context.Entities.UserNews;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Abstract;
+using Microsoft.Extensions.Configuration;
 
 namespace Services.Account
 {
 
     public class UiThemeService:IUiThemeService
     {
-        private const String DefaultTheme = "default";
-        private const String DarkTheme = "dark";
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IConfiguration _configuration;
 
 
-        public UiThemeService(IUnitOfWork unitOfWork)
+        public UiThemeService(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             if (unitOfWork is null)
             {
@@ -30,6 +30,13 @@ namespace Services.Account
             }
 
             _unitOfWork = unitOfWork;
+
+            if (configuration is null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
+            _configuration = configuration;
 
         }
 
@@ -51,21 +58,23 @@ namespace Services.Account
 
         public async Task InitiateThemeAsync()
         {
-
+            String[] themesFromConfigFile = _configuration["Themes:all"].Split(" ");
+           
             Boolean AnyChanges = false;
 
-            if (!await IsThemeExistByNameAsync(DefaultTheme))
+            if (themesFromConfigFile.Length==0)
             {
-                await _unitOfWork.UserInterfaceTheme.AddAsync(new SiteTheme() { Theme = DefaultTheme });
-
-                AnyChanges = true;
+                throw new ArgumentException("No themes are defined in the configuration file");
             }
 
-            if (!await IsThemeExistByNameAsync(DarkTheme))
+            foreach (var theme in themesFromConfigFile)
             {
-                await _unitOfWork.UserInterfaceTheme.AddAsync(new SiteTheme() { Theme = DarkTheme });
+                if (!await IsThemeExistByNameAsync(theme))
+                {
+                    await _unitOfWork.UserInterfaceTheme.AddAsync(new SiteTheme() { Theme = theme });
 
-                AnyChanges = true;
+                    AnyChanges = true;
+                }
             }
 
             if (AnyChanges)
@@ -77,7 +86,7 @@ namespace Services.Account
         public async Task<Int32> GetIdDefaultThemeAsync()
         {
             var theme = await _unitOfWork.UserInterfaceTheme
-                .FindBy(x => x.Theme == DefaultTheme)
+                .FindBy(x => x.Theme == _configuration["Themes:default"])
                 .FirstOrDefaultAsync();
             
             Int32 Id = theme?.Id ?? 0;
@@ -87,7 +96,7 @@ namespace Services.Account
                 await InitiateThemeAsync();
 
                 theme = await _unitOfWork.UserInterfaceTheme
-                    .FindBy(x => x.Theme == DefaultTheme)
+                    .FindBy(x => x.Theme == _configuration["Themes:default"])
                     .FirstOrDefaultAsync();
 
                 return theme?.Id ?? 0;
@@ -135,7 +144,7 @@ namespace Services.Account
         {
             var theme = (await _unitOfWork.UserInterfaceTheme.GetByIdAsync(Id));
             
-            return theme?.Theme?? DefaultTheme;
+            return theme?.Theme?? _configuration["Themes:default"];
         }
 
 

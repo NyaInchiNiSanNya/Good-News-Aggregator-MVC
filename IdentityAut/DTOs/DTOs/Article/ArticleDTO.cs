@@ -10,12 +10,12 @@ namespace Core.DTOs.Article
     {
         public Int32 Id { get; set; }
         public String Title { get; set; }
-        public byte[]? ArticlePicture { get; set; }
+        public String ArticlePicture { get; set; }
         public Int32 PositiveRate { get; set; }
-        public String URL { get; set; }
         public DateTime DateTime { get; set; }
         public String ShortDescription { get; set; }
-        public String Source { get; set; }
+        public String ArticleSourceUrl { get; set; }
+        public String SourceName { get; set; }
         public Int32 SourceId { get; set; }
         public String? SortTeg { get; set; }
     }

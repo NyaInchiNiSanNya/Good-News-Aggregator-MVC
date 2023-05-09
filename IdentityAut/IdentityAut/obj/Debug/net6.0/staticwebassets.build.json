@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+BuHTRrzuPoQhPk2r/gAl3aaQz3T2p0GfpQoWy4wk1U=",
+  "Hash": "eBVUH1WzSatsiisns1aQHYCxa/4dpbl/hlLfhilbVn8=",
   "Source": "MVC",
   "BasePath": "_content/MVC",
   "Mode": "Default",
@@ -338,6 +338,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\Log.png"
+    },
+    {
+      "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\images\\Servant.png",
+      "SourceId": "MVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\",
+      "BasePath": "_content/MVC",
+      "RelativePath": "images/Servant.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\Servant.png"
     },
     {
       "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\js\\Article.js",

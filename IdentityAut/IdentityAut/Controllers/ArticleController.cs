@@ -27,6 +27,7 @@ namespace Business_Logic.Controllers
 
         }
 
+
         public async Task<IActionResult> GetArticlesNames(String searchLineRequest = "")
         {
             List<AutoCompleteDataDto> list =
@@ -83,7 +84,8 @@ namespace Business_Logic.Controllers
 
                 if (!String.IsNullOrEmpty(searchLineRequest))
                 {
-                    articles = await _serviceFactory.createArticlesService().GetArticlesByPartNameAsync(page, pageSize,searchLineRequest);
+                    articles = await _serviceFactory.createArticlesService()
+                        .GetArticlesByPartNameAsync(page, pageSize,searchLineRequest);
                 }
                 else
                 {
@@ -128,7 +130,7 @@ namespace Business_Logic.Controllers
             return NotFound();
 
         }
-
+        
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteArticlesById(Int32 ArticleId)
         {
@@ -138,6 +140,7 @@ namespace Business_Logic.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [HttpGet]
         public async Task<IActionResult> GetArticleNamesBySearchStringPart(Int32 ArticleId)
         {
             await _serviceFactory.createArticlesService().DeleteArticleById(ArticleId);

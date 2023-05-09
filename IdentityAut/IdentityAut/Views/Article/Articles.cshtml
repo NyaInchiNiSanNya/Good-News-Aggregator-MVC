@@ -24,41 +24,32 @@
     {
         <div class="article-card" style="position: relative;overflow:hidden;">
 
-            <div class="full hidden puffOut" style="padding: 0;margin: 0; height: 27rem; position: absolute; z-index:1000">
+            <div class="full hidden puffOut" style="padding: 0;margin: 0; height: 25rem; position: absolute; z-index:1000">
                 <div class="cardInfo" style="">
-                    <h5 style="padding-right:0">@x.ShortDescription</h5>
+                    <h5 style="padding-right:0">@Html.Raw(@x.ShortDescription)</h5>
                 </div>
                 <div class="card-botton" style="position: absolute;bottom:0">
                     <a href="@Url.Action("GetSelectedArticle", "Article", new { ArticleId = x.Id })" class="btn-number btn-Pages" >Читать</a>
-                    <a href="@x.URL" class="btn-number btn-Pages">В источник -></a>
+                    <a href="@Html.Raw(@x.ArticleSourceUrl)" class="btn-number btn-Pages">В источник -></a>
                     <a href="@Url.Action("DeleteArticlesById", "Article", new { articleId = x.Id})" type="button" class="btn btn-danger">Удалить</a>
                 </div> 
             </div>
 
             <div class="preview" style="padding: 0;margin: 0;position: relative;">
-
-            @if (x.ArticlePicture != null)
-            {
                 <div class="Icontainer">
-                    <img class="Articleimg" id="image-@x.Id" src="">
+                    <img class="Articleimg" src="@Html.Raw(x.ArticlePicture)">
                 </div>
-                <script>
-                imgElement = document.getElementById("image-@x.Id");
-                base64String = @Html.Raw(Json.Serialize(x.ArticlePicture));
-                imgElement.src = "data:image/jpeg;base64," + base64String;
-            </script>
-            }
-            <div class="cardInfo">
+                <div class="cardInfo">
                 <div class="DateSourceRate">
-                    <p class="card-text">@x.Source</p>
-                    <p class="card-text">@(x.DateTime.ToLongDateString())</p>
+                    <p class="card-text">@Html.Raw(@x.SourceName)</p>
+                        <p class="card-text">@Html.Raw((x.DateTime.ToLongDateString()))</p>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-double-up" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 3.707 2.354 9.354a.5.5 0 1 1-.708-.708l6-6z"/>
                         <path fill-rule="evenodd" d="M7.646 6.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 7.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
                     </svg>
-                    <p class="card-text" style="padding-right: 0">@x.PositiveRate</p>
+                    <p class="card-text" style="padding-right: 0">@Html.Raw(x.PositiveRate)</p>
                 </div>
-                <h5 style="padding-right:0">@x.Title</h5>
+                <h5 style="padding-right:0">@Html.Raw(@x.Title)</h5>
             </div>
             </div>
         </div>
@@ -70,4 +61,3 @@
     
 }
 <pagination page-info="Model.PageInfo" page-action="GetArticlesByPage"></pagination>
-

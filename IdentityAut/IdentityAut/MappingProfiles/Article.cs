@@ -13,7 +13,9 @@ namespace MVC.MappingProfiles
             SourceMemberNamingConvention = LowerUnderscoreNamingConvention.Instance;
             DestinationMemberNamingConvention = PascalCaseNamingConvention.Instance;
 
+            CreateMap<SourceDTO, Source>().ReverseMap();
             CreateMap<FullArticleDTO, Article>().ReverseMap();
+            CreateMap<ArticleDTO, Article>().ReverseMap();
             CreateMap<Article, AutoCompleteDataDto>()
                 .ForMember(dto => dto.Label,
                     opt

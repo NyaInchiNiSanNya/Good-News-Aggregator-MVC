@@ -9,14 +9,17 @@ namespace Core.DTOs.Article
     public class FullArticleDTO
     {
         public Int32 Id { get; set; }
+        public String HashUrlId { get; set; }
         public String Title { get; set; }
         public String ShortDescription { get; set; }
         public String FullText { get; set; }
         public Int32 PositiveRate { get; set; }
-        public String URL { get; set; }
+        public List<String> ArticleTags { get; set; }
+        public String ArticleSourceUrl { get; set; }
+        public String SourceUrl { get; set; }
+        public String SourceName { get; set; }
         public String ArticlePicture { get; set; }
         public DateTime DateTime { get; set; }
-        public String Source { get; set; }
         public Int32 SourceId { get; set; }
     }
 }

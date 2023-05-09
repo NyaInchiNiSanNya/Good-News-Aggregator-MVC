@@ -61,6 +61,10 @@
       "PackagePath": "staticwebassets\\images\\Log.png"
     },
     {
+      "Id": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\images\\Servant.png",
+      "PackagePath": "staticwebassets\\images\\Servant.png"
+    },
+    {
       "Id": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\images\\defaultImage.jpg",
       "PackagePath": "staticwebassets\\images\\defaultImage.jpg"
     },

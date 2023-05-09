@@ -7,6 +7,8 @@ namespace Abstract
 {
     public interface IUnitOfWork : IDisposable
     {
+        
+        public IArticleTagRepository ArticlesTags { get; }
         public IArticleRepository Articles { get; }
         public ISourceRepository Source { get; }
         public IUsersRepository Users { get; }

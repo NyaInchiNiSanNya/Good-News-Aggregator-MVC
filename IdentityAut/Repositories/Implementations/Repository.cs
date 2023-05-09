@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using AspNetSamples.Abstractions.Data.Repositories;
 using AspNetSamples.Core;
 using Core.DTOs;
-using Entities_Context;
+using Entities_Context.Entities.UserNews;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

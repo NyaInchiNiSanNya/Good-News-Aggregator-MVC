@@ -13,6 +13,7 @@ namespace MVC.Controllers
 
         private readonly IServiceFactory _serviceFactory;
 
+
         public AdminController
         (IServiceFactory serviceFactory)
         {
@@ -22,7 +23,17 @@ namespace MVC.Controllers
             }
             _serviceFactory = serviceFactory;
         }
-
+        [HttpGet]
+        public IActionResult GetAdminPage()
+        {
+            return View("Admin");
+        }
+        [HttpPost]
+        public async Task<IActionResult> NewsAggregator()
+        {
+            await _serviceFactory.createArticlesService().AggregateArticlesAsync();
+            return RedirectToAction("GetAdminPage");
+        }
         [HttpGet]
         public async  Task<IActionResult> UserList()
         {

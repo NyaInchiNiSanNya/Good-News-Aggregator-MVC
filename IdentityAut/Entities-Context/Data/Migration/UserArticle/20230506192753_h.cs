@@ -2,28 +2,28 @@
 
 #nullable disable
 
-namespace Entities_Context.Data.Migration.UserArticle
+namespace Entities_Context.Migrations
 {
     /// <inheritdoc />
-    public partial class dfgs : Microsoft.EntityFrameworkCore.Migrations.Migration
+    public partial class h : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "TegId",
-                table: "ArticlesTags");
+                name: "Header",
+                table: "Articles");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "TegId",
-                table: "ArticlesTags",
-                type: "int",
+            migrationBuilder.AddColumn<string>(
+                name: "Header",
+                table: "Articles",
+                type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: "");
         }
     }
 }
