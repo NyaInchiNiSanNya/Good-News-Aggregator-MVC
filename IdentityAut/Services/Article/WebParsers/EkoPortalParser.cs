@@ -34,32 +34,18 @@ namespace Services.Article.WebParsers
                 switch (category)
                 {
                     case "Климат":
-                        tags.Add("позновательное");
-                        break;
                     case "Интересно":
-                        tags.Add("позновательное");
-                        break;
                     case "Наука":
-                        tags.Add("позновательное");
-                        break;
                     case "История":
-                        tags.Add("позновательное");
-                        break;
                     case "Новости законодательства":
-                        tags.Add("позновательное");
-                        break;
                     case "Зелёные технологии":
                         tags.Add("позновательное");
                         break;
                     case "Продукты":
-                        tags.Add("лайфстайл");
-                        break;
                     case "Здоровье":
                         tags.Add("лайфстайл");
                         break;
                     case "Природа":
-                        tags.Add("животные");
-                        break;
                     case "Домашние животные":
                         tags.Add("животные");
                         break;

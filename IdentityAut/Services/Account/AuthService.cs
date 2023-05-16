@@ -13,7 +13,7 @@ using IServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repositores;
-
+using Serilog;
 
 namespace Services.Account
 {
@@ -108,6 +108,8 @@ namespace Services.Account
                 await _unitOfWork.UsersRoles.AddAsync(newUserRole);
                 
                 await _unitOfWork.SaveChangesAsync();
+
+                Log.Information("User {0} successfully registered.", modelDTO.Email);
 
                 return true;
             }

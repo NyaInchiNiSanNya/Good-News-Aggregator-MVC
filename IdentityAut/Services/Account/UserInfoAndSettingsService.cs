@@ -17,6 +17,7 @@ using Abstract;
 using Core.DTOs;
 using System.Collections;
 using System.Drawing;
+using Serilog;
 
 namespace Services.Account
 {
@@ -65,6 +66,7 @@ namespace Services.Account
                 return false;
             }
         }
+        
         public async Task<userInfoWithSettingsDTO> GetUserInformationAsync(String Email)
         {
 
@@ -85,6 +87,8 @@ namespace Services.Account
 
                 return model;
             }
+
+            Log.Warning("User with email {0} is not found", Email);
 
             return null;
         }
@@ -112,18 +116,18 @@ namespace Services.Account
                     return false;
                 }
             }
-
             return true;
         }
 
-        public async Task SetNewProfilePictureByNameAsync(String userPicture, String name)
+        public async Task SetNewProfilePictureByNameAsync(String userPicture, String Email)
         {
             if (!IsPictureValid(userPicture))
             {
+                Log.Warning("User with email {0} unsuccessfully uploaded an image", Email);
                 return;
             }
 
-            User? user = await _unitOfWork.Users.FindBy(user => user.Email.Equals(name)).FirstOrDefaultAsync();
+            User? user = await _unitOfWork.Users.FindBy(user => user.Email.Equals(Email)).FirstOrDefaultAsync();
 
 
             if (user is not null && IsValidBase64String(userPicture))
@@ -133,6 +137,10 @@ namespace Services.Account
                         new PatchDto { PropertyName = "ProfilePicture", PropertyValue = userPicture }
                     });
                 await _unitOfWork.SaveChangesAsync();
+            }
+            else
+            {
+                Log.Warning("User with email {0} unsuccessfully uploaded an image", Email);
             }
 
 
@@ -158,7 +166,19 @@ namespace Services.Account
                 await _unitOfWork.Users.PatchAsync(User.Id, patchDtos);
 
                 await _unitOfWork.SaveChangesAsync();
+
+                Log.Information("User with email {0} changed the settings", Email);
             }
+            else
+            {
+                Log.Warning("User with email {0} is not found (SetNewUserInfoAsync)", Email);
+            }
+        }
+
+        public async Task<Int32> GetUserArticleRateFilter(String Email)
+        {
+            return await _unitOfWork.Users.GetAsQueryable().Where(user => user.Email == Email)
+                .Select(user => user.PositiveRateFilter).FirstOrDefaultAsync();
         }
 
     }

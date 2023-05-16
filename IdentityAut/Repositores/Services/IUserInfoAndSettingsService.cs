@@ -15,6 +15,8 @@ namespace UserConfigRepositores
         
         public Task SetNewUserInfoAsync(userInfoWithSettingsDTO userInfoWithSettingsDto, String Email);
 
-        public Task SetNewProfilePictureByNameAsync(String userPicture, String name);
+        public Task SetNewProfilePictureByNameAsync(String userPicture, String Email);
+        
+        public Task<Int32> GetUserArticleRateFilter(String Email);
     }
 }

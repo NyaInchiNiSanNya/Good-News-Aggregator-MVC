@@ -48,9 +48,9 @@ namespace Services.Article.WebParsers
             return tags;
         }
 
-        internal override string GetPictureReference()
+        internal override String GetPictureReference()
         {
-            string pattern = @"background-image:\s*url\(['""]?(?<url>.*?)['""]?\);";
+            String pattern = @"background-image:\s*url\(['""]?(?<url>.*?)['""]?\);";
 
             Match match = Regex.Match(htmlDoc.DocumentNode.SelectSingleNode("//div[@class = 'news-header__image']").Attributes["style"].Value, pattern);
 
@@ -58,7 +58,7 @@ namespace Services.Article.WebParsers
 
         }
 
-        internal override string GetShortDescription()
+        internal override String GetShortDescription()
         {
             String shortDescription = htmlDoc.DocumentNode.SelectSingleNode("//div[@class = 'news-text']/p").InnerHtml;
 
@@ -71,7 +71,7 @@ namespace Services.Article.WebParsers
             return shortDescription;
         }
 
-        internal override string GetFullTextDescription()
+        internal override String GetFullTextDescription()
         {
             var Text = htmlDoc.DocumentNode.SelectSingleNode("//div[@class = 'news-text']");
             var nodesToRemove = Text.SelectNodes(@"//div[@class = 'news-incut news-incut_extended news-incut_position_right news-incut_shift_top news-helpers_hide_tablet']|
@@ -83,7 +83,8 @@ namespace Services.Article.WebParsers
 											 //div[@class = 'news-header news-header_extended news-helpers_show_tablet']|
 											 //div[@class = 'news-banner news-banner_condensed news-helpers_show_tablet']|
                                              //div[@class = 'news-widget news-widget_special']|
-											 //div[@class = 'news-media news-media_extended-condensed news-media_3by2 news-media_centering']
+											 //div[@class = 'news-media news-media_extended-condensed news-media_3by2 news-media_centering']|
+                                             //div[@class = 'news-promo']
 											 ");
             
             foreach (var nodes in nodesToRemove)

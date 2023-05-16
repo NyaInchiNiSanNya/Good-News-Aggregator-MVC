@@ -41,8 +41,6 @@ namespace MVC.Filters.Validation
                 options =>
                     options.IncludeRuleSets("PatternsCheck"));
 
-
-
             return result;
         }
 

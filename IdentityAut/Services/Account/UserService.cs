@@ -8,6 +8,7 @@ using Entities_Context;
 using Entities_Context.Entities.UserNews;
 using IServices;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Services.Account
 {
@@ -47,6 +48,7 @@ namespace Services.Account
 
         public async Task<List<UserDTO>> GetAllUsersWithRolesAsync()
         {
+            Log.Warning("Admin requested a list of users ");
 
             List<User> users = await _unitOfWork.Users.GetAsQueryable()
                 .AsNoTracking().ToListAsync();

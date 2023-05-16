@@ -14,6 +14,7 @@ using IServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace Services.Account
 {
@@ -73,6 +74,8 @@ namespace Services.Account
 
         public async Task InitiateDefaultRolesAsync()
         {
+            Log.Information("Attempt to create roles");
+
             String[] RolesFromConfig = _configuration["Roles:all"].Split(" ");
 
             if (RolesFromConfig.Length==0)
@@ -105,16 +108,23 @@ namespace Services.Account
 
         public async Task<UserRole> GetDefaultRoleAsync()
         {
+            String defaultRoleFromConfigFile = _configuration["Roles:all"];
+            
+            if (String.IsNullOrEmpty(defaultRoleFromConfigFile))
+            {
+                throw new ArgumentException("No default role is defined in the configuration file");
+            }
             UserRole? defaultRole = await _unitOfWork.Roles
-                .FindBy(x=>x.Role.Equals(_configuration["Roles:all"]))
+                .FindBy(x=>x.Role.Equals(defaultRoleFromConfigFile))
                 .FirstOrDefaultAsync();
 
             if (defaultRole is null)
             {
+                
                 await InitiateDefaultRolesAsync();
 
                 defaultRole = await _unitOfWork.Roles
-                    .FindBy(x => x.Role.Equals(_configuration["Roles:default"]))
+                    .FindBy(x => x.Role.Equals(defaultRoleFromConfigFile))
                     .FirstOrDefaultAsync();
             }
 

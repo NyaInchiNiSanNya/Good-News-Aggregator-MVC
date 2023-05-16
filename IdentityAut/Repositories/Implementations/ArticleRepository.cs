@@ -13,13 +13,13 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
     {
     }
 
-    public async Task<List<Article>> GetArticlesByTagByPageAsync(Int32 page, Int32 pageSize, Int32 tagId )
+    public async Task<List<Article>> GetArticlesByTagByPageAsync(Int32 page, Int32 pageSize, Int32 tagId, Int32 userRateFilter)
     {
         
         var articles = await DbSet
             .Include(article => article.Source)
             .Include(x=>x.Tags)
-            .Where(article => article.Tags.Any(tag => tag.TagId == tagId))
+            .Where(article => article.Tags.Any(tag => tag.TagId == tagId)&& article.PositiveRate >= userRateFilter)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .OrderByDescending(x => x.DateTime)
@@ -27,23 +27,14 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
 
         return articles;
     }
-    public async Task<List<Article>> GetArticlesByPageAsync(Int32 page, Int32 pageSize)
+    public async Task<List<Article>> GetArticlesByPageAsync(Int32 page, Int32 pageSize, Int32 userRateFilter)
     {
         var articles = await DbSet
+            .Where(article=>article.PositiveRate>=userRateFilter)
             .OrderByDescending(x => x.DateTime)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
-
-        return articles;
-    }
-
-    public async Task<int> GetArticlesWithTagCountAsync( Int32 tagId)
-    {
-        var articles = await DbSet
-            .Include(article => article.Source)
-            .Include(x => x.Tags)
-            .Where(article => article.Tags.Any(tag => tag.TagId == tagId)).CountAsync();
 
         return articles;
     }

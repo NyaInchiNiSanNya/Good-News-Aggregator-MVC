@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Abstract;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace Services.Account
 {
@@ -58,6 +59,8 @@ namespace Services.Account
 
         public async Task InitiateThemeAsync()
         {
+            Log.Information("Attempt to create themes");
+
             String[] themesFromConfigFile = _configuration["Themes:all"].Split(" ");
            
             Boolean AnyChanges = false;
@@ -85,8 +88,15 @@ namespace Services.Account
 
         public async Task<Int32> GetIdDefaultThemeAsync()
         {
+            String defaultTheme = _configuration["Themes:default"];
+
+            if (String.IsNullOrEmpty(defaultTheme))
+            {
+                throw new ArgumentException("No default theme is defined in the configuration file");
+            }
+
             var theme = await _unitOfWork.UserInterfaceTheme
-                .FindBy(x => x.Theme == _configuration["Themes:default"])
+                .FindBy(x => x.Theme == defaultTheme)
                 .FirstOrDefaultAsync();
             
             Int32 Id = theme?.Id ?? 0;
@@ -96,7 +106,7 @@ namespace Services.Account
                 await InitiateThemeAsync();
 
                 theme = await _unitOfWork.UserInterfaceTheme
-                    .FindBy(x => x.Theme == _configuration["Themes:default"])
+                    .FindBy(x => x.Theme == defaultTheme)
                     .FirstOrDefaultAsync();
 
                 return theme?.Id ?? 0;
@@ -143,8 +153,9 @@ namespace Services.Account
         public async Task<String> GetThemeNameByIdAsync(Int32 Id)
         {
             var theme = (await _unitOfWork.UserInterfaceTheme.GetByIdAsync(Id));
-            
-            return theme?.Theme?? _configuration["Themes:default"];
+
+            return theme?.Theme?? (await _unitOfWork.UserInterfaceTheme.GetByIdAsync(
+                await GetIdDefaultThemeAsync())).Theme;
         }
 
 

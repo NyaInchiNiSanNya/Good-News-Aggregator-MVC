@@ -32,28 +32,33 @@ namespace Business_Logic.TegHelpers
             for (int i = 1; i <= PageInfo.TotalPages; i++)
             {
                 var tag = new TagBuilder("a");
-                var anchorInnerHtml = i.ToString();
+                
 
                 tag.AddCssClass("btn-number btn-Pages");
                 if (ViewContext.HttpContext.Request.Query.ContainsKey("page") && int.TryParse(
                         ViewContext.HttpContext.Request.Query["page"],
-                        out var actualPage))
+                        out var actualPage) && i>= actualPage-2 && i <= actualPage + 2)
                 {
                     if (i == actualPage)
                     {
-                        tag.AddCssClass("active");
+                        tag.AddCssClass("active-btn");
                     }
+
+                    var anchorInnerHtml = i.ToString();
+                    tag.Attributes["href"] = urlHelper.Action(PageAction, new { page = i });
+                    tag.InnerHtml.Append(anchorInnerHtml);
+                    result.InnerHtml.AppendHtml(tag);
                 }
-                else
+
+                if (!ViewContext.HttpContext.Request.Query.ContainsKey("page") && i<=3)
                 {
-                    if (i == 1)
-                    {
-                        tag.AddCssClass("active");
-                    }
+                    var anchorInnerHtml = i.ToString();
+                    tag.Attributes["href"] = urlHelper.Action(PageAction, new { page = i });
+                    tag.InnerHtml.Append(anchorInnerHtml);
+                    result.InnerHtml.AppendHtml(tag);
                 }
-                tag.Attributes["href"] = urlHelper.Action(PageAction, new { page = i});
-                tag.InnerHtml.Append(anchorInnerHtml);
-                result.InnerHtml.AppendHtml(tag);
+                
+
             }
 
             output.TagName = "div";

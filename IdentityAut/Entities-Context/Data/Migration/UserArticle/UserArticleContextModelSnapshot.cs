@@ -49,8 +49,8 @@ namespace Entities_Context.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PositiveRate")
-                        .HasColumnType("int");
+                    b.Property<double>("PositiveRate")
+                        .HasColumnType("float");
 
                     b.Property<string>("ShortDescription")
                         .IsRequired()

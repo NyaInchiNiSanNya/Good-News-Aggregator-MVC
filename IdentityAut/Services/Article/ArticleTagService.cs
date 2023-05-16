@@ -24,7 +24,7 @@ namespace Services.Article
         }
         public async Task AddTagsEachArticleAsync(Int32 ArticleId, List<String> tags)
         {
-            if (ArticleId!=0 && !(tags is null))
+            if (ArticleId!=0 && tags.Count!=0)
             {
                 foreach (var tag in tags)
                 {

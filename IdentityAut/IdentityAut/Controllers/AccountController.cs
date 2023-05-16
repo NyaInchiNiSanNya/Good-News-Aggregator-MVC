@@ -107,7 +107,7 @@ namespace Business_Logic.Controllers
 
             var claims = new List<Claim>
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, model.Email),
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, model.Email)
                 };
 
 
@@ -135,7 +135,7 @@ namespace Business_Logic.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(identity));
             
-            Log.Information("User {0} in the system, ip:{1}",model.Email
+            Log.Information("User {0} ip:{1} went to the website", model.Email
                 , HttpContext.Connection.RemoteIpAddress?.ToString());
             
             if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))

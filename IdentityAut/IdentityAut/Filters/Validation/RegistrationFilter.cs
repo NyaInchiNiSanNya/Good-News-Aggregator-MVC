@@ -26,11 +26,14 @@ namespace MVC.Filters.Validation
             if (!validationResult.IsValid)
             {
                 var ip = context.HttpContext.Connection.RemoteIpAddress?.ToString();
-                Log.Warning("Validation error when registering with IP: {0}:", ip);
+                
+                Log.Warning("Validation error occurred during user registration. IP: {0}", ip);
+                
                 foreach (var Errors in validationResult.Errors)
                 {
                     context.ModelState.AddModelError(Errors.PropertyName, Errors.ErrorMessage);
                 }
+                
                 context.Result = new ViewResult
                 {
                     ViewName = "Registration",

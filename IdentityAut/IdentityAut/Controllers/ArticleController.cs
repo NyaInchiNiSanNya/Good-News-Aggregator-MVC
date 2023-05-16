@@ -37,32 +37,23 @@ namespace Business_Logic.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetArticlesByPage(Int32 page = 1, String tag="",String searchLineRequest ="")
+        public async Task<IActionResult> GetArticlesByPage(Int32 page = 1, String tag = "", String searchLineRequest = "")
         {
             Int32 articlesCount = 0;
+            Int32 userRateFilter = 0;
 
-            if (!String.IsNullOrEmpty(searchLineRequest))
+            if (HttpContext.User.Identity.IsAuthenticated)
             {
-                articlesCount = await _serviceFactory
-                    .createArticlesService()
-                    .GetArticleCountWithPartNameAsync(searchLineRequest);
-                
+                userRateFilter = await _serviceFactory
+                    .createUserConfigService()
+                    .GetUserArticleRateFilter(HttpContext.User.Identity.Name);
             }
-            else
-            {
-                if (!String.IsNullOrEmpty(tag))
-                {
-                    articlesCount = await _serviceFactory
-                        .createArticlesService()
-                        .GetArticleCountWithTagAsync(tag);
-                }
-                else
-                {
-                    articlesCount = await _serviceFactory
-                        .createArticlesService()
-                        .GetTotalArticleCountAsync();
-                }
-            }
+
+
+            articlesCount = await _serviceFactory
+                .createArticlesService()
+                .GetArticleCount(tag,userRateFilter,searchLineRequest);
+
 
 
 
@@ -85,7 +76,7 @@ namespace Business_Logic.Controllers
                 if (!String.IsNullOrEmpty(searchLineRequest))
                 {
                     articles = await _serviceFactory.createArticlesService()
-                        .GetArticlesByPartNameAsync(page, pageSize,searchLineRequest);
+                        .GetArticlesByPartNameAsync(page, pageSize, searchLineRequest);
                 }
                 else
                 {
@@ -93,13 +84,13 @@ namespace Business_Logic.Controllers
                     if (!String.IsNullOrEmpty(tag))
                     {
                         articles = await _serviceFactory
-                            .createArticlesService().GetArticlesWithSourceByTagByPageAsync(page, pageSize, tag);
+                            .createArticlesService().GetArticlesWithSourceByTagByPageAsync(page, pageSize, tag, userRateFilter);
                     }
                     else
                     {
                         articles = await _serviceFactory
                             .createArticlesService()
-                            .GetShortArticlesWithSourceByPageAsync(page, pageSize);
+                            .GetShortArticlesWithSourceByPageAsync(page, pageSize, userRateFilter);
                     }
                 }
 
@@ -130,7 +121,7 @@ namespace Business_Logic.Controllers
             return NotFound();
 
         }
-        
+
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteArticlesById(Int32 ArticleId)
         {

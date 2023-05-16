@@ -25,7 +25,7 @@ namespace MVC.Filters.Validation
 
             if (!validationResult.IsValid)
             {
-                Log.Warning("Validation error when changing settings from IP: {0}:");
+                Log.Warning("Validation error occurred during settings change. IP: {0}");
 
                 foreach (var Errors in validationResult.Errors)
                 {

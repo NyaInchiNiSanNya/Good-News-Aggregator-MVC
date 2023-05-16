@@ -70,7 +70,7 @@ namespace Business_Logic.Controllers
                     .createMapperService().Map<ShowUserInfoAndConfigViewModel>(infoSettings));
             }
 
-            return null;
+            return NotFound();
         }
 
 

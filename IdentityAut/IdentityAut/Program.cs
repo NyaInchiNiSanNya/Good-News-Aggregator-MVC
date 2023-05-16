@@ -78,10 +78,11 @@ namespace Business_Logic
                     options.AccessDeniedPath = new PathString("/Account/Login");
 
                 });
-            //builder.Services.AddMvc(options =>
-            //{
-            //    options.Filters.Add<CustomExceptionFilter>();
-            //});
+
+            builder.Services.AddMvc(options =>
+            {
+                options.Filters.Add<CustomExceptionFilter>();
+            });
 
             builder.Services.AddSwaggerGen();
             

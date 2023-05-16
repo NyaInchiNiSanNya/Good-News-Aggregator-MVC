@@ -51,11 +51,11 @@ namespace MVC.Filters.Validation
 
                 if (context.ActionArguments.TryGetValue("user", out var userObj) && userObj is UserLoginViewModel user)
                 {
-                    Log.Warning("Validation error when logging in with IP: {0}.Email:{1}", ip,user.Email);
+                    Log.Warning("Validation error occurred for password during user login. IP: {0}, Email: {1}", ip,user.Email);
                 }
                 else
                 {
-                    Log.Warning("Validation error when logging in with IP: {0}", ip);
+                    Log.Warning("Validation error occurred during user login. IP: {0}", ip);
                 }
 
                 foreach (var Errors in validationResult.Errors)

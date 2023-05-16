@@ -9,7 +9,7 @@ namespace Entities_Context.Entities.UserNews
         public String Title { get; set; }
         public String ShortDescription { get; set; }
         public String FullText { get; set; }
-        public Int32 PositiveRate { get; set; }
+        public Double PositiveRate { get; set; }
         public String ArticleSourceUrl { get; set; }
         public String ArticlePicture { get; set; }
         public DateTime DateTime { get; set; }

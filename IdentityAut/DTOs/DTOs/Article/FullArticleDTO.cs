@@ -13,7 +13,7 @@ namespace Core.DTOs.Article
         public String Title { get; set; }
         public String ShortDescription { get; set; }
         public String FullText { get; set; }
-        public Int32 PositiveRate { get; set; }
+        public Double PositiveRate { get; set; }
         public List<String> ArticleTags { get; set; }
         public String ArticleSourceUrl { get; set; }
         public String SourceUrl { get; set; }

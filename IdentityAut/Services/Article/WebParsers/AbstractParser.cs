@@ -9,6 +9,7 @@ namespace Services.Article.WebParsers
 {
     internal abstract class AbstractParser
     {
+
         internal abstract String GetPictureReference();
         internal abstract String GetShortDescription();
         internal abstract String GetFullTextDescription();
