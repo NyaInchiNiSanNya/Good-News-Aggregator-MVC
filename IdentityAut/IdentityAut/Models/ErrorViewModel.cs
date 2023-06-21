@@ -1,4 +1,4 @@
-namespace Business_Logic.Models
+namespace MVC.Models
 {
     public class ErrorViewModel
     {

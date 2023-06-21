@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Abstract;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Core.DTOs.Article;
 using Entities_Context;
 using Entities_Context.Entities.UserNews;
 using IServices;
+using IServices.Services;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Services.Article
 {
@@ -19,50 +20,42 @@ namespace Services.Article
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IMapper _Mapper;
+        private readonly IMapper _mapper;
 
-        public SourceService(IUnitOfWork unitOfWork,IMapper Mapper)
+        public SourceService(IUnitOfWork unitOfWork,IMapper mapper)
         {
-            if (unitOfWork is null)
-            {
-                throw new ArgumentNullException(nameof(unitOfWork));
-            }
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
-            _unitOfWork = unitOfWork;
-            
-            if (Mapper is null)
-            {
-                throw new ArgumentNullException(nameof(Mapper));
-            }
-
-            _Mapper = Mapper;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<String> GetSourceNameByIdAsync(Int32 Id)
         {
-            Source? Source = await _unitOfWork.Source
-                .GetByIdAsync(Id);
-            
-            if (Source is not null)
+            if (Id < 1)
             {
-                return Source.Name;
+                throw new ArgumentException(nameof(Id));
             }
 
+            Source? source = await _unitOfWork.Source
+                .GetByIdAsync(Id);
+            
+            if (source is not null)
+            {
+                return source.Name;
+            }
+
+            Log.Warning("unable to determine source {0}",Id);
+            
             return "Неизвестен";
         }
 
-        public async Task<List<SourceDTO>> GetAllSourcesDTOAsync()
+        public async Task<List<SourceDto>> GetAllSourcesDtoAsync()
         {
-            List<SourceDTO>? allSources = await _unitOfWork.Source
+            List<SourceDto>? allSources = await _unitOfWork.Source
                 .GetAsQueryable()
                 .Where(x=>!String.IsNullOrEmpty(x.RssFeedUrl))
-                .ProjectTo<SourceDTO>(_Mapper.ConfigurationProvider)
+                .ProjectTo<SourceDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
-
-            if (allSources is  null)
-            {
-                return null;
-            }
 
             return allSources;
         }

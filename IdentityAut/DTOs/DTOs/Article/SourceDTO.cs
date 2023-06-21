@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.DTOs.Article
 {
-    public class SourceDTO
+    public class SourceDto
     {
         public Int32 Id { get; set; }
         public String Name { get; set; }

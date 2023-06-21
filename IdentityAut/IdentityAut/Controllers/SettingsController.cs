@@ -1,24 +1,14 @@
-﻿using System.Net;
-using AutoMapper;
-using Business_Logic.Models.UserSettings;
-using Core.DTOs.Account;
-using IServices;
+﻿using Core.DTOs.Account;
+using Flurl.Http;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyModel;
-using Microsoft.IdentityModel.Tokens;
 using MVC.ControllerFactory;
 using MVC.Filters.Validation;
-using Repositores;
-using Services.Account;
-using UserConfigRepositores;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using MVC.Models.UserSettings;
+using Serilog;
 
 
-namespace Business_Logic.Controllers
+namespace MVC.Controllers
 {
     [Authorize]
     public class SettingsController : Controller
@@ -40,14 +30,17 @@ namespace Business_Logic.Controllers
 
 
         [HttpPost]
-        [SettingsValidationFilterAttribute]
+        [SettingsValidationFilter]
         public async Task<IActionResult> SetNewInfoConfig([FromForm] NewUserSettingsViewModel infoSettingsView)
         {
 
-            await _serviceFactory.createUserConfigService()
+            await _serviceFactory.CreateUserConfigService()
                 .SetNewUserInfoAsync(
-                    _serviceFactory.createMapperService().Map<userInfoWithSettingsDTO>(infoSettingsView)
+                    _serviceFactory.CreateMapperService().Map<userInfoWithSettingsDTO>(infoSettingsView)
                     , HttpContext.User.Identity.Name);
+
+
+            HttpContext.Response.Cookies.Delete("theme");
 
             return RedirectToAction("GetInfoConfig");
 
@@ -60,25 +53,25 @@ namespace Business_Logic.Controllers
         public async Task<IActionResult> GetInfoConfig()
         {
             userInfoWithSettingsDTO infoSettings =
-                    await _serviceFactory.createUserConfigService()
+                    await _serviceFactory.CreateUserConfigService()
                         .GetUserInformationAsync(HttpContext.User.Identity.Name);
 
             
             if (infoSettings is not null)
             {
                 return  View("Settings",_serviceFactory
-                    .createMapperService().Map<ShowUserInfoAndConfigViewModel>(infoSettings));
+                    .CreateMapperService().Map<ShowUserInfoAndConfigViewModel>(infoSettings));
             }
 
             return NotFound();
         }
 
 
-        public async Task<IActionResult> isThemeExist(String Theme)
+        public async Task<IActionResult> IsThemeExist(String Theme)
         {
 
             return Ok(await _serviceFactory
-                .createThemeService()
+                .CreateThemeService()
                 .IsThemeExistByNameAsync(Theme));
         }
 
@@ -87,11 +80,16 @@ namespace Business_Logic.Controllers
         {
             if (HttpContext.User.Identity.Name is not null)
             {
-                await _serviceFactory.createUserConfigService()
+                await _serviceFactory.CreateUserConfigService()
                     .SetNewProfilePictureByNameAsync(userPicture, HttpContext.User.Identity.Name);
+                return Ok();
             }
+            else
+            {
+                Log.Warning("attempt to get user picture without authorization");
 
-            return Ok();
+                return BadRequest("Пользователь не установлен");
+            }
         }
     }
 }

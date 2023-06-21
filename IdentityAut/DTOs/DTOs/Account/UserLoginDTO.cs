@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.DTOs.Account
 {
-    public class UserLoginDTO
+    public class UserLoginDto
     {
 
         public string Password { get; set; }

@@ -1,10 +1,12 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
-using Business_Logic.ValidationRules;
 using Microsoft.AspNetCore.Mvc;
+using MVC.Filters.Validation.ValidationRules;
+using MVC.ValidationRules;
 
-public class UserLoginViewModel:ValidatePatterns,ValidateErrors
+namespace MVC.Models.AccountModels;
+
+public class UserLoginViewModel:IValidatePatterns,ValidateErrors
 {
     [Required(ErrorMessage =ValidateErrors.NoEmail )]
     [EmailAddress(ErrorMessage = ValidateErrors.BadEmail)]
@@ -14,7 +16,7 @@ public class UserLoginViewModel:ValidatePatterns,ValidateErrors
 
     [Required(ErrorMessage = ValidateErrors.NoPassword)]
     [DataType(DataType.Password)]
-    [RegularExpression(ValidatePatterns.PasswordPattern
+    [RegularExpression(IValidatePatterns.PasswordPattern
         , ErrorMessage = ValidateErrors.BadPassword)]
     public String Password { get; set; }
 

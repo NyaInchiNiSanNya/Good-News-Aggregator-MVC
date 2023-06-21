@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Business_Logic.Models.UserSettings;
 using Core.DTOs.Account;
 using Entities_Context.Entities.UserNews;
+using MVC.Models.UserSettings;
 
 namespace MVC.MappingProfiles
 {

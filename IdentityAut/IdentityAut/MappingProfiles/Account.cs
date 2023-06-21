@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Business_Logic.Models.UserSettings;
 using Core.DTOs.Account;
 using Entities_Context.Entities.UserNews;
+using MVC.Models.AccountModels;
 
 namespace MVC.MappingProfiles
 {
@@ -12,13 +12,13 @@ namespace MVC.MappingProfiles
             SourceMemberNamingConvention = LowerUnderscoreNamingConvention.Instance;
             DestinationMemberNamingConvention = PascalCaseNamingConvention.Instance;
             
-            CreateMap<User, UserRegistrationDTO>().ReverseMap();
-            CreateMap<UserRegistrationViewModel, UserRegistrationDTO>().ReverseMap();
+            CreateMap<User, UserRegistrationDto>().ReverseMap();
+            CreateMap<UserRegistrationViewModel, UserRegistrationDto>().ReverseMap();
 
-            CreateMap<User, UserLoginDTO>().ReverseMap();
-            CreateMap<UserLoginViewModel, UserLoginDTO>().ReverseMap();
+            CreateMap<User, UserLoginDto>().ReverseMap();
+            CreateMap<UserLoginViewModel, UserLoginDto>().ReverseMap();
 
-            CreateMap<User, UserDTO>();
+            CreateMap<User, UserDto>();
         }
     }
 }

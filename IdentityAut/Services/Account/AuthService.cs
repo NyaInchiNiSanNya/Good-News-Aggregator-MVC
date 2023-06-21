@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-using Abstract;
-using AutoMapper;
+﻿using AutoMapper;
 using Core.DTOs.Account;
-using Entities_Context;
 using Entities_Context.Entities.UserNews;
 using IServices;
-using Microsoft.AspNetCore.Identity;
+using IServices.Services;
 using Microsoft.EntityFrameworkCore;
-using Repositores;
 using Serilog;
 
 namespace Services.Account
@@ -33,51 +24,33 @@ namespace Services.Account
             IUiThemeService uiTheme, 
             IRoleService role)
         {
-            if (unitOfWork is null)
-            {
-                throw new ArgumentNullException(nameof(unitOfWork));
-            }
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
-            _unitOfWork = unitOfWork;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
-            if (mapper is null)
-            {
-                throw new ArgumentNullException(nameof(mapper));
-            }
+            _uiTheme = uiTheme ?? throw new ArgumentNullException(nameof(uiTheme));
 
-            _mapper = mapper;
-
-            if (uiTheme is null)
-            {
-                throw new ArgumentNullException(nameof(mapper));
-            }
-            _uiTheme = uiTheme;
-
-            if (role is null)
-            {
-                throw new ArgumentNullException(nameof(mapper));
-            }
-            _role = role;
+            _role = role ?? throw new ArgumentNullException(nameof(role));
         }
 
-        public async Task<Boolean> isUserExistAsync(String Email)
+        public async Task<Boolean> IsUserExistAsync(String email)
         {
             return await _unitOfWork.Users
-                .FindBy(x => x.Email.Equals(Email))
+                .FindBy(x => x.Email.Equals(email))
                 .FirstOrDefaultAsync() is not null;
         }
 
 
-        public async Task<Boolean> RegistrationAsync(UserRegistrationDTO modelDTO)
+        public async Task<Boolean> RegistrationAsync(UserRegistrationDto modelDto)
         {
 
-            if(!await isUserExistAsync(modelDTO.Email)){
+            if(!await IsUserExistAsync(modelDto.Email)){
 
-                User newUser = _mapper.Map<User>(modelDTO);
+                User newUser = _mapper.Map<User>(modelDto);
 
                 newUser.ThemeId =await _uiTheme.GetIdDefaultThemeAsync();
                 
-                newUser.Password = MakeHash(modelDTO.Password);
+                newUser.Password = MakeHash(modelDto.Password);
 
                 newUser.Created=DateTime.Now;
 
@@ -95,21 +68,27 @@ namespace Services.Account
 
                 if (Role is null)
                 {
-                    throw new ArgumentException("Can't create role");
+                    await _unitOfWork.Users.Remove(
+                        ((await _unitOfWork.Users
+                            .FindBy(x => x.Email.Equals(modelDto.Email))
+                            .FirstOrDefaultAsync())!).Id);
+
+
+                    throw new ArgumentException("Registration failed.Can't create role");
                 }
 
                 UsersRoles newUserRole=new UsersRoles()
                 {
                     RoleId =Role.Id,
 
-                    UserId= (await _unitOfWork.Users.FindBy(x=>x.Email.Equals(modelDTO.Email)).FirstOrDefaultAsync()).Id
+                    UserId= ((await _unitOfWork.Users.FindBy(x=>x.Email.Equals(modelDto.Email)).FirstOrDefaultAsync())!).Id
                 };
 
                 await _unitOfWork.UsersRoles.AddAsync(newUserRole);
                 
                 await _unitOfWork.SaveChangesAsync();
 
-                Log.Information("User {0} successfully registered.", modelDTO.Email);
+                Log.Information("User {0} successfully registered.", modelDto.Email);
 
                 return true;
             }
@@ -129,23 +108,21 @@ namespace Services.Account
         }
         #endregion
 
-        public async Task<Boolean> LoginAsync(UserLoginDTO modelDTO)
+        public async Task<Boolean> LoginAsync(UserLoginDto modelDto)
         {
-            User? сheckUser = _unitOfWork.Users.FindBy(x => x.Email.Equals(modelDTO.Email)).FirstOrDefault();
+
+            User? сheckUser = _unitOfWork.Users.FindBy(x => x.Email.Equals(modelDto.Email)).FirstOrDefault();
 
             if (сheckUser is not null
-                && CheckPassword(modelDTO.Password, сheckUser.Password))
+                && CheckPassword(modelDto.Password, сheckUser.Password))
             {
+                Log.Information("User {0} successfully login.", modelDto.Email);
+
                 return true;
             }
 
             return false;
 
-        }
-
-
-        public async Task IdLogoutAsync()
-        {
         }
 
     }

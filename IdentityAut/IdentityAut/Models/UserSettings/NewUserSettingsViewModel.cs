@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Business_Logic.ValidationRules;
-using Microsoft.AspNetCore.Mvc;
+﻿using MVC.Filters.Validation.ValidationRules;
+using MVC.ValidationRules;
 
-namespace Business_Logic.Models.UserSettings
+namespace MVC.Models.UserSettings
 {
-    public class NewUserSettingsViewModel : ValidatePatterns, ValidateErrors
+    public class NewUserSettingsViewModel : IValidatePatterns, ValidateErrors
     {
 
         public String Name { get; set; }

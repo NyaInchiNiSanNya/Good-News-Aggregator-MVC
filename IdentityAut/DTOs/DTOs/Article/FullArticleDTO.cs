@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.DTOs.Article
 {
-    public class FullArticleDTO
+    public class FullArticleDto
     {
         public Int32 Id { get; set; }
         public String HashUrlId { get; set; }
@@ -14,6 +14,8 @@ namespace Core.DTOs.Article
         public String ShortDescription { get; set; }
         public String FullText { get; set; }
         public Double PositiveRate { get; set; }
+        public Double FirstRate { get; set; }
+        public Double SecondRate { get; set; }
         public List<String> ArticleTags { get; set; }
         public String ArticleSourceUrl { get; set; }
         public String SourceUrl { get; set; }

@@ -1,14 +1,12 @@
-﻿using System.Data;
-using AspNetSamples.Abstractions.Data.Repositories;
-using Entities_Context.Entities.UserNews;
-using IServices.Repositories;
+﻿using IServices.Repositories;
 
-namespace Abstract
+namespace IServices
 {
     public interface IUnitOfWork : IDisposable
     {
         
         public IArticleTagRepository ArticlesTags { get; }
+        public ICommentRepository Comment { get; }
         public IArticleRepository Articles { get; }
         public ISourceRepository Source { get; }
         public IUsersRepository Users { get; }

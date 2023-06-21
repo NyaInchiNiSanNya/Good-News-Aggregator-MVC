@@ -6,14 +6,15 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using Abstract;
 using AutoMapper;
 using Entities_Context;
 using Entities_Context.Entities.UserNews;
 using IServices;
+using IServices.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 namespace Services.Account
@@ -25,23 +26,19 @@ namespace Services.Account
 
         public RoleService(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
-            if (unitOfWork is null)
-            {
-                throw new ArgumentNullException(nameof(unitOfWork));
-            }
-
-            _unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
 
-            if (configuration is null)
-            {
-                throw new ArgumentNullException(nameof(configuration));
-            }
-            _configuration = configuration;
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         public async Task<List<UserRole>> GetUserRolesByUserIdAsync(int Id)
         {
+            if (Id<1)
+            {
+                throw new ArgumentException(nameof(Id));
+            }
+
             List<UsersRoles>? userRoles = (await _unitOfWork.UsersRoles
                 .FindBy(userRole=>userRole.UserId==Id,userRole=>userRole.Role)
                 .ToListAsync());
@@ -60,15 +57,21 @@ namespace Services.Account
             return null;
         }
 
-        public async Task<List<UserRole>> GetUserRolesByUserNameAsync(String Email)
+        public async Task<List<UserRole>> GetUserRolesByUserNameAsync(String email)
         {
-            User? user = (await _unitOfWork.Users.FindBy(x => x.Email.Equals(Email)).FirstOrDefaultAsync());
+            if (email.IsNullOrEmpty())
+            {
+                throw new ArgumentNullException(nameof(email));
+            }
+            User? user = (await _unitOfWork.Users.FindBy(x => x.Email.Equals(email)).FirstOrDefaultAsync());
 
             if (user is not null)
             {
                 return await GetUserRolesByUserIdAsync(user.Id);
             }
 
+            Log.Warning("Cant get user roles:email {0}", email);
+            
             return null;
         }
 
@@ -76,16 +79,16 @@ namespace Services.Account
         {
             Log.Information("Attempt to create roles");
 
-            String[] RolesFromConfig = _configuration["Roles:all"].Split(" ");
+            String[] rolesFromConfig = _configuration["Roles:all"]!.Split(" ");
 
-            if (RolesFromConfig.Length==0)
+            if (rolesFromConfig.Length==0)
             {
                 throw new ArgumentException("No roles are defined in the configuration file");
             }
             
             Boolean AnyChanges = false;
 
-            foreach (String role in RolesFromConfig)
+            foreach (String role in rolesFromConfig)
             {
                 if (!await IsRoleExistsAsync(role))
                 {
@@ -102,23 +105,28 @@ namespace Services.Account
 
         public async Task<bool> IsRoleExistsAsync(String role)
         {
+            if (role.IsNullOrEmpty())
+            {
+                new ArgumentNullException(nameof(role));
+            }
             return await _unitOfWork.Roles.FindBy(x => x.Role == role).FirstOrDefaultAsync() is not null;
         }
 
 
         public async Task<UserRole> GetDefaultRoleAsync()
         {
-            String defaultRoleFromConfigFile = _configuration["Roles:all"];
+            String defaultRoleFromConfigFile = _configuration["Roles:default"];
             
             if (String.IsNullOrEmpty(defaultRoleFromConfigFile))
             {
                 throw new ArgumentException("No default role is defined in the configuration file");
             }
+            
             UserRole? defaultRole = await _unitOfWork.Roles
                 .FindBy(x=>x.Role.Equals(defaultRoleFromConfigFile))
                 .FirstOrDefaultAsync();
 
-            if (defaultRole is null)
+            if (defaultRole == null) 
             {
                 
                 await InitiateDefaultRolesAsync();

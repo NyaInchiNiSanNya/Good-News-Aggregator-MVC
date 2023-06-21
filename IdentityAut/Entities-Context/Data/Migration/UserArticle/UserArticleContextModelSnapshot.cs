@@ -31,7 +31,6 @@ namespace Entities_Context.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ArticlePicture")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ArticleSourceUrl")
@@ -41,8 +40,10 @@ namespace Entities_Context.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("FirstRate")
+                        .HasColumnType("float");
+
                     b.Property<string>("FullText")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HashUrlId")
@@ -52,8 +53,10 @@ namespace Entities_Context.Migrations
                     b.Property<double>("PositiveRate")
                         .HasColumnType("float");
 
+                    b.Property<double>("SecondRate")
+                        .HasColumnType("float");
+
                     b.Property<string>("ShortDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SourceId")
@@ -124,6 +127,27 @@ namespace Entities_Context.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Entities_Context.Entities.UserNews.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("Value")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshToken");
                 });
 
             modelBuilder.Entity("Entities_Context.Entities.UserNews.SiteTheme", b =>
@@ -315,6 +339,17 @@ namespace Entities_Context.Migrations
                         .IsRequired();
 
                     b.Navigation("Article");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Entities_Context.Entities.UserNews.RefreshToken", b =>
+                {
+                    b.HasOne("Entities_Context.Entities.UserNews.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

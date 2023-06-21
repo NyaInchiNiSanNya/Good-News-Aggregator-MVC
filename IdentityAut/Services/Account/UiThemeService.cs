@@ -1,16 +1,9 @@
-﻿using AutoMapper;
-using Entities_Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IServices;
+﻿using IServices;
 using Entities_Context.Entities.UserNews;
+using IServices.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Abstract;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 namespace Services.Account
@@ -25,31 +18,19 @@ namespace Services.Account
 
         public UiThemeService(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
-            if (unitOfWork is null)
-            {
-                throw new ArgumentNullException(nameof(unitOfWork));
-            }
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
-            _unitOfWork = unitOfWork;
-
-            if (configuration is null)
-            {
-                throw new ArgumentNullException(nameof(configuration));
-            }
-
-            _configuration = configuration;
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 
         }
 
 
-        public async Task<Int32> GetIdThemeByStringAsync(string Theme)
+        public async Task<Int32> GetIdThemeByStringAsync(String theme)
         {
-            if (await IsThemeExistByNameAsync(Theme))
+            if (await IsThemeExistByNameAsync(theme))
             {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                return (await _unitOfWork.UserInterfaceTheme.FindBy(x=>x.Theme.Equals(Theme))
-                    .FirstOrDefaultAsync()).Id;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                return (await _unitOfWork.UserInterfaceTheme.FindBy(x=>x.Theme.Equals(theme))
+                    .FirstOrDefaultAsync())!.Id;
             }
 
             return await GetIdDefaultThemeAsync();
@@ -61,11 +42,11 @@ namespace Services.Account
         {
             Log.Information("Attempt to create themes");
 
-            String[] themesFromConfigFile = _configuration["Themes:all"].Split(" ");
+            String[]? themesFromConfigFile = _configuration["Themes:all"]?.Split(" ");
            
-            Boolean AnyChanges = false;
+            Boolean anyChanges = false;
 
-            if (themesFromConfigFile.Length==0)
+            if (themesFromConfigFile is null)
             {
                 throw new ArgumentException("No themes are defined in the configuration file");
             }
@@ -76,11 +57,11 @@ namespace Services.Account
                 {
                     await _unitOfWork.UserInterfaceTheme.AddAsync(new SiteTheme() { Theme = theme });
 
-                    AnyChanges = true;
+                    anyChanges = true;
                 }
             }
 
-            if (AnyChanges)
+            if (anyChanges)
             {
                 await _unitOfWork.SaveChangesAsync();
             }
@@ -88,7 +69,7 @@ namespace Services.Account
 
         public async Task<Int32> GetIdDefaultThemeAsync()
         {
-            String defaultTheme = _configuration["Themes:default"];
+            String? defaultTheme = _configuration["Themes:default"];
 
             if (String.IsNullOrEmpty(defaultTheme))
             {
@@ -108,6 +89,11 @@ namespace Services.Account
                 theme = await _unitOfWork.UserInterfaceTheme
                     .FindBy(x => x.Theme == defaultTheme)
                     .FirstOrDefaultAsync();
+                
+                if (theme is null || theme.Id==0)
+                {
+                    throw new InvalidOperationException("Cant get default theme id");
+                }
 
                 return theme?.Id ?? 0;
             }
@@ -134,10 +120,11 @@ namespace Services.Account
             {
                 await InitiateThemeAsync();
 
-                foreach (var theme in themeList)
-                {
-                    allThemes.Add(theme.Theme);
-                }
+                if (themeList != null)
+                    foreach (var theme in themeList)
+                    {
+                        allThemes.Add(theme.Theme);
+                    }
             }
 
             return allThemes;
@@ -145,17 +132,26 @@ namespace Services.Account
 
         public async Task<Boolean> IsThemeExistByNameAsync(String theme)
         {
+            if (theme.IsNullOrEmpty())
+            {
+                throw new ArgumentNullException();
+            }
             return await _unitOfWork.UserInterfaceTheme
                 .FindBy(x=>x.Theme==theme)
                 .FirstOrDefaultAsync() is not null;
         }
 
-        public async Task<String> GetThemeNameByIdAsync(Int32 Id)
+        public async Task<String> GetThemeNameByIdAsync(Int32 id)
         {
-            var theme = (await _unitOfWork.UserInterfaceTheme.GetByIdAsync(Id));
+            if (id<=0)
+            {
+                throw new ArgumentException("Invalid Id");
+            }
+
+            var theme = (await _unitOfWork.UserInterfaceTheme.GetByIdAsync(id));
 
             return theme?.Theme?? (await _unitOfWork.UserInterfaceTheme.GetByIdAsync(
-                await GetIdDefaultThemeAsync())).Theme;
+                await GetIdDefaultThemeAsync()))!.Theme;
         }
 
 

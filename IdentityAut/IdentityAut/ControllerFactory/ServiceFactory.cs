@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using IServices;
-using Repositores;
-using UserConfigRepositores;
+using IServices.Services;
 
 namespace MVC.ControllerFactory
 {
@@ -14,52 +13,58 @@ namespace MVC.ControllerFactory
             _serviceProvider = serviceProvider;
         }
 
-        IUserService IServiceFactory.createAdminService()
+        IUserService IServiceFactory.CreateAdminService()
         {
             return _serviceProvider.GetService<IUserService>() 
                    ?? throw new NullReferenceException(nameof(IUserService));
         }
 
-        IArticleService IServiceFactory.createArticlesService()
+        ICommentService IServiceFactory.CreateCommentService()
+        {
+            return _serviceProvider.GetService<ICommentService>()
+                   ?? throw new NullReferenceException(nameof(IUserService));
+        }
+
+        IArticleService IServiceFactory.CreateArticlesService()
         {
             return _serviceProvider.GetService<IArticleService>()
                    ?? throw new NullReferenceException(nameof(IArticleService));
         }
 
-        IConfiguration IServiceFactory.createConfigurationService()
+        IConfiguration IServiceFactory.CreateConfigurationService()
         {
             return _serviceProvider.GetService<IConfiguration>()
                    ?? throw new NullReferenceException(nameof(IConfiguration));
         }
 
-        IAuthService IServiceFactory.createIdentityService()
+        IAuthService IServiceFactory.CreateIdentityService()
         {
             return _serviceProvider.GetService<IAuthService>()
                    ?? throw new NullReferenceException(nameof(IAuthService));
         }
 
-        IMapper IServiceFactory.createMapperService()
+        IMapper IServiceFactory.CreateMapperService()
         {
             return _serviceProvider.GetService<IMapper>()
                    ?? throw new NullReferenceException(nameof(IMapper));
         }
 
-        IRoleService IServiceFactory.createRoleService()
+        IRoleService IServiceFactory.CreateRoleService()
         {
             return _serviceProvider.GetService<IRoleService>()
                    ?? throw new NullReferenceException(nameof(IRoleService));
         }
 
-        IUiThemeService IServiceFactory.createThemeService()
+        IUiThemeService IServiceFactory.CreateThemeService()
         {
             return _serviceProvider.GetService<IUiThemeService>()
                    ?? throw new NullReferenceException(nameof(IUiThemeService));
         }
 
-        IUserInfoAndSettingsService IServiceFactory.createUserConfigService()
+        ISettingsService IServiceFactory.CreateUserConfigService()
         {
-            return _serviceProvider.GetService<IUserInfoAndSettingsService>()
-                   ?? throw new NullReferenceException(nameof(IUserInfoAndSettingsService));
+            return _serviceProvider.GetService<ISettingsService>()
+                   ?? throw new NullReferenceException(nameof(ISettingsService));
         }
     }
 }

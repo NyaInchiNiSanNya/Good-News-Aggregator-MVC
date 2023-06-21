@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "eBVUH1WzSatsiisns1aQHYCxa/4dpbl/hlLfhilbVn8=",
+  "Hash": "CnGuey9cEaKW3golovkihqCgcG1t346HJSKMhSxDMz4=",
   "Source": "MVC",
   "BasePath": "_content/MVC",
   "Mode": "Default",
@@ -51,12 +51,12 @@
       "OriginalItemSpec": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\MVC.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\Admin.css",
+      "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\admin-menu.css",
       "SourceId": "MVC",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\",
       "BasePath": "_content/MVC",
-      "RelativePath": "css/Admin.css",
+      "RelativePath": "css/admin-menu.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -65,15 +65,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\Admin.css"
+      "OriginalItemSpec": "wwwroot\\css\\admin-menu.css"
     },
     {
-      "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\FullArticle.css",
+      "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\full-article.css",
       "SourceId": "MVC",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\",
       "BasePath": "_content/MVC",
-      "RelativePath": "css/FullArticle.css",
+      "RelativePath": "css/full-article.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -82,15 +82,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\FullArticle.css"
+      "OriginalItemSpec": "wwwroot\\css\\full-article.css"
     },
     {
-      "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\Layout.css",
+      "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\layout.css",
       "SourceId": "MVC",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\",
       "BasePath": "_content/MVC",
-      "RelativePath": "css/Layout.css",
+      "RelativePath": "css/layout.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -99,7 +99,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\Layout.css"
+      "OriginalItemSpec": "wwwroot\\css\\layout.css"
     },
     {
       "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\magic\\magic.css",
@@ -170,12 +170,12 @@
       "OriginalItemSpec": "wwwroot\\css\\magic\\magic.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\RegistrationLogin.css",
+      "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\registration-login-menu.css",
       "SourceId": "MVC",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\",
       "BasePath": "_content/MVC",
-      "RelativePath": "css/RegistrationLogin.css",
+      "RelativePath": "css/registration-login-menu.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -184,15 +184,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\RegistrationLogin.css"
+      "OriginalItemSpec": "wwwroot\\css\\registration-login-menu.css"
     },
     {
-      "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\ScrollLent.css",
+      "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\settings-menu.css",
       "SourceId": "MVC",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\",
       "BasePath": "_content/MVC",
-      "RelativePath": "css/ScrollLent.css",
+      "RelativePath": "css/settings-menu.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -201,15 +201,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\ScrollLent.css"
+      "OriginalItemSpec": "wwwroot\\css\\settings-menu.css"
     },
     {
-      "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\Settings.css",
+      "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\css\\short-article-lent.css",
       "SourceId": "MVC",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\",
       "BasePath": "_content/MVC",
-      "RelativePath": "css/Settings.css",
+      "RelativePath": "css/short-article-lent.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -218,7 +218,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\Settings.css"
+      "OriginalItemSpec": "wwwroot\\css\\short-article-lent.css"
     },
     {
       "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\favicon.ico",
@@ -389,6 +389,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Article-Search.js"
+    },
+    {
+      "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\js\\Comments.js",
+      "SourceId": "MVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\",
+      "BasePath": "_content/MVC",
+      "RelativePath": "js/Comments.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Comments.js"
     },
     {
       "Identity": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\IdentityAut\\IdentityAut\\wwwroot\\js\\Settings.js",

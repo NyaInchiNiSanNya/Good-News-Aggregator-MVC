@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Business_Logic.Models.UserSettings;
 using Core.DTOs.Account;
 using Core.DTOs.Article;
 using Entities_Context.Entities.UserNews;
@@ -13,9 +12,9 @@ namespace MVC.MappingProfiles
             SourceMemberNamingConvention = LowerUnderscoreNamingConvention.Instance;
             DestinationMemberNamingConvention = PascalCaseNamingConvention.Instance;
 
-            CreateMap<SourceDTO, Source>().ReverseMap();
-            CreateMap<FullArticleDTO, Article>().ReverseMap();
-            CreateMap<ArticleDTO, Article>().ReverseMap();
+            CreateMap<SourceDto, Source>().ReverseMap();
+            CreateMap<FullArticleDto, Article>().ReverseMap();
+            CreateMap<ShortArticleDto, Article>().ReverseMap();
             CreateMap<Article, AutoCompleteDataDto>()
                 .ForMember(dto => dto.Label,
                     opt

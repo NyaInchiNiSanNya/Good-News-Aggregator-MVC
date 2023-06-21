@@ -1,24 +1,22 @@
+using Entities_Context.Entities.UserNews;
 using IServices;
+using IServices.Repositories;
+using IServices.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using MVC.ControllerFactory;
+using MVC.Extensions;
+using MVC.Filters.Errors;
 using MVC.Filters.Validation;
-using Repositores;
-using Services.Account;
-using UserConfigRepositores;
 using MVC.Middlware;
-using Serilog;
-using Services.Article;
-using System.Data;
-using Abstract;
-using AspNetSamples.Abstractions.Data.Repositories;
-using Entities_Context.Entities.UserNews;
-using IServices.Repositories;
-using AspNetSamples.Repositories;
+using Repositories;
 using Repositories.Implementations;
-using IServices.Services;
+using Serilog;
+using Services.Account;
+using Services.Article;
 
-namespace Business_Logic
+namespace MVC
 {
     public class Program
     {
@@ -47,28 +45,10 @@ namespace Business_Logic
 
             });
 
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
 
-            builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
-            builder.Services.AddScoped<ITagRepository, TagRepository>();
-            builder.Services.AddScoped<IUsersRepository, UsersRepository>();
-            builder.Services.AddScoped<ISourceRepository, SourceRepository>();
-            builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-            builder.Services.AddScoped<IUsersRolesRepository, UsersRolesRepository>();
-            builder.Services.AddScoped<IArticleTagRepository, ArticleTagRepository>();
-            builder.Services.AddScoped<IUserInterfaceThemeRepository, UserInterfaceThemeRepository>();
-            builder.Services.AddTransient<IArticleTagService, ArticleTagService>();
-            builder.Services.AddTransient<IServiceFactory,ServiceFactory>();
-            builder.Services.AddScoped<ISourceService, SourceService>();
-            builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<IArticleService, ArticleService>();
-            builder.Services.AddScoped<IAuthService, AuthService>();
-            builder.Services.AddScoped<IUserInfoAndSettingsService, UserInfoAndSettingsService>();
-            builder.Services.AddScoped<IRoleService, RoleService>();
-            builder.Services.AddScoped<IUiThemeService, UiThemeService>();
-            builder.Services.AddTransient<SettingsValidationFilterAttribute>();
-            builder.Services.AddScoped<LoginValidationFilterAttribute>();
             builder.Services.AddAutoMapper(typeof(Program));
+            
             builder.Services
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -77,16 +57,22 @@ namespace Business_Logic
 
                     options.AccessDeniedPath = new PathString("/Account/Login");
 
-                });
 
+                });
+            
             builder.Services.AddMvc(options =>
             {
                 options.Filters.Add<CustomExceptionFilter>();
             });
 
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<IServiceFactory, ServiceFactory>();
             
-            
+            builder.Services.AddGoodNewsAggregatorServices();
+            builder.Services.AddGoodNewsAggregatorRepositories();
+            builder.Services.AddGoodNewsAggregatorValidationFilters();
+
             var app = builder.Build();
             
             //if (!app.Environment.IsDevelopment())
@@ -105,6 +91,7 @@ namespace Business_Logic
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<CookieExpirationMiddleware>();
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Article}/{action=GetArticlesByPage}/{tag?}/{id?}");

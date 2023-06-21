@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Business_Logic.Models.TegHelperModels;
-using Business_Logic.Models.TegHelperModels;
-using Core.DTOs.Article;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using IServices;
+﻿using Core.DTOs.Article;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MVC.ControllerFactory;
-using NUnit.Framework;
+using MVC.Models.TegHelperModels;
+using Serilog;
 
-namespace Business_Logic.Controllers
+namespace MVC.Controllers
 {
     public class ArticleController : Controller
     {
@@ -31,7 +24,7 @@ namespace Business_Logic.Controllers
         public async Task<IActionResult> GetArticlesNames(String searchLineRequest = "")
         {
             List<AutoCompleteDataDto> list =
-                await _serviceFactory.createArticlesService()
+                await _serviceFactory.CreateArticlesService()
                     .GetArticlesNamesByPartNameAsync(searchLineRequest);
             return Ok(list);
         }
@@ -45,20 +38,20 @@ namespace Business_Logic.Controllers
             if (HttpContext.User.Identity.IsAuthenticated)
             {
                 userRateFilter = await _serviceFactory
-                    .createUserConfigService()
+                    .CreateUserConfigService()
                     .GetUserArticleRateFilter(HttpContext.User.Identity.Name);
             }
 
 
             articlesCount = await _serviceFactory
-                .createArticlesService()
+                .CreateArticlesService()
                 .GetArticleCount(tag,userRateFilter,searchLineRequest);
 
 
 
 
             if (Int32.TryParse(_serviceFactory
-                    .createConfigurationService()
+                    .CreateConfigurationService()
                     ["Pagination:Articles:DefaultPageSize"], out var pageSize))
             {
                 List<string> articleBlocks = new List<string>();
@@ -70,12 +63,12 @@ namespace Business_Logic.Controllers
                     TotalItems = articlesCount
                 };
 
-                List<ArticleDTO> articles = new List<ArticleDTO>();
+                List<ShortArticleDto>? articles = new List<ShortArticleDto>();
 
 
                 if (!String.IsNullOrEmpty(searchLineRequest))
                 {
-                    articles = await _serviceFactory.createArticlesService()
+                    articles = await _serviceFactory.CreateArticlesService()
                         .GetArticlesByPartNameAsync(page, pageSize, searchLineRequest);
                 }
                 else
@@ -84,12 +77,12 @@ namespace Business_Logic.Controllers
                     if (!String.IsNullOrEmpty(tag))
                     {
                         articles = await _serviceFactory
-                            .createArticlesService().GetArticlesWithSourceByTagByPageAsync(page, pageSize, tag, userRateFilter);
+                            .CreateArticlesService().GetArticlesWithSourceByTagByPageAsync(page, pageSize, tag, userRateFilter);
                     }
                     else
                     {
                         articles = await _serviceFactory
-                            .createArticlesService()
+                            .CreateArticlesService()
                             .GetShortArticlesWithSourceByPageAsync(page, pageSize, userRateFilter);
                     }
                 }
@@ -102,15 +95,16 @@ namespace Business_Logic.Controllers
             }
             else
             {
-                return StatusCode(500, new { Message = "Can't read configuration data" });
+                Log.Error("Can't read configuration data: articles page info");
+                return BadRequest();
             }
         }
 
         [HttpGet]
         public async Task<IActionResult> GetSelectedArticle(Int32 ArticleId)
         {
-            FullArticleDTO fullArticleDto = await _serviceFactory
-                .createArticlesService()
+            FullArticleDto? fullArticleDto = await _serviceFactory
+                .CreateArticlesService()
                 .GetFullArticleByIdAsync(ArticleId);
 
             if (fullArticleDto is not null)
@@ -125,16 +119,7 @@ namespace Business_Logic.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteArticlesById(Int32 ArticleId)
         {
-            await _serviceFactory.createArticlesService().DeleteArticleById(ArticleId);
-
-            return RedirectToAction("GetArticlesByPage");
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<IActionResult> GetArticleNamesBySearchStringPart(Int32 ArticleId)
-        {
-            await _serviceFactory.createArticlesService().DeleteArticleById(ArticleId);
+            await _serviceFactory.CreateArticlesService().DeleteArticleById(ArticleId);
 
             return RedirectToAction("GetArticlesByPage");
         }

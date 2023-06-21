@@ -2,24 +2,21 @@
     ViewData["Title"] = "Home Page";
     Int32 a = 0;
 }
-@using Business_Logic
 @using Core.DTOs.Article
-@using System.Collections.Specialized
-@model Business_Logic.Models.TegHelperModels.ObjectListModel
+@model MVC.Models.TegHelperModels.ObjectListModel
 
 
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - IdentityAut</title>
     <link href="@Url.Content("~/css/magic/magic.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/css/ScrollLent.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/css/Index.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/short-article-lent.css")" rel="stylesheet" type="text/css" />
 </head>
 <script>
     let articleRate
 </script>
 <div id="grid">
-    @foreach (ArticleDTO x in Model.ArticlePreviews)
+    @foreach (ShortArticleDto x in Model.ArticlePreviews)
     {
         <div class="article-card" style="position: relative;overflow:hidden;">
 
@@ -28,8 +25,8 @@
                     <h5 style="padding-right:0">@Html.Raw(@x.ShortDescription)</h5>
                 </div>
                 <div class="card-botton" style="position: absolute;bottom:0">
-                    <a href="@Url.Action("GetSelectedArticle", "Article", new { ArticleId = x.Id })" class="btn-number btn-Pages" >Читать</a>
-                    <a href="@Html.Raw(@x.ArticleSourceUrl)" class="btn-number btn-Pages">В источник -></a>
+                    <a href="@Url.Action("GetSelectedArticle", "Article", new { ArticleId = x.Id })" class="custom-button-2 custom-button-3" >Читать</a>
+                    <a href="@Html.Raw(@x.ArticleSourceUrl)" class="custom-button-2 custom-button-3">В источник -></a>
                     <a href="@Url.Action("DeleteArticlesById", "Article", new { articleId = x.Id})" type="button" class="btn btn-danger">Удалить</a>
                 </div> 
             </div>
@@ -39,7 +36,7 @@
                     <img class="Articleimg" src="@Html.Raw(x.ArticlePicture)">
                 </div>
                 <div class="cardInfo">
-                <div class="DateSourceRate">
+                <div class="source-rate">
                     <p class="card-text">@Html.Raw(@x.SourceName)</p>
                         <p class="card-text">@Html.Raw((x.DateTime.ToLongDateString()))</p>
                         <svg xmlns="http://www.w3.org/2000/svg" id="article-rate-pict+@x.Id" width="20" height="20" fill="currentColor" class="bi bi-chevron-double-up" viewBox="0 0 16 16">
@@ -74,4 +71,5 @@
     <script src="/js/Article.js"></script>
     
 }
+
 <pagination page-info="Model.PageInfo" page-action="GetArticlesByPage"></pagination>

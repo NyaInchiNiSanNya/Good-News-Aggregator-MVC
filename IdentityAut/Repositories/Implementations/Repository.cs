@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq.Expressions;
-using AspNetSamples.Abstractions.Data.Repositories;
-using AspNetSamples.Core;
+﻿using System.Linq.Expressions;
+using Core;
 using Core.DTOs;
 using Entities_Context.Entities.UserNews;
+using IServices.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace AspNetSamples.Repositories;
+namespace Repositories.Implementations;
 
 public class Repository<TEntity> : IRepository<TEntity>
     where TEntity : class, IBaseEntity
@@ -62,12 +61,12 @@ public class Repository<TEntity> : IRepository<TEntity>
         await DbSet.AddRangeAsync(entities);
     }
 
-    public virtual async Task PatchAsync(Int32 id, List<PatchDto> patchDtos)
+    public virtual async Task PatchAsync(Int32 id, List<PatchDto> patchDto)
     {
         var entity =
             await DbSet.FirstOrDefaultAsync(ent => ent.Id == id);
 
-        var nameValuePairProperties = patchDtos.ToDictionary
+        var nameValuePairProperties = patchDto.ToDictionary
         (k => k.PropertyName,
             v => v.PropertyValue);
 
@@ -85,7 +84,7 @@ public class Repository<TEntity> : IRepository<TEntity>
     {
         var entity =
             await DbSet.FirstOrDefaultAsync(ent => ent.Id == id);
-        DbSet.Remove(entity);
+        if (entity != null) DbSet.Remove(entity);
     }
 
     public virtual async Task RemoveRange(IEnumerable<TEntity> entities)

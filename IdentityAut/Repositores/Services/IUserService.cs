@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Core.DTOs.Account;
-using Microsoft.Identity.Client;
+﻿using Core.DTOs.Account;
 
-namespace IServices
+namespace IServices.Services
 {
     public interface IUserService
     {
-        public Task<List<UserDTO>> GetAllUsersWithRolesAsync();
+        public Task<List<UserDto>?> GetAllUsersWithRolesAsync();
     }
 }

@@ -14,6 +14,7 @@ namespace Entities_Context.Entities.UserNews
         public DbSet<SiteTheme> Themes { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UsersRoles> UsersRoles { get; set; }
+        public DbSet<RefreshToken> RefreshToken { get; set; }
 
 
         public UserArticleContext(DbContextOptions<UserArticleContext> options) : base(options)

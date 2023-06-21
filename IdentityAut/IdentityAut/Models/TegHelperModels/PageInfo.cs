@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Business_Logic.Models.TegHelperModels
+﻿namespace MVC.Models.TegHelperModels
 {
     public class PageInfo
     {

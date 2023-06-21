@@ -1,4 +1,4 @@
-﻿namespace AspNetSamples.Core;
+﻿namespace Core;
 
 public interface IBaseEntity
 {

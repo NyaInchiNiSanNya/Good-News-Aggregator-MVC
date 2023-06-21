@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using Repositores;
+using IServices.Services;
 using Serilog;
 using Microsoft.Extensions.Configuration;
+using MVC.Models.AccountModels;
+using MVC.Filters.Validation.ValidationRules;
 
 namespace MVC.Filters.Validation
 {
@@ -17,20 +19,10 @@ namespace MVC.Filters.Validation
             IAuthService authService,
             IMapper mapper)
         {
-            if (authService is null)
-            {
-                throw new NullReferenceException(nameof(authService));
-
-            }
-            _authService = authService;
+            _authService = authService ?? throw new NullReferenceException(nameof(authService));
 
 
-            if (mapper is null)
-            {
-                throw new NullReferenceException(nameof(mapper));
-
-            }
-            _mapper = mapper;
+            _mapper = mapper ?? throw new NullReferenceException(nameof(mapper));
         }
 
         public override async void OnActionExecuting(ActionExecutingContext context)
@@ -42,7 +34,7 @@ namespace MVC.Filters.Validation
 
             var validationResult = await AccountValidationHelper
                 .AccountLoginValidator(
-                    (UserLoginViewModel)FormObject.Value, _mapper, _authService);
+                    (UserLoginViewModel)FormObject.Value!, _mapper, _authService);
 
             
             if (!validationResult.IsValid)

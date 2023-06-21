@@ -1,25 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Repositores;
-using UserConfigRepositores;
-using Microsoft.Extensions.Configuration;
-using AutoMapper;
+﻿using System.Security.Claims;
 using Core.DTOs.Account;
-using MVC.Filters.Validation;
-using Services.Account;
-using IServices;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using System.Security.Claims;
-using Serilog;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using MVC.ControllerFactory;
+using MVC.Filters.Validation;
+using MVC.Models.AccountModels;
+using Serilog;
 
-namespace Business_Logic.Controllers
+namespace MVC.Controllers
 {
     public class AccountController : Controller
     {
@@ -41,16 +30,16 @@ namespace Business_Logic.Controllers
         {
 
             return Ok(await _serviceFactory
-                .createIdentityService()
-                .isUserExistAsync(Email));
+                .CreateIdentityService()
+                .IsUserExistAsync(Email));
 
         }
 
         public async Task<IActionResult> CheckUserRegistrationExist(String Email)
         {
             return Ok(!await _serviceFactory
-                .createIdentityService()
-                .isUserExistAsync(Email));
+                .CreateIdentityService()
+                .IsUserExistAsync(Email));
 
         }
 
@@ -83,11 +72,11 @@ namespace Business_Logic.Controllers
             ([FromForm] UserRegistrationViewModel model)
         {
             if (await _serviceFactory
-                    .createIdentityService()
+                    .CreateIdentityService()
                     .RegistrationAsync(
                     _serviceFactory
-                        .createMapperService()
-                        .Map<UserRegistrationDTO>(model)))
+                        .CreateMapperService()
+                        .Map<UserRegistrationDto>(model)))
             {
                 return RedirectToAction("Login", "Account");
             }
@@ -112,13 +101,14 @@ namespace Business_Logic.Controllers
 
 
             var roles = (await _serviceFactory
-                .createRoleService()
+                .CreateRoleService()
                 .GetUserRolesByUserNameAsync(model.Email));
 
 
             if (roles is null)
             {
-                throw new ArgumentException("Incorrect user or role", nameof(model));
+                Log.Error("Failed attempt to create claims {0}: null roles ", nameof(model));
+                throw new ArgumentException();
             }
 
             foreach (var role in roles)
@@ -135,7 +125,7 @@ namespace Business_Logic.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(identity));
             
-            Log.Information("User {0} ip:{1} went to the website", model.Email
+            Log.Information("User {0} ip:{1} successfully logged in", model.Email
                 , HttpContext.Connection.RemoteIpAddress?.ToString());
             
             if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
@@ -149,7 +139,10 @@ namespace Business_Logic.Controllers
 
         public async Task<IActionResult> LogOut()
         {
-            await _serviceFactory.createIdentityService().IdLogoutAsync();
+            Log.Information("User {0} ip:{1} successfully logged out", HttpContext.User.Identity.Name
+                , HttpContext.Connection.RemoteIpAddress?.ToString());
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            
             return RedirectToAction("GetArticlesByPage", "Article");
         }
 

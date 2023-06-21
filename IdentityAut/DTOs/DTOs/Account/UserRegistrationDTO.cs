@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.DTOs.Account
 {
-    public class UserRegistrationDTO
+    public class UserRegistrationDto
     {
         public string Name { get; set; }
         public string Password { get; set; }

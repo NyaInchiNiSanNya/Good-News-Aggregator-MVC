@@ -1,20 +1,19 @@
 ﻿using AutoMapper;
-using IServices;
-using Repositores;
-using UserConfigRepositores;
+using IServices.Services;
 
 namespace MVC.ControllerFactory
 {
     public interface IServiceFactory
     {
-        IMapper createMapperService();
-        IAuthService createIdentityService();
-        IRoleService createRoleService();
-        IUserService createAdminService();
-        IConfiguration createConfigurationService();
-        IArticleService createArticlesService();
-        IUserInfoAndSettingsService createUserConfigService();
-        IUiThemeService createThemeService();
+        IMapper CreateMapperService();
+        IAuthService CreateIdentityService();
+        IRoleService CreateRoleService();
+        IUserService CreateAdminService();
+        IConfiguration CreateConfigurationService();
+        IArticleService CreateArticlesService();
+        ISettingsService CreateUserConfigService();
+        IUiThemeService CreateThemeService();
+        ICommentService CreateCommentService();
     }
    
 }

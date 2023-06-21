@@ -1,12 +1,11 @@
-﻿using System;
+﻿#nullable disable
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
-namespace Entities_Context.Migrations
+namespace Entities_Context.Data.Migration.UserArticle
 {
     /// <inheritdoc />
-    public partial class sdfs : Migration
+    public partial class sdfs : Microsoft.EntityFrameworkCore.Migrations.Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

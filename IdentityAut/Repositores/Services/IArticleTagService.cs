@@ -8,6 +8,6 @@ namespace IServices.Services
 {
     public interface IArticleTagService
     {
-        public Task AddTagsEachArticleAsync(Int32 Id, List<String> tags);
+        public Task AddTagsEachArticleAsync(Int32 id, List<String> tags);
     }
 }

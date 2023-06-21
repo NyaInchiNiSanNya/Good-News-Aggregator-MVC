@@ -1,5 +1,4 @@
-﻿using Abstract;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +9,7 @@ namespace Services
 {
     internal class PictureBase64EncoderDecoder
     {
-        internal async Task<String>PictureEncoder(String Path)
+        internal async Task<String?> PictureEncoder(String Path)
         {
             try
             {
@@ -22,7 +21,7 @@ namespace Services
                 return null;
             }
         }
-        internal byte[] PictureDecoder(String byteString)
+        internal Byte[]? PictureDecoder(String byteString)
         {
             try
             {

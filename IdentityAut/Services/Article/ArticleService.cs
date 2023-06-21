@@ -2,7 +2,6 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
-using Abstract;
 using AutoMapper;
 using Core.DTOs.Article;
 using IServices;
@@ -13,15 +12,18 @@ using Microsoft.Extensions.Configuration;
 using Services.Article.ArticleRate;
 using Services.Article.WebParsers;
 using Serilog;
+using Azure;
+using Entities_Context.Entities.UserNews;
 
 namespace Services.Article
 {
     public class ArticleService : IArticleService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _Mapper;
+        private readonly IMapper _mapper;
         private readonly ISourceService _sourceService;
         private readonly IConfiguration _сonfiguration;
+        private readonly IArticleSentimentAnalyzer _articleSentimentAnalyzer;
         private readonly IArticleTagService _articleTagService;
 
 
@@ -29,64 +31,51 @@ namespace Services.Article
             IMapper mapper,
             ISourceService sourceService,
             IConfiguration сonfiguration,
-            IArticleTagService articleTagService)
+            IArticleTagService articleTagService,
+            IArticleSentimentAnalyzer articleSentimentAnalyzer)
         {
-            if (unitOfWork is null)
-            {
-                throw new ArgumentNullException(nameof(unitOfWork));
-            }
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
-            _unitOfWork = unitOfWork;
+            _articleTagService = articleTagService ?? throw new ArgumentNullException(nameof(articleTagService));
 
-            if (articleTagService is null)
-            {
-                throw new ArgumentNullException(nameof(articleTagService));
-            }
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
-            _articleTagService = articleTagService;
+            _sourceService = sourceService ?? throw new ArgumentNullException(nameof(sourceService));
 
-            if (mapper is null)
-            {
-                throw new ArgumentNullException(nameof(mapper));
-            }
+            _сonfiguration = сonfiguration ?? throw new ArgumentNullException(nameof(сonfiguration));
 
-            _Mapper = mapper;
-
-            if (sourceService is null)
-            {
-                throw new ArgumentNullException(nameof(mapper));
-            }
-
-            _sourceService = sourceService;
-
-            if (сonfiguration is null)
-            {
-                throw new ArgumentNullException(nameof(сonfiguration));
-            }
-            _сonfiguration = сonfiguration;
-
+            _articleSentimentAnalyzer = articleSentimentAnalyzer ?? throw new ArgumentNullException(nameof(articleSentimentAnalyzer));
         }
 
 
-        public async Task<List<AutoCompleteDataDto>> GetArticlesNamesByPartNameAsync(String Request)
+        public async Task<List<AutoCompleteDataDto>> GetArticlesNamesByPartNameAsync(String request)
         {
+
             var articles = await _unitOfWork.Articles
                 .GetAsQueryable()
                 .AsNoTracking()
-                .Where(article => article.Title.Contains(Request))
-                .Select(article => _Mapper.Map<AutoCompleteDataDto>(article))
+                .Where(article => article.Title.Contains(request))
+                .Select(article => _mapper.Map<AutoCompleteDataDto>(article))
                 .ToListAsync();
 
             return articles;
         }
 
-        public async Task<List<ArticleDTO>> GetArticlesByPartNameAsync(Int32 page, Int32 pageSize,
+        public async Task<List<ShortArticleDto>?> GetArticlesByPartNameAsync(Int32 page, Int32 pageSize,
             String searchLineRequest)
         {
-            List<ArticleDTO> ArticleList = new List<ArticleDTO>();
+
+            if (page < 1 || pageSize < 1)
+            {
+                throw new ArgumentException("Invalid page parameters");
+            }
+
+            List<ShortArticleDto>? articleList;
 
             if (String.IsNullOrEmpty(searchLineRequest))
             {
+                Log.Warning("Attempt get articles by search line with empty request");
+
                 return await GetShortArticlesWithSourceByPageAsync(page, pageSize, 0);
             }
             else
@@ -95,71 +84,91 @@ namespace Services.Article
                         .Articles
                         .GetArticlesBySearchRequestByPageAsync(page, pageSize, searchLineRequest);
 
-                ArticleList = _Mapper.Map<List<ArticleDTO>>(Articles);
+                articleList = _mapper.Map<List<ShortArticleDto>>(Articles);
 
             }
 
-            if (ArticleList is not null)
+            if (articleList is not null)
             {
-                foreach (var article in ArticleList)
+                foreach (var article in articleList)
                 {
                     article.SourceName = await _sourceService.GetSourceNameByIdAsync(article.SourceId);
                 }
 
-                return ArticleList;
+                return articleList;
             }
 
+            Log.Warning("GetArticlesByPartNameAsync return null article list");
             return null;
         }
 
-        public async Task<List<ArticleDTO>> GetArticlesWithSourceByTagByPageAsync(Int32 page, Int32 pageSize,
+        public async Task<List<ShortArticleDto>?> GetArticlesWithSourceByTagByPageAsync(Int32 page, Int32 pageSize,
             String tagName, Int32 userRateFilter)
         {
-            var tag = await _unitOfWork.Tag.FindBy(x => x.Name == tagName).FirstOrDefaultAsync();
 
-            List<ArticleDTO> ArticleList = new List<ArticleDTO>();
+            if (page < 1 || pageSize < 1 || userRateFilter < 0 || userRateFilter > 10)
+            {
+                Log.Error("Invalid page parameters");
+                throw new ArgumentException();
+            }
+
+            var tag = await _unitOfWork.Tag
+                .FindBy(x => x.Name == tagName)
+                .FirstOrDefaultAsync();
+
+            List<ShortArticleDto>? articleList;
 
             if (tag is null)
             {
 
-                var Articles = await _unitOfWork
+                var articles = await _unitOfWork
                     .Articles
                     .GetArticlesByPageAsync(page, pageSize, userRateFilter);
 
-                ArticleList = _Mapper.Map<List<ArticleDTO>>(Articles);
+                articleList = _mapper.Map<List<ShortArticleDto>>(articles);
             }
             else
             {
-                var Articles = await _unitOfWork
+                Log.Warning("GetArticlesWithSourceByTagByPageAsync : tag not found");
+
+                var articles = await _unitOfWork
                     .Articles
                     .GetArticlesByTagByPageAsync(page, pageSize, tag.Id, userRateFilter);
 
-                ArticleList = _Mapper.Map<List<ArticleDTO>>(Articles);
+                articleList = _mapper.Map<List<ShortArticleDto>>(articles);
             }
 
-            if (ArticleList is not null)
+            if (articleList is not null)
             {
-                foreach (var article in ArticleList)
+                foreach (var article in articleList)
                 {
                     article.SourceName = await _sourceService.GetSourceNameByIdAsync(article.SourceId);
                 }
 
-                return ArticleList;
+                return articleList;
             }
 
+            Log.Warning("GetArticlesWithSourceByTagByPageAsync return null article list");
             return null;
 
         }
 
-        public async Task<List<ArticleDTO>> GetShortArticlesWithSourceByPageAsync(Int32 page, Int32 pageSize, Int32 userRateFilter)
+        public async Task<List<ShortArticleDto>?> GetShortArticlesWithSourceByPageAsync(Int32 page, Int32 pageSize, Int32 userRateFilter)
         {
-            List<ArticleDTO> ArticleList = new List<ArticleDTO>();
+            if (page < 1 || pageSize < 1 || userRateFilter < 0 || userRateFilter > 10)
+            {
+                Log.Error("Invalid page parameters");
+
+                throw new ArgumentException();
+            }
+
+            List<ShortArticleDto>? ArticleList = new List<ShortArticleDto>();
 
             var Articles = await _unitOfWork
                 .Articles
                 .GetArticlesByPageAsync(page, pageSize, userRateFilter);
 
-            ArticleList = _Mapper.Map<List<ArticleDTO>>(Articles);
+            ArticleList = _mapper.Map<List<ShortArticleDto>>(Articles);
 
             if (ArticleList is not null)
             {
@@ -171,18 +180,46 @@ namespace Services.Article
                 return ArticleList;
             }
 
+            Log.Warning("GetShortArticlesWithSourceByPageAsync return null article list");
             return null;
         }
 
-        public async Task DeleteArticleById(Int32 articleId)
+        public async Task<Boolean> DeleteArticleById(Int32 articleId)
         {
-            await _unitOfWork.Articles.Remove(articleId);
-            await _unitOfWork.SaveChangesAsync();
+            if (articleId < 1)
+            {
+                Log.Error("Invalid page parameters");
+                throw new ArgumentException(nameof(articleId));
+            }
+
+            Entities_Context.Entities.UserNews.Article? article = await _unitOfWork.Articles.GetByIdAsync(articleId);
+
+            if (article != null)
+            {
+                await _unitOfWork.Articles.Remove(articleId);
+                await _unitOfWork.SaveChangesAsync();
+
+                Log.Information("Article {0} was deleted", articleId);
+                return true;
+            }
+            else
+            {
+                Log.Warning("attempt to delete a non-existent article", articleId);
+                return false;
+            }
         }
 
         public async Task<Int32> GetArticleCount(String tagName = "", Int32 userRateFilter = 0, String searchLineRequest = "")
         {
+
+            if (userRateFilter < 0 || userRateFilter > 10)
+            {
+                Log.Error("Invalid page parameters");
+                throw new ArgumentException();
+            }
+
             Int32 count = 0;
+
             if (!String.IsNullOrEmpty(searchLineRequest))
             {
                 count = await _unitOfWork.Articles
@@ -193,16 +230,18 @@ namespace Services.Article
                 return count;
             }
 
-            if (!String.IsNullOrEmpty(tagName) && String.IsNullOrEmpty(searchLineRequest))
+            if (!String.IsNullOrEmpty(tagName))
             {
                 var tagSearch = await _unitOfWork.Tag.FindBy(x => x.Name == tagName).FirstOrDefaultAsync();
 
-                if (tagSearch is not null)
+                if (tagSearch != null)
                 {
                     count = await _unitOfWork.Articles.GetAsQueryable()
                         .Include(article => article.Source)
                         .Include(x => x.Tags)
-                        .Where(article => article.Tags.Any(tag => tag.TagId == tagSearch.Id)).CountAsync();
+                        .Where(article => article.Tags.Any(tag => tag.TagId == tagSearch.Id))
+                        .Where(article => article.PositiveRate >= userRateFilter)
+                        .CountAsync();
                     return count;
                 }
 
@@ -216,16 +255,17 @@ namespace Services.Article
 
         }
 
-        public async Task<FullArticleDTO> GetFullArticleByIdAsync(Int32 Id)
+        public async Task<FullArticleDto?> GetFullArticleByIdAsync(Int32 id)
         {
-            FullArticleDTO fullArticle = _Mapper.Map<FullArticleDTO>(await _unitOfWork.Articles.GetByIdAsync(Id));
+            FullArticleDto? fullArticle = _mapper.Map<FullArticleDto>(await _unitOfWork.Articles.GetByIdAsync(id));
 
             if (fullArticle is not null)
             {
                 fullArticle.SourceName = await _sourceService.GetSourceNameByIdAsync(fullArticle.SourceId);
-
                 return fullArticle;
             }
+
+            Log.Warning("attempt to get a non-existent article", id);
 
             return null;
         }
@@ -233,30 +273,31 @@ namespace Services.Article
 
         public async Task AggregateArticlesAsync()
         {
-            List<SourceDTO>? sources = await _sourceService.GetAllSourcesDTOAsync();
 
-            if (sources is not null)
+            Log.Information("the aggregation of articles has begun");
+
+            List<SourceDto>? sources = await _sourceService.GetAllSourcesDtoAsync();
+
+            if (sources.Count > 0)
             {
                 foreach (var source in sources)
                 {
-                    var fullArticlesDTOsFromRss =
+                    var fullArticlesDtOsFromRss =
                         await AggregateArticlesDataFromRssSourceAsync(source, CancellationToken.None);
 
-                    var fullContentArticles = await GetFullContentArticlesAsync(fullArticlesDTOsFromRss);
+                    var fullContentArticles = await GetFullContentArticlesAsync(fullArticlesDtOsFromRss);
 
-                    ArticleSentimentAnalyzer sentimentAnalyzer = new ArticleSentimentAnalyzer(_сonfiguration);
+                    fullArticlesDtOsFromRss =
+                        await _articleSentimentAnalyzer.GetArticlesWithSentimentScore(fullContentArticles);
 
-                    fullArticlesDTOsFromRss =
-                        await sentimentAnalyzer.GetArticlesWithSentimentScore(fullContentArticles);
+                    await AddArticlesAsync(fullArticlesDtOsFromRss);
 
-                    await AddArticlesAsync(fullArticlesDTOsFromRss);
-
-                    foreach (var FullArticle in fullArticlesDTOsFromRss)
+                    foreach (var fullArticle in fullArticlesDtOsFromRss)
                     {
                         var articleId = await _unitOfWork.Articles.GetAsQueryable()
-                            .Where(x => x.HashUrlId.Equals(FullArticle.HashUrlId)).Select(x => x.Id).FirstOrDefaultAsync();
+                            .Where(x => x.HashUrlId.Equals(fullArticle.HashUrlId)).Select(x => x.Id).FirstOrDefaultAsync();
 
-                        await _articleTagService.AddTagsEachArticleAsync(articleId, FullArticle.ArticleTags);
+                        await _articleTagService.AddTagsEachArticleAsync(articleId, fullArticle.ArticleTags);
                     }
 
                     await _unitOfWork.SaveChangesAsync();
@@ -264,17 +305,19 @@ namespace Services.Article
             }
             else
             {
-                Log.Warning("Aggregation failed.Sources not found");
+                throw new NullReferenceException("no sources found");
             }
 
+            Log.Information("the aggregation of articles has end");
         }
 
-        private async Task<List<FullArticleDTO>> GetFullContentArticlesAsync(IEnumerable<FullArticleDTO> articleDTOsFromRss)
+        private async Task<List<FullArticleDto>> GetFullContentArticlesAsync(IEnumerable<FullArticleDto>? articleDtOsFromRss)
         {
-            var concBag = new ConcurrentBag<FullArticleDTO>();
+            Log.Information("article parsing has begun");
 
+            var concBag = new ConcurrentBag<FullArticleDto>();
 
-            await Parallel.ForEachAsync(articleDTOsFromRss, async (dto, token) =>
+            await Parallel.ForEachAsync(articleDtOsFromRss, (dto, token) =>
             {
 
                 var sourceConfigValue = _сonfiguration["ResourceHandlers:" + dto.SourceName];
@@ -283,20 +326,23 @@ namespace Services.Article
                 {
                     try
                     {
-                        var Parser =
-                            Activator.CreateInstance(Type.GetType(sourceConfigValue), dto.ArticleSourceUrl) as
+                        var parser =
+                            Activator.CreateInstance(Type.GetType(sourceConfigValue)
+                                                     ?? throw new InvalidOperationException(),
+                                    dto.ArticleSourceUrl) as
                                 AbstractParser;
 
-                        dto.ArticlePicture = Parser.GetPictureReference();
-                        dto.ShortDescription = Parser.GetShortDescription();
-                        dto.FullText = Parser.GetFullTextDescription();
-                        dto.ArticleSourceUrl = Parser.GetArticleSourceReference(dto.ArticleSourceUrl);
-                        dto.ArticleTags = Parser.GetArticleTagsFromRss(dto.ArticleTags);
+                        dto.ArticlePicture = parser.GetPictureReference();
+                        dto.ShortDescription = parser.GetShortDescription();
+                        dto.FullText = parser.GetFullTextDescription();
+                        dto.ArticleSourceUrl = parser.GetArticleSourceReference(dto.ArticleSourceUrl);
+                        dto.ArticleTags = parser.GetArticleTagsFromRss(dto.ArticleTags);
 
                     }
                     catch (Exception e)
                     {
-                        Log.Warning("Unsuccessful attempt to aggregate news: {0}", dto.ArticleSourceUrl);
+                        Log.Warning("Unsuccessful attempt to aggregate article: {0}, {1}",
+                            dto.ArticleSourceUrl, e.Message);
                     }
 
 
@@ -304,29 +350,40 @@ namespace Services.Article
                 }
                 else
                 {
-                    throw new ArgumentException("Source was not found in the configuration file");
+                    throw new ArgumentException("rss aggregation failed. The source was not found in the configuration file");
                 }
+
+                return ValueTask.CompletedTask;
             });
 
+
+            Log.Information("article parsing has end. {0} articles has been updated",
+               concBag.Count);
+
             return concBag.ToList();
+
         }
 
-        private async Task AddArticlesAsync(IEnumerable<FullArticleDTO> articleDTOs)
+        private async Task AddArticlesAsync(IEnumerable<FullArticleDto> articleDtOs)
         {
-            var entities = articleDTOs
-                .Select(a => _Mapper
+            var entities = articleDtOs
+                .Select(a => _mapper
                     .Map<Entities_Context.Entities.UserNews.Article>(a))
                 .ToList();
+
+            Log.Information("{0} news has been added", articleDtOs.Count());
 
             await _unitOfWork.Articles.AddRangeAsync(entities);
             await _unitOfWork.SaveChangesAsync();
         }
 
 
-        private async Task<List<FullArticleDTO>> AggregateArticlesDataFromRssSourceAsync(SourceDTO source,
+        private async Task<List<FullArticleDto>> AggregateArticlesDataFromRssSourceAsync(SourceDto source,
             CancellationToken cancellationToken)
         {
-            var articles = new ConcurrentBag<FullArticleDTO>();
+            Log.Information("the aggregation of articles from rss has begun");
+
+            var articles = new ConcurrentBag<FullArticleDto>();
 
             var ArticleHash = await GetContainsArticleIdBySourceAsync(source.Id);
 
@@ -336,15 +393,15 @@ namespace Services.Article
 
                 await Parallel.ForEachAsync(feed.Items
                         .Where(item =>
-                            !ArticleHash.Contains(ComputeSHA256Hash(source.RssFeedUrl + item.Id))).ToArray(), cancellationToken,
+                            !ArticleHash.Contains(ComputeSha256Hash(source.RssFeedUrl + item.Id))).ToArray(), cancellationToken,
                     (item, token) =>
                     {
 
-                        FullArticleDTO articleDto = new FullArticleDTO()
+                        FullArticleDto articleDto = new FullArticleDto()
                         {
 
                             ArticleSourceUrl = item.Id,
-                            HashUrlId = ComputeSHA256Hash(source.RssFeedUrl + item.Id),
+                            HashUrlId = ComputeSha256Hash(source.RssFeedUrl + item.Id),
                             SourceId = source.Id,
                             SourceUrl = source.OriginUrl,
                             SourceName = source.Name,
@@ -360,7 +417,7 @@ namespace Services.Article
                             }
                             catch (NullReferenceException)
                             {
-                                Log.Warning("Unsuccessful attempt to aggregate news tags");
+                                Log.Warning("Unsuccessful attempt to aggregate news tags: {0}", item.Id);
                             }
 
                         }
@@ -370,11 +427,13 @@ namespace Services.Article
                     });
 
                 reader.Close();
+                Log.Information("the aggregation of articles from rss has end. Received {0} news", articles.Count);
+
                 return articles.ToList();
 
             }
         }
-        public string ComputeSHA256Hash(string input)
+        public string ComputeSha256Hash(string input)
         {
             using (SHA256 sha256 = SHA256.Create())
             {
@@ -389,20 +448,22 @@ namespace Services.Article
             }
         }
 
-        private async Task<List<String>> GetContainsArticleIdBySourceAsync(Int32 sourceId)
+        private async Task<List<string>?> GetContainsArticleIdBySourceAsync(Int32 sourceId)
         {
-            var articlesURL = await _unitOfWork.Articles
+            if (sourceId < 1)
+            {
+                Log.Error("Invalid source id");
+                throw new ArgumentException(nameof(sourceId));
+            }
+
+            var articlesUrl = await _unitOfWork.Articles
                 .GetAsQueryable()
+                .AsNoTracking()
                 .Where(x => x.SourceId == sourceId)
                 .Select(x => x.HashUrlId)
                 .ToListAsync();
 
-            if (articlesURL is null)
-            {
-                return null;
-            }
-
-            return articlesURL;
+            return articlesUrl;
         }
     }
 }

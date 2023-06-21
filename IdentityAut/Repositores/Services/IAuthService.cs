@@ -1,23 +1,16 @@
 ﻿using Core.DTOs.Account;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Repositores
+namespace IServices.Services
 {
     public interface IAuthService
     {
         public Task<Boolean> RegistrationAsync
-            (UserRegistrationDTO model);
+            (UserRegistrationDto model);
 
 
         public Task<Boolean> LoginAsync
-            (UserLoginDTO model);
+            (UserLoginDto? model);
 
-        public Task IdLogoutAsync();
-
-        public Task<Boolean> isUserExistAsync(String Email);
+        public Task<Boolean> IsUserExistAsync(String email);
     }
 }

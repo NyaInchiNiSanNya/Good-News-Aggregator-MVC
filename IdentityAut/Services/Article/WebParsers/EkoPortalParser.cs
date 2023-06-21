@@ -11,13 +11,13 @@ namespace Services.Article.WebParsers
 {
     internal class EkoPortalParser : AbstractParser
     {
-        private readonly HtmlDocument? htmlDoc;
+        private readonly HtmlDocument? _htmlDoc;
 
         public EkoPortalParser(String html)
         {
             HtmlWeb web = new HtmlWeb();
             web.OverrideEncoding = Encoding.UTF8;
-            htmlDoc = web.Load("https://ecoportal.su/news/view/"+html+ ".html");
+            _htmlDoc = web.Load("https://ecoportal.su/news/view/"+html+ ".html");
         }
         
         internal override String GetArticleSourceReference(String id)
@@ -61,7 +61,7 @@ namespace Services.Article.WebParsers
 
         internal override String GetPictureReference()
         {
-            var imgNode = htmlDoc.DocumentNode.SelectSingleNode("//newsimage/img");
+            var imgNode = _htmlDoc.DocumentNode.SelectSingleNode("//newsimage/img");
             var pattern = @"(?<=src="")[^""]+\.jpg(?="")";
             var match = Regex.Match(imgNode.OuterHtml, pattern);
             
@@ -71,14 +71,14 @@ namespace Services.Article.WebParsers
 
         internal override String GetShortDescription()
         {
-            var description = htmlDoc.DocumentNode.SelectSingleNode("//description").InnerHtml;
+            var description = _htmlDoc.DocumentNode.SelectSingleNode("//description").InnerHtml;
             Console.WriteLine(description);
             return description;
         }
 
         internal override string GetFullTextDescription()
         {
-            var Text = htmlDoc.DocumentNode.SelectSingleNode("//text");
+            var Text = _htmlDoc.DocumentNode.SelectSingleNode("//text");
             
             return Text.InnerHtml;
         }

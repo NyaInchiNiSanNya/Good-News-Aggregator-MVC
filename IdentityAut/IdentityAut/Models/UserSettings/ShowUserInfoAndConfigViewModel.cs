@@ -1,13 +1,14 @@
-﻿using Business_Logic.ValidationRules;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using MVC.Filters.Validation.ValidationRules;
+using MVC.ValidationRules;
 
-namespace Business_Logic.Models.UserSettings
+namespace MVC.Models.UserSettings
 {
-    public class ShowUserInfoAndConfigViewModel: ValidatePatterns, ValidateErrors
+    public class ShowUserInfoAndConfigViewModel: IValidatePatterns, ValidateErrors
     {
         [Required(ErrorMessage = ValidateErrors.NoName)]
-        [RegularExpression(ValidatePatterns.NamePattern
+        [RegularExpression(IValidatePatterns.NamePattern
             , ErrorMessage = ValidateErrors.BadName)]
         public String Name { get; set; }
         

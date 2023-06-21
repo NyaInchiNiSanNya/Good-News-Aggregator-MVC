@@ -1,14 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    String RoleString = String.Empty;
 }
-@using Business_Logic.TegHelpers
 @using Core.DTOs.Account
-@model List<Core.DTOs.Account.UserDTO>
+@model List<Core.DTOs.Account.UserDto>
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - IdentityAut</title>
-    <link href="@Url.Content("~/css/Admin.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/admin-menu.css")" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
 </head>
@@ -17,10 +15,10 @@
         <div style="width: 30%;">
 
             <form asp-controller="Admin" asp-action="NewsAggregator" method="post">
-                <button class="BOTTOMSI btn-number btn-Pages" type="submit">Агрегировать новости</button>
+                <button class="custom-button custom-button-2 custom-button-3" type="submit">Агрегировать новости</button>
             </form>
 
-            <a class="BOTTOMSI btn-number btn-Pages" asp-controller="Admin" asp-action="UserList" method="get">Получить пользователей</a>
+            <a class="custom-button custom-button-2 custom-button-3" asp-controller="Admin" asp-action="UserList" method="get">Получить пользователей</a>
 
         </div>
         <div>

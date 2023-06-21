@@ -1,24 +1,39 @@
-﻿function readCookie(name) {
-        var matches = document.cookie.match(new RegExp(
-    "(?:^|; )" + name.replace(/([\.$?*|{ }\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-        ));
+﻿document.addEventListener('DOMContentLoaded', function () {
+   
+    applyThemeFromCookieText()
+});
 
-    return matches ? decodeURIComponent(matches[1]) : undefined;
+function readCookie(name) {
+    var cookies = document.cookie.split(';');
+    var cookieValue = null;
+
+    cookies.forEach(function (cookie) {
+        var cookiePair = cookie.trim().split('=');
+        var cookieName = cookiePair[0];
+
+        if (cookieName === name) {
+            cookieValue = cookiePair[1];
+        }
+    });
+
+    return cookieValue;
 }
-function GetCookieName() {
-    let el = document.getElementById("NameField");
-    el.textContent = readCookie("name");
+
+function applyThemeFromCookie() {
+    var themeValue = readCookie('theme');
+
+    if (themeValue === 'dark') {
+        document.body.style.backgroundColor = '#3b3939';
+    }
 }
+function applyThemeFromCookieText() {
+    var themeValue = readCookie('theme');
 
+    if (themeValue === 'dark') {
+        var elementsToColor = document.querySelectorAll('h5, p, label');
 
-function GetCookieTheme() {
-
-    Classtheme = document.getElementById("theme");
-
-    if (readCookie("theme") == "Dark") {
-
-        document.body.style.background = '#2b2b2b';
-        Classtheme.style.background = '#2b2b2b';
-
+        for (var i = 0; i < elementsToColor.length; i++) {
+            elementsToColor[i].style.color = 'white'; // Установите нужный цвет для элементов
+        }
     }
 }

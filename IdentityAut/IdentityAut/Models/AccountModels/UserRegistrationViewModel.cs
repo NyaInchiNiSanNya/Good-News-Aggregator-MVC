@@ -1,15 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.ComponentModel.DataAnnotations;
-using Business_Logic.ValidationRules;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
+using MVC.Filters.Validation.ValidationRules;
+using MVC.ValidationRules;
+
+namespace MVC.Models.AccountModels;
 
 public class UserRegistrationViewModel: 
-    ValidatePatterns
+    IValidatePatterns
     ,ValidateErrors
 {
 
     [Required(ErrorMessage = ValidateErrors.BadName)]
-    [RegularExpression(ValidatePatterns.NamePattern
+    [RegularExpression(IValidatePatterns.NamePattern
         , ErrorMessage =ValidateErrors.BadName)]
     public String Name { get; set; }
 
@@ -21,7 +23,7 @@ public class UserRegistrationViewModel:
 
     [Required(ErrorMessage = ValidateErrors.NoPassword)]
     [DataType(DataType.Password)]
-    [RegularExpression(ValidatePatterns.PasswordPattern
+    [RegularExpression(IValidatePatterns.PasswordPattern
         , ErrorMessage = ValidateErrors.BadPassword)]
     public String Password { get; set; }
 

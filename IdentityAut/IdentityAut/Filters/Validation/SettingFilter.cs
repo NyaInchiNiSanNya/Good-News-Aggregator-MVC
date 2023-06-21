@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Business_Logic.Models.UserSettings;
 using IServices;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
-using Repositores;
+using MVC.Models.UserSettings;
 using Serilog;
+using MVC.Filters.Validation.ValidationRules;
 
 namespace MVC.Filters.Validation
 {
@@ -15,12 +15,12 @@ namespace MVC.Filters.Validation
 
         public override async void OnActionExecuting(ActionExecutingContext context)
         {
-            var FormObject =
+            var formObject =
                 context.ActionArguments.SingleOrDefault(p =>
                     p.Value is NewUserSettingsViewModel);
 
             var validationResult = await AccountValidationHelper
-                .InfoSettingsValidator((NewUserSettingsViewModel)FormObject.Value);
+                .InfoSettingsValidator((NewUserSettingsViewModel)formObject.Value!);
 
 
             if (!validationResult.IsValid)

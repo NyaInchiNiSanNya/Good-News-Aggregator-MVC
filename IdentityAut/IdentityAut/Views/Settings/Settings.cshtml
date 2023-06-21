@@ -1,12 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model Business_Logic.Models.UserSettings.ShowUserInfoAndConfigViewModel;
+@model MVC.Models.UserSettings.ShowUserInfoAndConfigViewModel;
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="~/css/AuthoriazedErrors.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="@Url.Content("~/css/Settings.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/settings-menu.css")" rel="stylesheet" type="text/css" />
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
@@ -34,15 +34,15 @@
             <select asp-for="PositiveRateFilter" style="width: 80px" class="form-select form-select-sm" aria-label=".form-select-sm example" asp-items="@(new SelectList(Enumerable.Range(1, 10)))"></select>
         </div>
 
-        <div class="col-12 BOTTOMSI">
-            <button class="btn-number btn-Pages"  type="submit">Изменить</button>
+        <div class="col-12 custom-btn">
+            <button class="custom-button-2 custom-button-3"  type="submit">Изменить</button>
         </div>
 
     </form>
 </div>
-<div>
+<div class="disIfMobile">
     <div class="Icontainer block rounded-circle border border-4 border-dark" style="margin-top: 100px">
-        <img class="user_picture" id="image">
+        <img class="user-picture" id="image">
     </div>
     <div style="width: 300px; display: block; margin-left: 400px; margin-top: 100px">
         <input class="form-control form-control-sm" type="file" id="userProfile">

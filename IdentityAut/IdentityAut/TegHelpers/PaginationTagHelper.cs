@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using Business_Logic.Models.TegHelperModels;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-namespace Business_Logic.TegHelpers
+using MVC.Models.TegHelperModels;
+
+namespace MVC.TegHelpers
 {
     public class PaginationTagHelper : TagHelper
     {
@@ -34,7 +34,7 @@ namespace Business_Logic.TegHelpers
                 var tag = new TagBuilder("a");
                 
 
-                tag.AddCssClass("btn-number btn-Pages");
+                tag.AddCssClass("custom-button-2 custom-button-3");
                 if (ViewContext.HttpContext.Request.Query.ContainsKey("page") && int.TryParse(
                         ViewContext.HttpContext.Request.Query["page"],
                         out var actualPage) && i>= actualPage-2 && i <= actualPage + 2)

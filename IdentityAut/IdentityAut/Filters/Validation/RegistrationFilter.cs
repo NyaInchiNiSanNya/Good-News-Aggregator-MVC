@@ -4,8 +4,9 @@ using Core.DTOs.Account;
 using System.IO.Pipelines;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Repositores;
+using MVC.Models.AccountModels;
 using Serilog;
+using MVC.Filters.Validation.ValidationRules;
 
 namespace MVC.Filters.Validation
 {
@@ -15,12 +16,12 @@ namespace MVC.Filters.Validation
 
         public override async void OnActionExecuting(ActionExecutingContext context)
         {
-            var FormObject =
+            var formObject =
                 context.ActionArguments.SingleOrDefault(p =>
                     p.Value is UserRegistrationViewModel);
 
             var validationResult = await AccountValidationHelper
-                .AccountRegistrationValidator((UserRegistrationViewModel)FormObject.Value);
+                .AccountRegistrationValidator(((UserRegistrationViewModel)formObject.Value!));
 
 
             if (!validationResult.IsValid)
@@ -29,9 +30,9 @@ namespace MVC.Filters.Validation
                 
                 Log.Warning("Validation error occurred during user registration. IP: {0}", ip);
                 
-                foreach (var Errors in validationResult.Errors)
+                foreach (var errors in validationResult.Errors)
                 {
-                    context.ModelState.AddModelError(Errors.PropertyName, Errors.ErrorMessage);
+                    context.ModelState.AddModelError(errors.PropertyName, errors.ErrorMessage);
                 }
                 
                 context.Result = new ViewResult

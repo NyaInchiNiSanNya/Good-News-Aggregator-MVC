@@ -1,10 +1,8 @@
-﻿using Abstract;
-using AspNetSamples.Abstractions.Data.Repositories;
-using Entities_Context.Entities.UserNews;
+﻿using Entities_Context.Entities.UserNews;
+using IServices;
 using IServices.Repositories;
-using Repositories.Implementations;
 
-namespace AspNetSamples.Repositories;
+namespace Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {
@@ -12,6 +10,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly UserArticleContext _dbContext;
 
     private readonly IArticleRepository _articlesRepository;
+    private readonly ICommentRepository _commentRepository;
     private readonly IArticleTagRepository _articlesTagRepository;
     private readonly ISourceRepository _sourceRepository;
     private readonly IUsersRepository _userRepository;
@@ -28,8 +27,10 @@ public class UnitOfWork : IUnitOfWork
         IUsersRolesRepository usersRolesRepository,
         IUserInterfaceThemeRepository interfaceThemeRepository,
         IArticleTagRepository articlesTagRepository,
-        ITagRepository tagRepository)
+        ITagRepository tagRepository, 
+        ICommentRepository commentRepository)
     {
+        _commentRepository=commentRepository;
         _articlesTagRepository = articlesTagRepository;
         _dbContext = dbContext;
         _articlesRepository = articleRepository;
@@ -42,6 +43,7 @@ public class UnitOfWork : IUnitOfWork
     }
 
     public IArticleRepository Articles => _articlesRepository;
+    public ICommentRepository Comment => _commentRepository;
     public ISourceRepository Source => _sourceRepository;
     public IUsersRepository Users => _userRepository;
     public IRoleRepository Roles => _roleRepository;

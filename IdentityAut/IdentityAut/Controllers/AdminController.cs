@@ -3,7 +3,6 @@ using IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVC.ControllerFactory;
-using Repositores;
 
 namespace MVC.Controllers
 {
@@ -17,11 +16,7 @@ namespace MVC.Controllers
         public AdminController
         (IServiceFactory serviceFactory)
         {
-            if (serviceFactory is null)
-            {
-                throw new NullReferenceException(nameof(serviceFactory));
-            }
-            _serviceFactory = serviceFactory;
+            _serviceFactory = serviceFactory ?? throw new NullReferenceException(nameof(serviceFactory));
         }
         [HttpGet]
         public IActionResult GetAdminPage()
@@ -31,14 +26,14 @@ namespace MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> NewsAggregator()
         {
-            await _serviceFactory.createArticlesService().AggregateArticlesAsync();
+            await _serviceFactory.CreateArticlesService().AggregateArticlesAsync();
             return RedirectToAction("GetAdminPage");
         }
         [HttpGet]
         public async  Task<IActionResult> UserList()
         {
             return View("AllUsers", await _serviceFactory
-                .createAdminService()
+                .CreateAdminService()
                 .GetAllUsersWithRolesAsync());
         }
     }

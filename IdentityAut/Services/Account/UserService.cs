@@ -1,12 +1,12 @@
 ﻿
 using System.Net.NetworkInformation;
-using Abstract;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Core.DTOs.Account;
 using Entities_Context;
 using Entities_Context.Entities.UserNews;
 using IServices;
+using IServices.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -23,54 +23,39 @@ namespace Services.Account
 
         public UserService(IMapper mapper, IRoleService roleService, IUnitOfWork unitOfWork)
         {
-            if (unitOfWork is null)
-            {
-                throw new ArgumentNullException(nameof(unitOfWork));
-            }
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
-            _unitOfWork = unitOfWork;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
-            if (mapper is null)
-            {
-                throw new ArgumentNullException(nameof(mapper));
-            }
-
-            _mapper = mapper;
-
-            if (roleService is null)
-            {
-                throw new ArgumentNullException(nameof(mapper));
-            }
-
-            _roleService = roleService;
+            _roleService = roleService ?? throw new ArgumentNullException(nameof(roleService));
 
         }
 
-        public async Task<List<UserDTO>> GetAllUsersWithRolesAsync()
+        public async Task<List<UserDto>?> GetAllUsersWithRolesAsync()
         {
             Log.Warning("Admin requested a list of users ");
 
             List<User> users = await _unitOfWork.Users.GetAsQueryable()
                 .AsNoTracking().ToListAsync();
             
-            if (users is not null)
+            if (users.Count>0)
             {
-                List<UserDTO> usersList = new List<UserDTO>();
+                List<UserDto>? usersList = new List<UserDto>();
 
                 foreach (var userDto in users)
                 {
-                    usersList.Add(_mapper.Map<UserDTO>(userDto));
+                    usersList.Add(_mapper.Map<UserDto>(userDto));
                 }
 
                 foreach (var userDto in usersList)
                 {
-                    List<UserRole> Roles = await _roleService.GetUserRolesByUserIdAsync(userDto.Id);
+                    List<UserRole> roles = await _roleService.GetUserRolesByUserIdAsync(userDto.Id);
                     
                     userDto.Roles = new List<String>();
                     
-                    foreach (UserRole Role in Roles)
+                    foreach (UserRole role in roles)
                     {
-                        userDto.Roles.Add(Role.Role);
+                        userDto.Roles.Add(role.Role);
                     }
                 }
 

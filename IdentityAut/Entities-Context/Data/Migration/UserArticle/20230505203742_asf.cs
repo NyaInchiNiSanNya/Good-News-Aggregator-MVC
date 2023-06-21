@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿#nullable disable
 
-#nullable disable
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Entities_Context.Migrations
+namespace Entities_Context.Data.Migration.UserArticle
 {
     /// <inheritdoc />
-    public partial class asf : Migration
+    public partial class asf : Microsoft.EntityFrameworkCore.Migrations.Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

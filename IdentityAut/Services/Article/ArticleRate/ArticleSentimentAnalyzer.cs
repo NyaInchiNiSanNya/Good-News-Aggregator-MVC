@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Core.DTOs.Article;
+using IServices.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -14,10 +15,10 @@ using Services.Article.ArticleRate.jsonModels;
 
 namespace Services.Article.ArticleRate
 {
-    internal class ArticleSentimentAnalyzer
+    public class ArticleSentimentAnalyzer: IArticleSentimentAnalyzer
     {
         readonly IConfiguration _configuration;
-        delegate Task<Double> ArticleAnalyzerMethods(FullArticleDTO article);
+        delegate Task<Double> ArticleAnalyzerMethods(FullArticleDto article);
         const double currentMin = 2;
         const double currentMax = 8;
         const double newMin = 1;
@@ -26,18 +27,14 @@ namespace Services.Article.ArticleRate
 
         public ArticleSentimentAnalyzer(IConfiguration configuration)
         {
-            if (configuration is not null)
-            {
-
-                _configuration = configuration;
-            }
+            _configuration = configuration ?? throw new NullReferenceException(nameof(configuration));
         }
 
 
-        internal async Task<List<FullArticleDTO>> GetArticlesWithSentimentScore(List<FullArticleDTO> fullArticles)
+        public async Task<List<FullArticleDto>> GetArticlesWithSentimentScore(List<FullArticleDto> fullArticles)
         {
             var articleSentimentAnalyzerDelegate = new List<ArticleAnalyzerMethods>();
-            var articlesWithRate = new List<FullArticleDTO>();
+            var articlesWithRate = new List<FullArticleDto>();
 
             try
             {
@@ -55,46 +52,57 @@ namespace Services.Article.ArticleRate
             }
             catch (NullReferenceException ex)
             {
+
                 throw new ArgumentException("Can't read ArticleSentimentAnalyzerMethods  from configuration file");
             }
+
+
 
             Double totalRate = 0;
             Int32 totalMarks = 0;
             foreach (var article in fullArticles)
             {
-                var tasks = articleSentimentAnalyzerDelegate
+                try
+                {
+                    var tasks = articleSentimentAnalyzerDelegate
                     .Select(method => method(article));
 
-                Double[] rates = await Task.WhenAll(tasks);
+                    Double[] rates = await Task.WhenAll(tasks);
 
-                foreach (var rate in rates)
-                {
-                    if (rate != 0)
+                    foreach (var rate in rates)
                     {
-                        totalRate += rate;
-                        totalMarks++;
+                        if (rate != 0)
+                        {
+                            totalRate += rate;
+                            totalMarks++;
+                        }
+
                     }
 
+                    article.PositiveRate = Math.Round(((totalRate / totalMarks * 10 - currentMin)
+                            * (newMax - newMin) / (currentMax - currentMin)) + newMin, 1);
+
+                    totalRate = 0;
+                    totalMarks = 0;
+
+                    if (!Double.IsNaN(article.PositiveRate))
+                    {
+                        article.FirstRate = Math.Round(rates[0],1);
+                        article.SecondRate = Math.Round(rates[1], 1);
+                        articlesWithRate.Add(article);
+                    }
                 }
-
-                article.PositiveRate = Math.Round(((totalRate / totalMarks * 10 - currentMin)
-                        * (newMax - newMin) / (currentMax - currentMin)) + newMin, 1);
-
-                totalRate = 0;
-                totalMarks = 0;
-
-                if (!Double.IsNaN(article.PositiveRate))
+                catch (Exception ex)
                 {
-                    articlesWithRate.Add(article);
+                    Log.Warning("something went wrong when evaluating the article {0} : {1}", article.Id, ex);
                 }
-
 
             }
 
             return articlesWithRate;
         }
 
-        private async Task<Double> GetRateArticleBySentimentDictionary(FullArticleDTO article)
+        private async Task<Double> GetRateArticleBySentimentDictionary(FullArticleDto article)
         {
             String Text = PrepareText(article.Title + article.ShortDescription + article.FullText);
 
@@ -115,7 +123,7 @@ namespace Services.Article.ArticleRate
 
                         var responseString = await response.Content.ReadAsStringAsync();
 
-                        var lemmas = JsonConvert.DeserializeObject<RootObject1[]>(responseString)
+                        var lemmas = (JsonConvert.DeserializeObject<RootObject1[]>(responseString))
                             .SelectMany(root => root.Annotations.Lemma).Select(lemma => lemma.Value).ToArray();
 
                         using (var jsonReader = new StreamReader(@"C:\Users\User\Desktop\ASP-Project\ASProject\IdentityAut\Services\Article\ArticleRate\AFINN-ru.json"))
@@ -131,7 +139,7 @@ namespace Services.Article.ArticleRate
                             Int32 articleSentimentFound = 0;
                             foreach (var lemma in lemmas)
                             {
-                                if (articlesSentiment.ContainsKey(lemma))
+                                if (articlesSentiment != null && articlesSentiment.ContainsKey(lemma))
                                 {
                                     totalRate += articlesSentiment[lemma];
                                     articleSentimentFound++;
@@ -144,7 +152,7 @@ namespace Services.Article.ArticleRate
                     }
                     else
                     {
-                        Log.Warning("Bad response from ispras API");
+                        Log.Warning("Bad response from ispras API:{0},{1}", response.StatusCode, article.Id);
                     }
 
                 }
@@ -153,7 +161,7 @@ namespace Services.Article.ArticleRate
             return 0;
         }
 
-        private async Task<Double> GetRateArticleBySentimentDetect(FullArticleDTO article)
+        private async Task<Double> GetRateArticleBySentimentDetect(FullArticleDto article)
         {
             Double totalRate = 0;
             var text = Regex.Replace(PrepareText(article.Title + article.ShortDescription + article.FullText)
@@ -172,7 +180,7 @@ namespace Services.Article.ArticleRate
                     var content = new FormUrlEncodedContent(parameters);
 
                     var response = await client.PostAsync("http://text-processing.com/api/sentiment/", content);
-                    
+
                     if (response.IsSuccessStatusCode)
                     {
                         var responseString = await response.Content.ReadAsStringAsync();
@@ -181,7 +189,7 @@ namespace Services.Article.ArticleRate
                     }
                     else
                     {
-                        Log.Warning("Bad response from text-processing API:{0}",response.StatusCode);
+                        Log.Warning("Bad response from text-processing API:{0}", response.StatusCode);
                     }
                 }
             }
@@ -196,7 +204,7 @@ namespace Services.Article.ArticleRate
                 using (var httpClient = new HttpClient())
                 {
                     using (var request = new HttpRequestMessage(new HttpMethod("GET")
-                               , "https://api.mymemory.translated.net/?de=demehchik.maks@mail.ru&q=" + text + "&langpair=ru|en"))
+                               , "https://api.mymemory.translated.net/?de=maks.demesjik@mail.ru&q=" + text + "&langpair=ru|en"))
                     {
                         var response = await httpClient.SendAsync(request);
 
@@ -208,7 +216,7 @@ namespace Services.Article.ArticleRate
 
                             if (responseString.Contains("INVALID LANGUAGE PAIR SPECIFIED"))
                             {
-                                Log.Error("Translated Api: INVALID LANGUAGE PAIR SPECIFIED {0}",text);
+                                Log.Error("Translated Api: INVALID LANGUAGE PAIR SPECIFIED {0}", text);
                                 return null;
                             }
 
@@ -230,10 +238,10 @@ namespace Services.Article.ArticleRate
 
         private String PrepareText(String notPrepareText)
         {
-            String PrepareText = notPrepareText.Trim();
-            PrepareText = Regex.Replace(PrepareText, "\\r?\\n", " ");
-            PrepareText = Regex.Replace(PrepareText, @"\s+", " ");
-            return Regex.Replace(PrepareText, "<.*?>", "");
+            String prepareText = notPrepareText.Trim();
+            prepareText = Regex.Replace(prepareText, "\\r?\\n", " ");
+            prepareText = Regex.Replace(prepareText, @"\s+", " ");
+            return Regex.Replace(prepareText, "<.*?>", "");
         }
     }
 }

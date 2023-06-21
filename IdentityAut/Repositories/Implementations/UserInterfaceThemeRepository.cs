@@ -1,5 +1,4 @@
-﻿using AspNetSamples.Repositories;
-using Entities_Context.Entities.UserNews;
+﻿using Entities_Context.Entities.UserNews;
 using IServices.Repositories;
 using System;
 using System.Collections.Generic;
