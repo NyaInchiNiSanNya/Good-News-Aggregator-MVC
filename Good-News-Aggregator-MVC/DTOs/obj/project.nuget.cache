@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "hUYQalHm9dOh892vbRkDg1m2ee5P2kQ9AzqHNBwONZfBov1QjsfeSn+iEucaiwdc7JjUyyumVGWsxuvbdcrqoQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\User\\Desktop\\ASP-Project\\ASProject\\Good-News-Aggregator-MVC\\DTOs\\Core.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\User\\.nuget\\packages\\system.servicemodel.syndication\\7.0.0\\system.servicemodel.syndication.7.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
